@@ -91,6 +91,10 @@ namespace WFARTHA.Entities
         public string EJERCICIO_PRE { get; set; }
         public string ESTATUS_PRE { get; set; }
         public string ID_PSPNR { get; set; }
+        public string EBELN { get; set; }
+        public Nullable<decimal> AMOR_ANT { get; set; }
+        public Nullable<decimal> RETPC { get; set; }
+        public Nullable<decimal> DPPCT { get; set; }
     
         public virtual SOCIEDAD SOCIEDAD { get; set; }
         public virtual TSOL TSOL { get; set; }
