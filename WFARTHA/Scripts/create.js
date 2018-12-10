@@ -576,7 +576,7 @@ $(document).ready(function () {
             var _asnull = true; //FRT06122018
             _aduplicados = true; //FRT07122018 
             var _vs = [];
-            
+
             var msgerror = "";
             var _rni = 0;
             //Validar que los anexos existan
@@ -825,13 +825,13 @@ $(document).ready(function () {
                                 break;
                             }
                         }
-                       
+
                     }
                     if (duplicado) {
                         _b = false;
                         _aduplicados = false;
                         statSend = false;
-                        msgerror = "Fila " + _rni + " : No es posible duplicar anexo asociado " + _anexos[z] ;
+                        msgerror = "Fila " + _rni + " : No es posible duplicar anexo asociado " + _anexos[z];
                         break;
                     }
                 }
@@ -1053,7 +1053,7 @@ $(document).ready(function () {
                                 statSend = false;
                                 M.toast({ html: msgerror });
                             }
-                            
+
                         } else {
                             statSend = false;
                             M.toast({ html: msgerror });
@@ -1448,9 +1448,9 @@ $(document).ready(function () {
                     }
                 }
             }
-        
-                document.getElementById('file_sopAnexar').value = '';
-         
+
+            document.getElementById('file_sopAnexar').value = '';
+
         }
         if (jsval[0].ID === "SRE") {
             var _length = $(this).get(0).files.length;
@@ -1664,6 +1664,15 @@ $('body').on('change', '#tsol', function (event, param1) {
     //    $("#FECHAD").prop('disabled', false);
     //}
     //LEJGG 22-10-2018---------------------->
+
+    //LEJGG 09-12-2018---------------------->
+    if (jsval[0].ID === "SCO") {
+        $(".conOC").css("display", "block");
+    }
+    else {
+        $(".conOC").css("display", "none");
+    }
+    //LEJGG 09-12-2018---------------------->
 
     $.each(jsval, function (i, dataj) {
         $("#tsol_id2").val(dataj.ID);
