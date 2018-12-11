@@ -345,6 +345,8 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="AMOR_ANT" Type="decimal" Precision="13" Scale="2" />
           <Property Name="RETPC" Type="decimal" Precision="13" Scale="2" />
           <Property Name="DPPCT" Type="decimal" Precision="13" Scale="2" />
+          <Property Name="TOAD" Type="decimal" Precision="13" Scale="2" />
+          <Property Name="ANTR" Type="decimal" Precision="13" Scale="2" />
         </EntityType>
         <EntityType Name="DOCUMENTOA">
           <Key>
@@ -3213,6 +3215,8 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="AMOR_ANT" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="RETPC" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="DPPCT" Type="Decimal" Precision="13" Scale="2" />
+          <Property Name="TOAD" Type="Decimal" Precision="13" Scale="2" />
+          <Property Name="ANTR" Type="Decimal" Precision="13" Scale="2" />
           <NavigationProperty Name="SOCIEDAD" Relationship="Self.FK_DOCUMENTO_SOCIEDAD" FromRole="DOCUMENTO" ToRole="SOCIEDAD" />
           <NavigationProperty Name="TSOL" Relationship="Self.FK_DOCUMENTO_TSOL" FromRole="DOCUMENTO" ToRole="TSOL" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_DOCUMENTO_USUARIO" FromRole="DOCUMENTO" ToRole="USUARIO" />
@@ -5997,6 +6001,8 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="AMOR_ANT" ColumnName="AMOR_ANT" />
                 <ScalarProperty Name="RETPC" ColumnName="RETPC" />
                 <ScalarProperty Name="DPPCT" ColumnName="DPPCT" />
+                <ScalarProperty Name="TOAD" ColumnName="TOAD" />
+                <ScalarProperty Name="ANTR" ColumnName="ANTR" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

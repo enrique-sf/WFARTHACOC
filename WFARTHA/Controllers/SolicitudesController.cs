@@ -7533,13 +7533,21 @@ namespace WFARTHA.Controllers
         }
         //BEGIN OF INSERT RSG 17.10.2018
         [HttpPost]
-        public JsonResult getPedidos(string Prefix, string lifnr)
+        public JsonResult getPedidos(string lifnr)
         {
             try
             {
-                var c = (from N in db.EKKO_DUMMY
-                         where (N.LIFNR == lifnr)// & N.EBELN.Contains(Prefix))
-                         select new { N.EBELN }).ToList();
+                //LEJGG 10-12-2018
+                for (int i = 0; i < lifnr.ToCharArray().Length; i++)
+                {
+                    if (lifnr.ToCharArray().Length < 10)
+                    {
+                        var _li = "0" + lifnr;
+                        lifnr = _li;
+                    }
+                }
+                //LEJGG 10-12-2018
+                var c = db.EKKOes.Where(x => x.LIFNR == lifnr).ToList();
 
                 JsonResult jc = Json(c, JsonRequestBehavior.AllowGet);
                 return jc;

@@ -402,52 +402,10 @@
                                     @Html.EditorFor(model => model.CONCEPTO, "Concepto", new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })@*LEJ 04.09.2018*@
                                 </div>
                             </div>
-                            <div class="conOC" style="display:none">
-                                <div class="form-group col s4">
-                                    <label>Pedido</label>
-                                    <div class="col-md-10">
-                                        <select></select>
-                                    </div>
-                                </div>
-                                <div class="form-group col s2">
-                                    <label>% Retencion</label>
-                                    <div class="col-md-10">
-                                        <input type="text" disabled id="porRet" />
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group col s3" style="display:none">
                                 @Html.LabelFor(model => model.CLAVE_CTA, "Clave Cuenta", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.CLAVE_CTA, new { htmlAttributes = new { @class = "form-control", @maxlength = "2" } })@*LEJ 04.09.2018*@
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display:none;" class="conOC">
-                            <div class="row" style="margin-bottom:0">
-                                <div class="form-group col s3">
-                                    <label>Amortizacion anticipo</label>
-                                    <div class="col-md-10">
-                                        <input type="text" disabled id="porRet" />
-                                    </div>
-                                </div>
-                                <div class="form-group col s3">
-                                    <label>Monto Anticipo Total</label>
-                                    <div class="col-md-10">
-                                        <input type="text" disabled id="porRet" />
-                                    </div>
-                                </div>
-                                <div class="form-group col s3">
-                                    <label>Total Anticipo Disponible</label>
-                                    <div class="col-md-10">
-                                        <input type="text" disabled id="porRet" />
-                                    </div>
-                                </div>
-                                <div class="form-group col s3">
-                                    <label>Anticipo en Transito</label>
-                                    <div class="col-md-10">
-                                        <input type="text" disabled id="porRet" />
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -570,57 +528,33 @@
                                             @Html.EditorFor(model => model.FECHA_BASE, new { htmlAttributes = new { @class = "form-control fechaVal", @disabled = "disabled" } })
                                         </div>*@
                                     @*<input type="text" id="norden_compra" value="" />*@<!--ADD RSG 19.10.2018-->
-                                    <select id="norden_compra" onchange="addPedido(this.value);"><option></option></select><!--ADD RSG 19.10.2018-->
+                                    @*<select id="norden_compra" onchange="addPedido(this.value);"><option></option></select>*@<!--ADD RSG 19.10.2018-->
+                                    <select id="norden_compra"></select><!--ADD RSG 19.10.2018-->
                                     <label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>
                                 </div>
                             </div>
                             <div class="col s12 m12 l9">
                                 <div class="row" style="margin-bottom:0px;">
-                                    @*<div class="input-field col s12 m12 l3 offset-l3">
-                                            <input id="fondo_g" name="fondo_g" type="text" class="validate" disabled />
-                                            <label for="fondo_g">Fondo de garantía</label>
-                                        </div>
-                                        <div class="input-field col s12 m12 l3">
-                                            <input id="Rfondo_g" name="Rfondo_g" type="text" class="validate" disabled />
-                                            <label for="Rfondo_g">Retenido fondo de garantía</label>
-                                        </div>
-                                        <div class="input-field col s12 m12 l3">
-                                            <input id="Resfondo_g" name="Resfondo_g" type="text" class="validate" disabled />
-                                            <label for="Resfondo_g">Restante fondo de garantía</label>
-                                        </div>
-                                        <div class="input-field col s12 m12 l3 offset-l3">
-                                            <input id="fondo_g" name="fondo_g" type="text" class="validate" disabled />
-                                            <label for="fondo_g">Fondo de garantía</label>
-                                        </div>
-                                        <div class="input-field col s12 m12 l3">
-                                            <input id="Rfondo_g" name="Rfondo_g" type="text" class="validate" disabled />
-                                            <label for="Rfondo_g">Retenido fondo de garantía</label>
-                                        </div>
-                                        <div class="input-field col s12 m12 l3">
-                                            <input id="Resfondo_g" name="Resfondo_g" type="text" class="validate" disabled />
-                                            <label for="Resfondo_g">Restante fondo de garantía</label>
-                                        </div>*@
-                                    <div class="col s12">
-                                        <table class="mdl-data-table striped">
+                                    <div class="col s12" style="overflow-x:auto;">
+                                        <table class="mdl-data-table striped" id="tableOC">
                                             <thead>
                                                 <tr>
-                                                    <th>Total<br />Contrato</th>
-                                                    <th>% Anticipo</th>
-                                                    <th>% Fondo<br />de Garantía</th>
-                                                    <th>Fondo de Garantía</th>
-                                                    <th>Retenido<br />Fondo de Garantía</th>
-                                                    <th>Restante<br />Fondo de Garantía</th>
+
+                                                    <th>% Fondo de Garantía</th>
+                                                    <th>Amortización Anticipo</th>
+                                                    <th>Monto Anticipo Total</th>
+                                                    <th>Anticipo Amortizado</th>
+                                                    <th>Anticipo En Transito</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><span id="totPed"></span></td>
-                                                    <td><span id="por_ant"></span></td>
+                                                @*<tr>
                                                     <td><span id="por_fondo"></span></td>
                                                     <td><span id="fondo_g"></span></td>
                                                     <td><span id="Rfondo_g"></span></td>
                                                     <td><span id="Resfondo_g"></span></td>
-                                                </tr>
+                                                    <td><span id="Resfondo_g"></span></td>
+                                                </tr>*@
                                             </tbody>
                                         </table>
                                     </div>
