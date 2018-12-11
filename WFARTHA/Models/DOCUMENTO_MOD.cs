@@ -75,6 +75,12 @@ namespace WFARTHA.Models
         public string TEXTO_POS { get; set; }
         public string ASIGNACION_POS { get; set; }
         public string CLAVE_CTA { get; set; }
+        public string EBELN { get; set; }//Agregado LEJGG.10.12.2018
+        public Nullable<decimal> AMOR_ANT { get; set; }//Agregado LEJGG.10.12.2018
+        public Nullable<decimal> RETPC { get; set; }//Agregado LEJGG.10.12.2018
+        public Nullable<decimal> DPPCT { get; set; }//Agregado LEJGG.10.12.2018
+        public Nullable<decimal> TOAD { get; set; }//Agregado LEJGG.10.12.2018
+        public Nullable<decimal> ANTR { get; set; }//Agregado LEJGG.10.12.2018
         public List<DOCUMENTOP_MOD> DOCUMENTOP { get; set; } //Agregado
         public List<DOCUMENTOP_MODSTR> DOCUMENTOPSTR { get; set; } //Agregado
         public List<DOCUMENTOR_MOD> DOCUMENTOR { get; set; } //Agregado

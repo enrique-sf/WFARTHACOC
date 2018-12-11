@@ -1729,6 +1729,25 @@ function obtenerCadena(version, usuarioc, id_ruta, usuarioa, monto, sociedad) {
 //MGC 14-11-2018 Cadena de autorización-----------------------------------------------------------------------------<
 
 
+//LEJGG 10/12/2018---------------I
+function llenarCOC() {
+    var val3 = $("#tsol").val();
+    val3 = "[" + val3 + "]";
+    val3 = val3.replace("{", "{ \"");
+    val3 = val3.replace("}", "\" }");
+    val3 = val3.replace(/\,/g, "\" , \"");
+    val3 = val3.replace(/\=/g, "\" : \"");
+    val3 = val3.replace(/\ /g, "");
+    var jsval = $.parseJSON(val3);
+    if (jsval[0].ID === "SCO") {
+        if ($("#PAYER_ID").val() != "") {
+            llenaOrdenes($("#PAYER_ID").val());
+        }
+    }
+}
+//LEJGG 10/12/2018---------------T
+
+
 //LEJGG 05/12/2018
 function traerCadAutR(u, s) {
     $("#list_detaa").empty();

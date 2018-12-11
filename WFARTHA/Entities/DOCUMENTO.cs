@@ -95,6 +95,8 @@ namespace WFARTHA.Entities
         public Nullable<decimal> AMOR_ANT { get; set; }
         public Nullable<decimal> RETPC { get; set; }
         public Nullable<decimal> DPPCT { get; set; }
+        public Nullable<decimal> TOAD { get; set; }
+        public Nullable<decimal> ANTR { get; set; }
     
         public virtual SOCIEDAD SOCIEDAD { get; set; }
         public virtual TSOL TSOL { get; set; }

@@ -220,6 +220,48 @@
         ]
     });
 
+    $('#tableOC').DataTable({
+
+        language: {
+            //"url": "../Scripts/lang/@Session["spras"].ToString()" + ".json"
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "searching": false,
+        "columns": [
+            {
+                "className": 'FondoGarantia',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "name": 'AmortAnt',
+                "className": 'AmortAnt',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'MontoAntT',
+                "className": 'MontoAntT',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'AntAmort',
+                "className": 'AntAmort',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'AntTr',
+                "className": 'AntTr',
+                "orderable": false,
+                "visible": true
+            }
+        ]
+    });
+
     $('#table_infoP tbody').on('click', 'td.select_row', function () {
         $(tr).toggleClass('selected');
     });
@@ -337,9 +379,11 @@
         //$(".extrasPC").trigger("focusout"); //lej18102018
     });
 
-    $('body').on('change', '#PAYER_ID', function (event) {
-        llenaOrdenes($(this).val());
+    //LEJGG 10/12/2018---------------I
+    $('body').on('focusout', '#PAYER_ID', function (e) {
+        llenarCOC();
     });
+    //LEJGG 10/12/2018---------------T
 });
 
 var pedidosSel = [];
@@ -399,20 +443,18 @@ function llenaOrdenes(lifnr) {
     var tr = $(this).closest('tr'); //Obtener el row
     var t = $('#table_infoP').DataTable();
 
-    //Obtener el id de la sociedad
-    var prov = lifnr
     var pedidosNum = [];
     $("#norden_compra").empty();
 
-    auto.ajax({
+    $.ajax({
         type: "POST",
         url: 'getPedidos',
         dataType: "json",
-        data: { "Prefix": "", lifnr: prov },
+        data: { "lifnr": lifnr.trim() },
         success: function (data) {
-            $("#norden_compra").append($("<option>").attr('value', "").text(""));
+            $("#norden_compra").empty();
             for (var i = 0; i < data.length; i++) {
-                var ebeln = data[i].EBELN
+                var ebeln = data[i].EBELN;
                 $("#norden_compra").append($("<option>").attr('value', ebeln).text(ebeln));
             }
 
