@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿//Variables globales
+$(document).ready(function () {
     $('#table_infoP').DataTable({
 
         language: {
@@ -8,40 +9,6 @@
         "paging": false,
         "info": false,
         "searching": false,
-        //"scrollX": true,
-        //fixedColumns: true,
-        columnDefs: [
-            { targets: 0, width: '1000px' },
-            { targets: 1, width: '200px' },
-            { targets: 2, width: '200px' },
-            { targets: 3, width: '200px' },
-            { targets: 4, width: '200px' },
-            { targets: 5, width: '200px' },
-            { targets: 6, width: '200px' },
-            { targets: 7, width: '200px' },
-            { targets: 8, width: '200px' },
-            { targets: 9, width: '200px' },
-            { targets: 10, width: '200px' },
-            { targets: 11, width: '200px' },
-            { targets: 12, width: '200px' },
-            { targets: 13, width: '200px' },
-            { targets: 14, width: '200px' },
-            { targets: 15, width: '200px' },
-            { targets: 16, width: '200px' },
-            { targets: 17, width: '200px' },
-            { targets: 18, width: '200px' },
-            { targets: 19, width: '200px' },
-            { targets: 20, width: '200px' },
-            { targets: 21, width: '200px' },
-            { targets: 22, width: '200px' },
-            { targets: 23, width: '200px' },
-            { targets: 24, width: '200px' },
-            { targets: 25, width: '200px' },
-            { targets: 26, width: '200px' },
-            { targets: 27, width: '200px' },
-            { targets: 28, width: '200px' },
-            { targets: 29, width: '200px' }
-        ],
         "columns": [
             {
                 "className": 'select_row',
@@ -85,6 +52,11 @@
                 "className": 'POS',
                 "orderable": false
                 //,"visible": false //MGC 04092018 Conceptos
+            },
+            {
+                "name": 'MATNR',
+                "className": 'MATNR',
+                "orderable": false
             },
             {
                 "name": 'CA',
@@ -142,74 +114,82 @@
 
             },
             {
-                "name": 'MATNR',
-                "className": 'MATNR',
-                "orderable": false
-            },
-            {
                 "name": 'TXTPOS',
                 "className": 'TXTPOS',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MONTO',
                 "className": 'MONTO',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MENGE',
                 "className": 'MENGE',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MONTO_F',
                 "className": 'MONTO_F',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MENGE_F',
                 "className": 'MENGE_F',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MEINS',
                 "className": 'MEINS',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_SOL',
                 "className": 'ANT_SOL',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_PAG',
                 "className": 'ANT_PAG',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_AMO',
                 "className": 'ANT_AMO',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_EST',
                 "className": 'ANT_EST',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'IMPUESTO',
                 "className": 'IMPUESTOP',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'IVA',
                 "className": 'IVA',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'TOTAL',
                 "className": 'TOTAL',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             //MGC ADD 03-10-2018 solicitud con orden de compra
             {
@@ -221,9 +201,7 @@
     });
 
     $('#tableOC').DataTable({
-
         language: {
-            //"url": "../Scripts/lang/@Session["spras"].ToString()" + ".json"
             "url": "../Scripts/lang/ES.json"
         },
         "paging": false,
@@ -254,6 +232,18 @@
                 "visible": true
             },
             {
+                "name": 'PorAnt',
+                "className": 'PorAnt',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'AntSol',
+                "className": 'AntSol',
+                "orderable": false,
+                "visible": true
+            },
+            {
                 "name": 'AntTr',
                 "className": 'AntTr',
                 "orderable": false,
@@ -266,14 +256,12 @@
         $(tr).toggleClass('selected');
     });
 
-
     $('body').on('focusout', '.OPERP', function (e) {
 
         var t = $('#table_infop').DataTable();
         var tr = $(this).closest('tr'); //Obtener el row 
 
         //Obtener el valor del impuesto
-        //var imp = tr.find("td.IMPUESTOP input").val();
         var imp = tr.find("td.IMPUESTOP").find("select").val();
 
         //Calcular impuesto y subtotal
@@ -439,7 +427,87 @@ $('body').on('keydown.autocomplete', '#norden_compra', function () {
     });
 });
 
-function llenaOrdenes(lifnr) {
+$('body').on('change', '#norden_compra', function (event, param1) {
+
+    $.ajax({
+        type: "POST",
+        url: 'getEKKOInfo',
+        dataType: "json",
+        data: { "ebeln": $(this).val() },
+        success: function (data) {
+            var ekko = data.ekko;
+            var cuentas = data.res;
+            llenarTablaOc(ekko, cuentas);
+        }
+    });
+
+});
+
+function llenarTablaOc(a, b) {
+    var tabl = $('#tableOC').DataTable();
+    //Limpio primero la tabla
+    $("#tableOC tbody tr[role='row']").each(function () {
+        var _t = $(this);
+        tabl.row(_t).remove().draw(false);
+    });
+    var c = b.split('-');
+    //Añado los datos
+    tabl.row.add([
+        a.RETPC,
+        "<input class=\"amor_ant\" style=\"font-size:12px;\" type=\"text\" id=\"amor_ant\" name=\"\" value=\"\">",
+        "$" + c[0],
+        "$" + c[1],
+        a.DPPCT,
+        a.DPAMT,
+        "S/N"
+    ]).draw(false).node();
+    alinearTOC();
+}
+
+function alinearTOC() {
+    //--------
+    //Para los titulos
+    var t1 = $("#tableOC>thead>tr").find('th.FondoGarantia ');
+    t1.css("text-align", "left");
+    var t2 = $("#tableOC>thead>tr").find('th.AmortAnt');
+    t2.css("text-align", "left");
+    var t3 = $("#tableOC>thead>tr").find('th.MontoAntT');
+    t3.css("text-align", "left");
+    var t4 = $("#tableOC>thead>tr").find('th.AntAmort');
+    t4.css("text-align", "left");
+    var t5 = $("#tableOC>thead>tr").find('th.PorAnt');
+    t5.css("text-align", "left");
+    var t6 = $("#tableOC>thead>tr").find('th.AntSol');
+    t6.css("text-align", "left");
+    var t7 = $("#tableOC>thead>tr").find('th.AntTr');
+    t7.css("text-align", "left");
+    //--------
+    $("#tableOC > tbody  > tr[role='row']").each(function () {
+        //1
+        var R1 = $(this).find("td.FondoGarantia");
+        R1.css("text-align", "left");
+        //2
+        var R2 = $(this).find("td.AmortAnt");
+        R2.css("text-align", "left");
+        //3
+        var R3 = $(this).find("td.MontoAntT");
+        R3.css("text-align", "left");
+        //4
+        var R4 = $(this).find("td.AntAmort");
+        R4.css("text-align", "left");
+        //5
+        var R5 = $(this).find("td.PorAnt");
+        R5.css("text-align", "left");
+        //6
+        var R6 = $(this).find("td.AntSol");
+        R6.css("text-align", "left");
+        //7
+        var R7 = $(this).find("td.AntTr");
+        R7.css("text-align", "left");
+    });
+}
+
+function llenaOrdenes(lifnr, bukrs) {
     var tr = $(this).closest('tr'); //Obtener el row
     var t = $('#table_infoP').DataTable();
 
@@ -450,7 +518,7 @@ function llenaOrdenes(lifnr) {
         type: "POST",
         url: 'getPedidos',
         dataType: "json",
-        data: { "lifnr": lifnr.trim() },
+        data: { "lifnr": lifnr.trim(), "bukrs": bukrs },
         success: function (data) {
             $("#norden_compra").empty();
             for (var i = 0; i < data.length; i++) {
@@ -463,7 +531,6 @@ function llenaOrdenes(lifnr) {
         }
     });
 }
-
 
 function mostrarTabla(ban) {
     if (ban === "False") {
@@ -1036,8 +1103,6 @@ function conOrden() {
         return false;
 }
 
-
-
 function obtenerRetencionesP(flag) {
     //Obtener la sociedad
     var sociedad_id = $("#SOCIEDAD_ID").val();
@@ -1177,6 +1242,11 @@ function obtenerRetencionesP(flag) {
                 //,"visible": false //MGC 04092018 Conceptos
             },
             {
+                "name": 'MATNR',
+                "className": 'MATNR',
+                "orderable": false
+            },
+            {
                 "name": 'CA',
                 "className": 'CA',
                 "orderable": false,
@@ -1232,69 +1302,76 @@ function obtenerRetencionesP(flag) {
 
             },
             {
-                "name": 'MATNR',
-                "className": 'MATNR',
-                "orderable": false
-            },
-            {
                 "name": 'TXTPOS',
                 "className": 'TXTPOS',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MONTO',
                 "className": 'MONTO',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MENGE',
                 "className": 'MENGE',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MONTO_F',
                 "className": 'MONTO_F',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MENGE_F',
                 "className": 'MENGE_F',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'MEINS',
                 "className": 'MEINS',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_SOL',
                 "className": 'ANT_SOL',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_PAG',
                 "className": 'ANT_PAG',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_AMO',
                 "className": 'ANT_AMO',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'ANT_EST',
                 "className": 'ANT_EST',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'IMPUESTO',
                 "className": 'IMPUESTOP',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "name": 'IVA',
                 "className": 'IVA',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             }
         ];
         //Se rearmara la tabla en HTML
@@ -1312,6 +1389,7 @@ function obtenerRetencionesP(flag) {
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A4</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A5</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_pos\">Pos</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Material</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_cargoAbono\">D/H</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_factura\">Factura</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_tconcepto\">TIPO CONCEPTO</th>");
@@ -1321,7 +1399,6 @@ function obtenerRetencionesP(flag) {
         $("#table_infoP>thead>tr").append("<th class=\"lbl_tipoimp\">Tipo Imp.</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_imputacion\">Imputación</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_ccosto\">Centro de costo</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Material</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Texto</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Monto</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Cantidad</th>");
@@ -1409,16 +1486,7 @@ function obtenerRetencionesP(flag) {
             "paging": false,
             "info": false,
             "searching": false,
-            "columns": arrCols,
-            columnDefs: [
-                { targets: 2, width: '580px' },
-                { targets: 3, width: '40px' },
-                { targets: 4, width: '580px' },
-                { targets: 5, width: '580px' },
-                { targets: 6, width: '580px' },
-                { targets: 19, width: '580px' }
-
-            ]
+            "columns": arrCols
         });
 
         //MGC 22-10-2018 Etiquetas------------------------------------------>
@@ -1601,7 +1669,6 @@ function sumarizarTodoRowP(_this) {
     //Fin de codigo que sumariza
     updateFooterP();
 }
-
 
 //lejgg 23/10/18
 function llenarRetencionesIRetP() {
