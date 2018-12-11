@@ -7533,7 +7533,7 @@ namespace WFARTHA.Controllers
         }
         //BEGIN OF INSERT RSG 17.10.2018
         [HttpPost]
-        public JsonResult getPedidos(string lifnr)
+        public JsonResult getPedidos(string lifnr, string bukrs)
         {
             try
             {
@@ -7547,7 +7547,7 @@ namespace WFARTHA.Controllers
                     }
                 }
                 //LEJGG 10-12-2018
-                var c = db.EKKOes.Where(x => x.LIFNR == lifnr).ToList();
+                var c = db.EKKOes.Where(x => x.LIFNR == lifnr && x.BUKRS == bukrs).ToList();
 
                 JsonResult jc = Json(c, JsonRequestBehavior.AllowGet);
                 return jc;
@@ -7629,6 +7629,34 @@ namespace WFARTHA.Controllers
             JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
             return jc;
         }
+
+        //LEJGG 11-12-2018 Llenar Tablas OC------------------------------------------------->
+        [HttpPost]
+        public JsonResult getEKKOInfo(string ebeln)
+        {
+            //Traigo el usuario
+            var ekko = db.EKKOes.Where(x => x.EBELN == ebeln).FirstOrDefault();
+            //Traigo el usuario
+            var ekbe = db.EKBEs.Where(x => x.EBELN == ebeln).ToList();
+            decimal? As = 0;
+            decimal? Tres = 0;
+            for (int i = 0; i < ekbe.Count; i++)
+            {
+                if (ekbe[i].BEWTP == "A")
+                {
+                    As = As + ekbe[i].WRBTR;
+                }
+                if (ekbe[i].BEWTP == "3")
+                {
+                    Tres = Tres + ekbe[i].WRBTR;
+                }
+            }
+            string res = As + "-" + Tres;
+            var _r = new{ ekko, res };
+            JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
+            return jc;
+        }       
+        //LEJGG 11-12-2018 Llenar Tablas OC-------------------------------------------------<
 
         //MGC 18-10-2018 Firma del usuario ------------------------------------------------->
         [HttpPost]

@@ -1739,9 +1739,11 @@ function llenarCOC() {
     val3 = val3.replace(/\=/g, "\" : \"");
     val3 = val3.replace(/\ /g, "");
     var jsval = $.parseJSON(val3);
+    //Recupero el valor de la sociedad
+    var buk = $("#SOCIEDAD_ID").val();
     if (jsval[0].ID === "SCO") {
         if ($("#PAYER_ID").val() != "") {
-            llenaOrdenes($("#PAYER_ID").val());
+            llenaOrdenes($("#PAYER_ID").val(), buk);
         }
     }
 }
