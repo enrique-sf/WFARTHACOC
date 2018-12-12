@@ -15,7 +15,7 @@ namespace WFARTHA.Entities
     public partial class EKPO
     {
         public string EBELN { get; set; }
-        public decimal EBELP { get; set; }
+        public string EBELP { get; set; }
         public Nullable<System.DateTime> BEDAT { get; set; }
         public string MATNR { get; set; }
         public string TXZ01 { get; set; }

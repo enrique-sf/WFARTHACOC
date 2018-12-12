@@ -14,6 +14,12 @@ namespace WFARTHA.Entities
     
     public partial class EKKO
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public EKKO()
+        {
+            this.DOCUMENTOes = new HashSet<DOCUMENTO>();
+        }
+    
         public string EBELN { get; set; }
         public string BUKRS { get; set; }
         public string BSART { get; set; }
@@ -24,5 +30,8 @@ namespace WFARTHA.Entities
         public Nullable<decimal> DPPCT { get; set; }
         public Nullable<decimal> DPAMT { get; set; }
         public string ESTATUS { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DOCUMENTO> DOCUMENTOes { get; set; }
     }
 }

@@ -734,6 +734,9 @@
                                     <table class="table display mdl-data-table striped" id="table_infoP" style="width:100%;">
                                         <thead>
                                             <tr>
+                                                <th class="lbl_pos">
+                                                    Fila
+                                                </th>
                                                 <th class="lbl_NmAnexo">
                                                     A1
                                                 </th>
@@ -748,9 +751,6 @@
                                                 </th>
                                                 <th class="lbl_NmAnexo">
                                                     A5
-                                                </th>
-                                                <th class="lbl_pos">
-                                                    Fila
                                                 </th>
                                                 <th class="lbl_mat">
                                                     Material
@@ -772,6 +772,12 @@
                                                 </th>
                                                 <th id="lbl_cuenta">
                                                     Cuenta
+                                                </th>
+                                                <th id="lbl_ccosto">
+                                                    Centro de Costo
+                                                </th>
+                                                <th id="lbl_pep">
+                                                    PEP
                                                 </th>
                                                 <th id="lbl_cuentaNom">
                                                     Nombre de Cuenta
@@ -800,12 +806,6 @@
                                                 <th id="lbl_iva" class="tcent">
                                                     IVA
                                                 </th>
-                                                <th id="lbl_ccosto">
-                                                    Centro de Costo
-                                                </th>
-                                                <th id="lbl_pep">
-                                                    PEP
-                                                </th>
                                                 <th id="lbl_total">
                                                     Total
                                                 </th>
@@ -817,80 +817,17 @@
                                 <table class="table display mdl-data-table striped" id="table_infoPh" style="width:100%; display:none">
                                     <thead>
                                         <tr>
-                                            <th class="lbl_NmAnexo">
-                                                A1
-                                            </th>
-                                            <th class="lbl_NmAnexo">
-                                                A2
-                                            </th>
-                                            <th class="lbl_NmAnexo">
-                                                A3
-                                            </th>
-                                            <th class="lbl_NmAnexo">
-                                                A4
-                                            </th>
-                                            <th class="lbl_NmAnexo">
-                                                A5
-                                            </th>
-                                            <th class="lbl_pos">
-                                                Fila
-                                            </th>
                                             <th class="lbl_mat">
                                                 Material
-                                            </th>
-                                            <th id="lbl_Texto" style="text-align:center;">
-                                                Texto
-                                            </th>
-                                            <th class="lbl_cargoAbono">
-                                                D/H
-                                            </th>
-                                            <th class="lbl_factura">
-                                                Factura
-                                            </th>
-                                            <th id="lbl_tconcepto">
-                                                Tipo Concepto
-                                            </th>
-                                            <th id="lbl_grupo">
-                                                Concepto
-                                            </th>
-                                            <th id="lbl_cuenta">
-                                                Cuenta
-                                            </th>
-                                            <th id="lbl_cuentaNom">
-                                                Nombre de Cuenta
-                                            </th>
-                                            <th id="lbl_tipoimp">
-                                                Tipo Imp.
-                                            </th>
-                                            <th id="lbl_imputacion">
-                                                Imputación
-                                            </th>
-                                            <th id="lbl_monto">
-                                                Monto
-                                            </th>
-                                            <th id="lbl_moneda">
-                                                Moneda
-                                            </th>
-                                            <th id="lbl_cantidad">
-                                                Cantidad
-                                            </th>
-                                            <th id="lbl_unidad">
-                                                Unidad
-                                            </th>
-                                            <th id="lbl_impuesto">
-                                                Impuesto
-                                            </th>
-                                            <th id="lbl_iva" class="tcent">
-                                                IVA
-                                            </th>
-                                            <th id="lbl_ccosto">
-                                                Centro de Costo
                                             </th>
                                             <th id="lbl_pep">
                                                 PEP
                                             </th>
-                                            <th id="lbl_total">
-                                                Total
+                                            <th id="lbl_moneda">
+                                                Moneda
+                                            </th>
+                                            <th id="lbl_unidad">
+                                                Unidad
                                             </th>
                                         </tr>
                                     </thead>
@@ -906,9 +843,9 @@
                             </table>
                         </div>
                         @*<div style="text-align:right">
-                            <label id="lbl_status" style="font-size: 1.1rem;font-weight: bold;">Total:</label>
-                            <label id="total_info1" style="font-size: 1.1rem;font-weight: bold;"></label>
-                        </div>*@
+                                <label id="lbl_status" style="font-size: 1.1rem;font-weight: bold;">Total:</label>
+                                <label id="total_info1" style="font-size: 1.1rem;font-weight: bold;"></label>
+                            </div>*@
                     </div>
                 </div>
             </div>

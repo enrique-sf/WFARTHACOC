@@ -52,6 +52,7 @@ namespace WFARTHA.Entities
         public virtual DbSet<DOCUMENTO> DOCUMENTOes { get; set; }
         public virtual DbSet<DOCUMENTOA> DOCUMENTOAs { get; set; }
         public virtual DbSet<DOCUMENTOA1> DOCUMENTOAS1 { get; set; }
+        public virtual DbSet<DOCUMENTOCOC> DOCUMENTOCOCs { get; set; }
         public virtual DbSet<DOCUMENTOLOG> DOCUMENTOLOGs { get; set; }
         public virtual DbSet<DOCUMENTOP> DOCUMENTOPs { get; set; }
         public virtual DbSet<DOCUMENTOPRE> DOCUMENTOPREs { get; set; }

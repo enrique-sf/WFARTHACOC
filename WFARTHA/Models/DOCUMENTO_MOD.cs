@@ -88,6 +88,7 @@ namespace WFARTHA.Models
         public List<DOCUMENTOA> DOCUMENTOAL { get; set; }//Agregado LEJ14.09.2018
         public List<WFARTHA.Controllers.Anexo> Anexo { get; set; }
         public List<DOCUMENTOA_TAB> DOCUMENTOA_TAB { get; set; }//Agregado LEJGG02.11.2018
+        public List<DOCUMENTOCOC_MOD> DOCUMENTOCOC{ get; set; }//Agregado LEJGG-12.12.2018
         public string DESC_CONDICION { get; set; }   //aGERGADO frt 06112018
 
         public virtual SOCIEDAD SOCIEDAD { get; set; }

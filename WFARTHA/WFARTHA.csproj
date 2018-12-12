@@ -314,6 +314,9 @@
     <Compile Include="Entities\DOCUMENTOA1.cs">
       <DependentUpon>WFARTHA.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\DOCUMENTOCOC.cs">
+      <DependentUpon>WFARTHA.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\DOCUMENTOLOG.cs">
       <DependentUpon>WFARTHA.tt</DependentUpon>
     </Compile>
@@ -522,6 +525,7 @@
     <Compile Include="Models\ConmailNuevo.cs" />
     <Compile Include="Models\ContabilizarRes.cs" />
     <Compile Include="Models\Cryptography.cs" />
+    <Compile Include="Models\DOCUMENTOCOC_MOD.cs" />
     <Compile Include="Models\DOCUMENTOA_TAB.cs" />
     <Compile Include="Models\DOCUMENTOA_MOD.cs" />
     <Compile Include="Models\DocumentoComparer.cs" />
@@ -809,6 +813,7 @@
     <Content Include="Views\SociedadesUsuario\Create.cshtml" />
     <Content Include="Views\SociedadesUsuario\Edit.cshtml" />
     <Content Include="Views\ProyectoSociedad\Create.cshtml" />
+    <Content Include="Views\Solicitudes\_PartialConTr5.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

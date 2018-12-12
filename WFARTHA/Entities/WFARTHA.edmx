@@ -380,6 +380,19 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="PATH" Type="nvarchar" MaxLength="500" />
           <Property Name="ACTIVO" Type="bit" />
         </EntityType>
+        <EntityType Name="DOCUMENTOCOC">
+          <Key>
+            <PropertyRef Name="NUM_DOC" />
+            <PropertyRef Name="POSD" />
+          </Key>
+          <Property Name="NUM_DOC" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="POSD" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="POS" Type="int" />
+          <Property Name="MATNR" Type="nvarchar" MaxLength="40" />
+          <Property Name="PS_PSP_PNR" Type="nvarchar" MaxLength="30" />
+          <Property Name="WAERS" Type="nvarchar" MaxLength="5" />
+          <Property Name="MEINS" Type="nvarchar" MaxLength="3" />
+        </EntityType>
         <EntityType Name="DOCUMENTOLOG">
           <Key>
             <PropertyRef Name="NUM_DOC" />
@@ -493,7 +506,7 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
             <PropertyRef Name="BUZEI" />
           </Key>
           <Property Name="EBELN" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="EBELP" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="EBELP" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="ZEKKN" Type="numeric" Precision="2" Scale="0" Nullable="false" />
           <Property Name="VGABE" Type="nchar" MaxLength="1" Nullable="false" />
           <Property Name="GJAHR" Type="numeric" Precision="4" Scale="0" Nullable="false" />
@@ -566,7 +579,7 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
             <PropertyRef Name="EBELP" />
           </Key>
           <Property Name="EBELN" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="EBELP" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="EBELP" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="BEDAT" Type="date" />
           <Property Name="MATNR" Type="nvarchar" MaxLength="40" />
           <Property Name="TXZ01" Type="nvarchar" MaxLength="40" />
@@ -1571,6 +1584,18 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DOCUMENTO_EKKO">
+          <End Role="EKKO" Type="Self.EKKO" Multiplicity="0..1" />
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EKKO">
+              <PropertyRef Name="EBELN" />
+            </Principal>
+            <Dependent Role="DOCUMENTO">
+              <PropertyRef Name="EBELN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DOCUMENTO_SOCIEDAD">
           <End Role="SOCIEDAD" Type="Self.SOCIEDAD" Multiplicity="0..1" />
           <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
@@ -1642,6 +1667,20 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             </Principal>
             <Dependent Role="DOCUMENTOAS">
               <PropertyRef Name="NUM_DOC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DOCUMENTOCOC_DOCUMENTOP">
+          <End Role="DOCUMENTOP" Type="Self.DOCUMENTOP" Multiplicity="1" />
+          <End Role="DOCUMENTOCOC" Type="Self.DOCUMENTOCOC" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTOP">
+              <PropertyRef Name="NUM_DOC" />
+              <PropertyRef Name="POS" />
+            </Principal>
+            <Dependent Role="DOCUMENTOCOC">
+              <PropertyRef Name="NUM_DOC" />
+              <PropertyRef Name="POSD" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2367,6 +2406,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <EntitySet Name="DOCUMENTO" EntityType="Self.DOCUMENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOA" EntityType="Self.DOCUMENTOA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOAS" EntityType="Self.DOCUMENTOAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DOCUMENTOCOC" EntityType="Self.DOCUMENTOCOC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOLOG" EntityType="Self.DOCUMENTOLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOP" EntityType="Self.DOCUMENTOP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCUMENTOPRE" EntityType="Self.DOCUMENTOPRE" Schema="dbo" store:Type="Tables" />
@@ -2640,6 +2680,10 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="DET_TIPOPRESUPUESTO" EntitySet="DET_TIPOPRESUPUESTO" />
           </AssociationSet>
+          <AssociationSet Name="FK_DOCUMENTO_EKKO" Association="Self.FK_DOCUMENTO_EKKO">
+            <End Role="EKKO" EntitySet="EKKO" />
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
+          </AssociationSet>
           <AssociationSet Name="FK_DOCUMENTO_SOCIEDAD" Association="Self.FK_DOCUMENTO_SOCIEDAD">
             <End Role="SOCIEDAD" EntitySet="SOCIEDAD" />
             <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
@@ -2663,6 +2707,10 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <AssociationSet Name="FK_DOCUMENTOAS_DOCUMENTO" Association="Self.FK_DOCUMENTOAS_DOCUMENTO">
             <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
             <End Role="DOCUMENTOAS" EntitySet="DOCUMENTOAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DOCUMENTOCOC_DOCUMENTOP" Association="Self.FK_DOCUMENTOCOC_DOCUMENTOP">
+            <End Role="DOCUMENTOP" EntitySet="DOCUMENTOP" />
+            <End Role="DOCUMENTOCOC" EntitySet="DOCUMENTOCOC" />
           </AssociationSet>
           <AssociationSet Name="FK_DOCUMENTOP_DOCUMENTO" Association="Self.FK_DOCUMENTOP_DOCUMENTO">
             <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
@@ -3217,6 +3265,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="DPPCT" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="TOAD" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="ANTR" Type="Decimal" Precision="13" Scale="2" />
+          <NavigationProperty Name="EKKO" Relationship="Self.FK_DOCUMENTO_EKKO" FromRole="DOCUMENTO" ToRole="EKKO" />
           <NavigationProperty Name="SOCIEDAD" Relationship="Self.FK_DOCUMENTO_SOCIEDAD" FromRole="DOCUMENTO" ToRole="SOCIEDAD" />
           <NavigationProperty Name="TSOL" Relationship="Self.FK_DOCUMENTO_TSOL" FromRole="DOCUMENTO" ToRole="TSOL" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_DOCUMENTO_USUARIO" FromRole="DOCUMENTO" ToRole="USUARIO" />
@@ -3264,6 +3313,20 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="ACTIVO" Type="Boolean" />
           <NavigationProperty Name="DOCUMENTO" Relationship="Self.FK_DOCUMENTOAS_DOCUMENTO" FromRole="DOCUMENTOAS" ToRole="DOCUMENTO" />
         </EntityType>
+        <EntityType Name="DOCUMENTOCOC">
+          <Key>
+            <PropertyRef Name="NUM_DOC" />
+            <PropertyRef Name="POSD" />
+          </Key>
+          <Property Name="NUM_DOC" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="POSD" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="POS" Type="Int32" />
+          <Property Name="MATNR" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="PS_PSP_PNR" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="WAERS" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="MEINS" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DOCUMENTOP" Relationship="Self.FK_DOCUMENTOCOC_DOCUMENTOP" FromRole="DOCUMENTOCOC" ToRole="DOCUMENTOP" />
+        </EntityType>
         <EntityType Name="DOCUMENTOLOG">
           <Key>
             <PropertyRef Name="NUM_DOC" />
@@ -3300,6 +3363,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="TEXTO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DOCUMENTO" Relationship="Self.FK_DOCUMENTOP_DOCUMENTO" FromRole="DOCUMENTOP" ToRole="DOCUMENTO" />
           <NavigationProperty Name="DOCUMENTOAs" Relationship="Self.FK_DOCUMENTOA_DOCUMENTOP" FromRole="DOCUMENTOP" ToRole="DOCUMENTOA" />
+          <NavigationProperty Name="DOCUMENTOCOC" Relationship="Self.FK_DOCUMENTOCOC_DOCUMENTOP" FromRole="DOCUMENTOP" ToRole="DOCUMENTOCOC" />
           <NavigationProperty Name="IMPUESTO" Relationship="Self.FK_DOCUMENTOP_IMPUESTO" FromRole="DOCUMENTOP" ToRole="IMPUESTO" />
           <NavigationProperty Name="DOCUMENTORPs" Relationship="Self.FK_DOCUMENTORP_DOCUMENTOP" FromRole="DOCUMENTOP" ToRole="DOCUMENTORP" />
         </EntityType>
@@ -3387,7 +3451,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             <PropertyRef Name="BUZEI" />
           </Key>
           <Property Name="EBELN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="EBELP" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="EBELP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ZEKKN" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
           <Property Name="VGABE" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="GJAHR" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
@@ -3438,6 +3502,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="DPPCT" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="DPAMT" Type="Decimal" Precision="11" Scale="2" />
           <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DOCUMENTOes" Relationship="Self.FK_DOCUMENTO_EKKO" FromRole="EKKO" ToRole="DOCUMENTO" />
         </EntityType>
         <EntityType Name="EKKO_DUMMY">
           <Key>
@@ -3460,7 +3525,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             <PropertyRef Name="EBELP" />
           </Key>
           <Property Name="EBELN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="EBELP" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="EBELP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BEDAT" Type="DateTime" Precision="0" />
           <Property Name="MATNR" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="TXZ01" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
@@ -4524,6 +4589,18 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DOCUMENTO_EKKO">
+          <End Role="EKKO" Type="Self.EKKO" Multiplicity="0..1" />
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EKKO">
+              <PropertyRef Name="EBELN" />
+            </Principal>
+            <Dependent Role="DOCUMENTO">
+              <PropertyRef Name="EBELN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DOCUMENTO_SOCIEDAD">
           <End Role="SOCIEDAD" Type="Self.SOCIEDAD" Multiplicity="0..1" />
           <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="*" />
@@ -4679,6 +4756,20 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             </Principal>
             <Dependent Role="DOCUMENTOA">
               <PropertyRef Name="CLASE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DOCUMENTOCOC_DOCUMENTOP">
+          <End Role="DOCUMENTOP" Type="Self.DOCUMENTOP" Multiplicity="1" />
+          <End Role="DOCUMENTOCOC" Type="Self.DOCUMENTOCOC" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTOP">
+              <PropertyRef Name="NUM_DOC" />
+              <PropertyRef Name="POS" />
+            </Principal>
+            <Dependent Role="DOCUMENTOCOC">
+              <PropertyRef Name="NUM_DOC" />
+              <PropertyRef Name="POSD" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5256,6 +5347,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <EntitySet Name="DOCUMENTOes" EntityType="Self.DOCUMENTO" />
           <EntitySet Name="DOCUMENTOAs" EntityType="Self.DOCUMENTOA" />
           <EntitySet Name="DOCUMENTOAS1" EntityType="Self.DOCUMENTOA1" />
+          <EntitySet Name="DOCUMENTOCOCs" EntityType="Self.DOCUMENTOCOC" />
           <EntitySet Name="DOCUMENTOLOGs" EntityType="Self.DOCUMENTOLOG" />
           <EntitySet Name="DOCUMENTOPs" EntityType="Self.DOCUMENTOP" />
           <EntitySet Name="DOCUMENTOPREs" EntityType="Self.DOCUMENTOPRE" />
@@ -5401,6 +5493,10 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             <End Role="USUARIO" EntitySet="USUARIOs" />
             <End Role="DET_TIPOPRESUPUESTO" EntitySet="DET_TIPOPRESUPUESTO" />
           </AssociationSet>
+          <AssociationSet Name="FK_DOCUMENTO_EKKO" Association="Self.FK_DOCUMENTO_EKKO">
+            <End Role="EKKO" EntitySet="EKKOes" />
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTOes" />
+          </AssociationSet>
           <AssociationSet Name="FK_DOCUMENTO_SOCIEDAD" Association="Self.FK_DOCUMENTO_SOCIEDAD">
             <End Role="SOCIEDAD" EntitySet="SOCIEDADs" />
             <End Role="DOCUMENTO" EntitySet="DOCUMENTOes" />
@@ -5452,6 +5548,10 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <AssociationSet Name="FK_DOCUMENTOA_TSOPORTE" Association="Self.FK_DOCUMENTOA_TSOPORTE">
             <End Role="TSOPORTE" EntitySet="TSOPORTEs" />
             <End Role="DOCUMENTOA" EntitySet="DOCUMENTOAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DOCUMENTOCOC_DOCUMENTOP" Association="Self.FK_DOCUMENTOCOC_DOCUMENTOP">
+            <End Role="DOCUMENTOP" EntitySet="DOCUMENTOPs" />
+            <End Role="DOCUMENTOCOC" EntitySet="DOCUMENTOCOCs" />
           </AssociationSet>
           <AssociationSet Name="FK_DOCUMENTOP_IMPUESTO" Association="Self.FK_DOCUMENTOP_IMPUESTO">
             <End Role="IMPUESTO" EntitySet="IMPUESTOes" />
@@ -6034,6 +6134,19 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="USUARIO_ID" ColumnName="USUARIO_ID" />
                 <ScalarProperty Name="PATH" ColumnName="PATH" />
                 <ScalarProperty Name="ACTIVO" ColumnName="ACTIVO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DOCUMENTOCOCs">
+            <EntityTypeMapping TypeName="WFARTHAModel.DOCUMENTOCOC">
+              <MappingFragment StoreEntitySet="DOCUMENTOCOC">
+                <ScalarProperty Name="NUM_DOC" ColumnName="NUM_DOC" />
+                <ScalarProperty Name="POSD" ColumnName="POSD" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="MATNR" ColumnName="MATNR" />
+                <ScalarProperty Name="PS_PSP_PNR" ColumnName="PS_PSP_PNR" />
+                <ScalarProperty Name="WAERS" ColumnName="WAERS" />
+                <ScalarProperty Name="MEINS" ColumnName="MEINS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
