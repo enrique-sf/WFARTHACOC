@@ -12,20 +12,16 @@ namespace WFARTHA.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class EKBE
+    public partial class DOCUMENTOCOC
     {
-        public string EBELN { get; set; }
-        public string EBELP { get; set; }
-        public decimal ZEKKN { get; set; }
-        public string VGABE { get; set; }
-        public decimal GJAHR { get; set; }
-        public string BELNR { get; set; }
-        public decimal BUZEI { get; set; }
-        public string BEWTP { get; set; }
+        public decimal NUM_DOC { get; set; }
+        public decimal POSD { get; set; }
+        public Nullable<int> POS { get; set; }
+        public string MATNR { get; set; }
+        public string PS_PSP_PNR { get; set; }
         public string WAERS { get; set; }
-        public Nullable<decimal> DMBTR { get; set; }
-        public Nullable<decimal> WRBTR { get; set; }
-        public Nullable<System.DateTime> BUDAT { get; set; }
-        public string XBLNR { get; set; }
+        public string MEINS { get; set; }
+    
+        public virtual DOCUMENTOP DOCUMENTOP { get; set; }
     }
 }

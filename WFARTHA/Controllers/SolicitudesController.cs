@@ -5791,7 +5791,7 @@ namespace WFARTHA.Controllers
             doc.Anexo = docs;
             return PartialView("~/Views/Solicitudes/_PartialConTr3.cshtml", doc);
         }
-
+              
         [HttpPost]
         public ActionResult getPartialCon4(List<DOCUMENTOA_TAB> docs, decimal nd)
         {
@@ -5811,6 +5811,15 @@ namespace WFARTHA.Controllers
             return PartialView("~/Views/Solicitudes/_PartialConTr4.cshtml", doc);
         }
 
+        //Lejgg 12-12-2018
+        [HttpPost]
+        public ActionResult getPartialCon5(List<DOCUMENTOCOC_MOD> docs)
+        {
+            DOCUMENTO_MOD doc = new DOCUMENTO_MOD();
+            doc.DOCUMENTOCOC = docs;
+            return PartialView("~/Views/Solicitudes/_PartialConTr5.cshtml", doc);
+        }
+
         [HttpPost]
         public ActionResult getPartialRet(List<DOCUMENTOR_MOD> docs)
         {
@@ -5819,7 +5828,7 @@ namespace WFARTHA.Controllers
             doc.DOCUMENTOR = docs;
             return PartialView("~/Views/Solicitudes/_PartialRetTr.cshtml", doc);
         }
-
+               
         [HttpPost]
         public JsonResult getRetenciones(List<DOCUMENTOR_MOD> items, string bukrs, string lifnr)
         {
@@ -7634,9 +7643,9 @@ namespace WFARTHA.Controllers
         [HttpPost]
         public JsonResult getEKKOInfo(string ebeln)
         {
-            //Traigo el usuario
+            //Traigo la info
             var ekko = db.EKKOes.Where(x => x.EBELN == ebeln).FirstOrDefault();
-            //Traigo el usuario
+            //Traigo los montos
             var ekbe = db.EKBEs.Where(x => x.EBELN == ebeln).ToList();
             decimal? As = 0;
             decimal? Tres = 0;
@@ -7651,8 +7660,15 @@ namespace WFARTHA.Controllers
                     Tres = Tres + ekbe[i].WRBTR;
                 }
             }
+            //Traigo el monto en transito
+            var docmt = db.DOCUMENTOes.Where(x => x.EBELN == ebeln && x.ESTATUS != "A" && x.ESTATUS_C != "C").ToList();
+            decimal? mtr = 0;
+            for (int i = 0; i < docmt.Count; i++)
+            {
+                mtr = mtr + docmt[i].MONTO_DOC_MD;
+            }
             string res = As + "-" + Tres;
-            var _r = new{ ekko, res };
+            var _r = new { ekko, res, mtr };
             JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
             return jc;
         }
@@ -7661,7 +7677,7 @@ namespace WFARTHA.Controllers
         public JsonResult getEKPOInfo(string ebeln)
         {
             //Traigo el usuario
-            var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();           
+            var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
             JsonResult jc = Json(ekpo, JsonRequestBehavior.AllowGet);
             return jc;
         }

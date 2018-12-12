@@ -1,0 +1,13 @@
+﻿@model WFARTHA.Models.DOCUMENTO_MOD
+@if (Model.DOCUMENTOCOC != null)
+{
+    for (var i = 0; i < Model.DOCUMENTOCOC.Count; i++)
+    {
+<tr>
+    <td>@Html.EditorFor(m => m.DOCUMENTOCOC[i].MATNR)</td>
+    <td>@Html.EditorFor(m => m.DOCUMENTOCOC[i].PS_PSP_PNR)</td>
+    <td>@Html.EditorFor(m => m.DOCUMENTOCOC[i].WAERS)</td>
+    <td>@Html.EditorFor(m => m.DOCUMENTOCOC[i].MEINS)</td>
+</tr>
+    }
+}

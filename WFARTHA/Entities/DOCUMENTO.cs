@@ -98,6 +98,7 @@ namespace WFARTHA.Entities
         public Nullable<decimal> TOAD { get; set; }
         public Nullable<decimal> ANTR { get; set; }
     
+        public virtual EKKO EKKO { get; set; }
         public virtual SOCIEDAD SOCIEDAD { get; set; }
         public virtual TSOL TSOL { get; set; }
         public virtual USUARIO USUARIO { get; set; }
