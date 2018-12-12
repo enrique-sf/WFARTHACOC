@@ -111,12 +111,12 @@ $(document).ready(function () {
                 "name": 'CANTIDAD',
                 "className": 'CANTIDAD',
                 "orderable": false
-            },   
+            },
             {
                 "name": 'UNIDAD',
                 "className": 'UNIDAD',
                 "orderable": false
-            },                       
+            },
             {
                 "name": 'IMPUESTO',
                 "className": 'IMPUESTO',
@@ -131,16 +131,17 @@ $(document).ready(function () {
                 "name": 'CCOSTO',
                 "className": 'CCOSTO',
                 "orderable": false
-            }, 
+            },
             {
                 "name": 'PEP',
                 "className": 'PEP',
                 "orderable": false
-            }, 
+            },
             {
                 "name": 'TOTAL',
                 "className": 'TOTAL',
-                "orderable": false
+                "orderable": false,
+                "visible": false //
             }
         ]
     });
@@ -398,9 +399,44 @@ $('body').on('change', '#norden_compra', function (event, param1) {
 
 function armarTabla(info) {
     var t = $('#table_infoP').DataTable();
+    var _numrow = t.rows().count();
+    _numrow++; //frt04122018
     for (var i = 0; i < info.length; i++) {
-        addRowInfoP(t, (i + 1), "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+        var ari = addRowInfoP(t, (i + 1), "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", info[i].MWSKZ, info[i].TXZ01, "", "");
+        //Obtener el select de impuestos en la cabecera
+        var idselect = "infoSel" + _numrow;
+
+        //Obtener el valor 
+        var imp = info[i].WAERS;
+
+        //Crear el nuevo select con los valores de impuestos
+        addSelectImpuestoP(ari, imp, idselect, "", "X");
     }
+}
+
+function addSelectImpuestoP(addedRowInfo, imp, idselect, disabled, clase) {
+
+    //Obtener la celda del row agregado
+    var ar = $(addedRowInfo).find("td.IVA");
+
+    var sel = $("<select class = \"IMPUESTO_SELECT browser-default\" id = \"" + idselect + "\"> ").appendTo(ar);
+    $("#IMPUESTO option").each(function () {
+        var _valor = $(this).val();//lej 19.09.2018
+        var _texto = $(this).text();//lej 19.09.2018
+        sel.append($("<option>").attr('value', _valor).text(_texto));//lej 19.09.2018
+    });
+
+    //Seleccionar el valor
+    $("#" + idselect + "").val(imp);
+    $("#" + idselect + "").siblings(".select-dropdown").css("font-size", "12px");
+    if (disabled == "X") {
+
+        $("#" + idselect + "").prop('disabled', 'disabled');
+    }
+
+    //Iniciar el select agregado
+    //  $(".IMPUESTO_SELECT").trigger("change");
+    $('.IMPUESTO_SELECT option[value="' + imp.trim() + '"]').attr("selected", true);
 }
 
 function llenarTablaOc(a, b) {
@@ -591,54 +627,41 @@ $('#tab_enc').on("click", function (e) {
     }
 });
 
-function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo5, CA, FACTURA,
-    TIPO_CONCEPTO, GRUPO, CUENTA, CUENTANOM, TIPOIMP, IMPUTACION, CCOSTO, MONTO, MONEDA, IMPUESTO, IVA, TEXTO, TOTAL, disabled, check, PED) { //MGC 03 - 10 - 2018 solicitud con orden de compra
-    var por = $("#por_ant").text();
-    por = parseFloat(toNum(por));
-    por = por * (PED.NETWR - PED.H_VAL_LOCCUR) / 100;
+function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo5, MATERIAL, CA, FACTURA,
+    TIPO_CONCEPTO, GRUPO, CUENTA, CUENTANOM, TIPOIMP, IMPUTACION, CCOSTO, MONTO, MONEDA, CANTIDAD, UNIDAD, IMPUESTO, IVA, TEXTO, TOTAL, PEP) { //MGC 03 - 10 - 2018 solicitud con orden de compra
     var r = addRowlP(
         t,
+        "<input  class='NumAnexo' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo + "'>",
+        "<input  class='NumAnexo2' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo2 + "'>",
+        "<input  class='NumAnexo3' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo3 + "'>",
+        "<input  class='NumAnexo4' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo4 + "'>",
+        "<input  class='NumAnexo5' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo5 + "'>",
         POS,
-        "<input disabled  class='NumAnexo' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo + "'>",
-        "<input disabled  class='NumAnexo2' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo2 + "'>",
-        "<input disabled  class='NumAnexo3' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo3 + "'>",
-        "<input disabled  class='NumAnexo4' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo4 + "'>",
-        "<input disabled  class='NumAnexo5' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo5 + "'>",
-        CA,//MGC 04092018 Conceptos
-        "<input " + disabled + " class='FACTURA' style='font-size:12px;' type='text' id='' name='' value='" + FACTURA + "'>",
+        MATERIAL,
+        TEXTO,
+        CA,
+        FACTURA,
         TIPO_CONCEPTO,
-        "<input " + disabled + " class='GRUPO GRUPO_INPUT' style='font-size:12px;' type='text' id='' name='' value='" + GRUPO + "'>",
-        //"<input class='CUENTA' style='font-size:12px;' type='text' id='' name='' value='" + CUENTA + "'>",//MGC 04092018 Conceptos
-        CUENTA,//MGC 04092018 Conceptos
+        GRUPO,
+        CUENTA,
         CUENTANOM,
         TIPOIMP,
         IMPUTACION,
-        "<input disabled class='CCOSTO' style='font-size:12px;' type='text' id='' name='' value='" + CCOSTO + "'>",
-        "<input " + disabled + " class='MONTO OPERP' style='font-size:12px;' type='text' id='' name='' value='" + MONTO + "'>",
-        "",
-        "",
-        "<input disabled class='IVA' style='font-size:12px;' type='text' id='' name='' value='" + IVA + "'>",
-        "<input " + disabled + " class='' style='font-size:12px;' type='text' id='' name='' value='" + TEXTO + "'>",//Lej 13.09.2018
-        TOTAL,//"<input " + disabled + " class='TOTAL OPERP' style='font-size:12px;' type='text' id='' name='' value='" + TOTAL + "'>"
-        check,
-        PED.MATNR + "",//P.MATNR,//-------------------MATNR
-        PED.TXZ0 + "",//P.TEXTO,//-------------------TEXTO
-        "<input disabled class='' style='font-size:12px;' type='text' id='' name='' value='" + toShow(PED.NETWR) + "'>",//P.MENGE,//-------------------CANTIDAD
-        "<input disabled class='' style='font-size:12px;' type='text' id='' name='' value='" + toShowNum(PED.MENGE) + "'>",//P.MEINS,//-------------------MEINS
-        "<input class='MONTO_F OPERP' style='font-size:12px;' type='text' id='' name='' value='" + toShow(PED.NETWR - PED.H_VAL_LOCCUR) + "'>",//P.MEINS,//-------------------MEINS
-        "<input class='OPERP' style='font-size:12px;' type='text' id='' name='' value='" + toShowNum(PED.MENGE - PED.H_QUANTITY) + "'>",//P.MEINS,//-------------------MEINS
-        PED.MEINS,
-        toShow(PED.H_ANT_SOL),
-        toShow(PED.H_ANT_PAG),
-        toShow(PED.H_ANT_AMORT), PED
-        , "<input disabled class='ANT_EST OPERP' style='font-size:12px;' type='text' id='' name='' value='" + toShow(por) + "'>"
+        "<input  class='MONTO' style='font-size:12px;' type='text' id='' name='' value='" + MONTO + "'>",
+        MONEDA,
+        "<input  class='CANTIDAD' style='font-size:12px;' type='text' id='' name='' value='" + CANTIDAD + "'>",
+        UNIDAD,
+        IMPUESTO,
+        IVA,
+        CCOSTO,
+        PEP,
+        TOTAL
     );
 
     return r;
 }
 
-function addRowlP(t, pos, nA, nA2, nA3, nA4, nA5, ca, factura, tipo_concepto, grupo, cuenta, cuentanom, tipoimp, imputacion, ccentro, monto, moneda, impuesto,
-    iva, texto, total, check, matnr, textoP, montoP, cant, montoF, cantF, meins, sol, pag, ant, PED, amo_est) {
+function addRowlP(t, nA, nA2, nA3, nA4, nA5, pos, mtr, txt, ca, factura, c4, grupo, c6, c7, c8, c9, monto, moneda, cantidad, unidad, impuesto, iva, ccentro, c17, total) {
     //Lej 11.12.2018--------------------------------
     var r = t.row.add([
         nA,
@@ -647,11 +670,11 @@ function addRowlP(t, pos, nA, nA2, nA3, nA4, nA5, ca, factura, tipo_concepto, gr
         nA4,
         nA5,
         pos,
-        "0",//Material
-        "1",//Texto
+        mtr,//Material
+        txt,//Texto
         ca,
         factura,//Factura
-        "4",
+        ca,//ca d/h
         grupo,//Grupo
         "6",
         "7",
@@ -659,10 +682,10 @@ function addRowlP(t, pos, nA, nA2, nA3, nA4, nA5, ca, factura, tipo_concepto, gr
         "9",
         monto,//Monto
         moneda,//Moneda
-        "12",//Cantidad
+        cantidad,//Cantidad
         "13",//Unidad
         impuesto,//Impuesto
-        iva,//Iva
+        "",//Iva
         ccentro,//CECO
         "17",//PEP
         total//TOTAL
@@ -704,43 +727,6 @@ function updateFooterP() {
 
     $('#total_infoP').text(toShow(total));
     $('#MONTO_DOC_MD').val(toShow(total));//Lej 18.09.2018
-}
-
-//MGC 04092018 Conceptos
-function addSelectImpuestoP(addedRowInfo, imp, idselect, disabled, clase) {
-
-    //Obtener la celda del row agregado
-    var ar = $(addedRowInfo).find("td.IMPUESTOP");
-
-
-    var sel = $("<select class = 'IMPUESTOP_SELECT browser-default' id = '" + idselect + "'> ").appendTo(ar);
-    //var sel = $("<select class = 'IMPUESTOP_SELECT' id = '" + idselect + "'> ").appendTo(ar);
-    $("#IMPUESTO option").each(function () {
-        var _valor = $(this).val();//lej 19.09.2018
-        var _texto = $(this).text();//lej 19.09.2018
-        sel.append($("<option>").attr('value', _valor).text(_texto));//lej 19.09.2018
-    });
-
-    //Seleccionar el valor
-    //$("#" + idselect + "").val(imp).change("sel");    
-    // $("#" + idselect + "").val(imp).trigger("change", ["tr"]);
-    $("#" + idselect + "").val(imp);
-    $("#" + idselect + "").siblings(".select-dropdown").css("font-size", "12px");
-    if (disabled == "X") {
-
-        $("#" + idselect + "").prop('disabled', 'disabled');
-    }
-
-    //Iniciar el select agregado
-    //var elem = document.getElementById(idselect);
-    //var options = {
-    //    dropdownOptions: {
-    //        constrainWidth: false
-    //        //,container: "div_selP"
-    //    }
-    //}
-    //var instance = M.Select.init(elem, []);
-    $(".IMPUESTOP_SELECT").trigger("change");
 }
 
 $('body').on('change', '.IMPUESTOP_SELECT', function (event, param1) {
@@ -1218,9 +1204,10 @@ function obtenerRetencionesP(flag) {
                 "orderable": false
             },
             {
-                "name": 'IMPUESTO',
-                "className": 'IMPUESTO',
-                "orderable": false
+                "name": 'IMPUESTOP',
+                "className": 'IMPUESTOP',
+                "orderable": false,
+                "visible": false//lej 11.12.2018
             },
             {
                 "name": 'IVA',
@@ -1240,7 +1227,8 @@ function obtenerRetencionesP(flag) {
             {
                 "name": 'TOTAL',
                 "className": 'TOTAL',
-                "orderable": false
+                "orderable": false,
+                "visible": false//lej 11.12.2018
             }
         ];
         //Se rearmara la tabla en HTML
@@ -1273,9 +1261,9 @@ function obtenerRetencionesP(flag) {
         $("#table_infoP>thead>tr").append("<th class=\"lbl_Unidad\">Unidad</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_impuesto\">Impuesto  </th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">IVA</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_ccosto\">Centro de Costo</th>");    
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_pep\">PEP</th>");    
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_total\">Total</th>");    
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_ccosto\">Centro de Costo</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_pep\">PEP</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_total\">Total</th>");
 
         $('#table_infoP').DataTable({
             language: {

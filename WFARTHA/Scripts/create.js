@@ -2490,8 +2490,6 @@ $('body').on('change', '.IMPUESTO_SELECT', function (event, param1) {
             }
             var sumt = parseFloat(_tot) - parseFloat(colTotal);
 
-
-
             tr.find("td.TOTAL input").val(toShow(sumt));
         }
         else {
