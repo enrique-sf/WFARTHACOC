@@ -734,8 +734,6 @@
                                     <table class="table display mdl-data-table striped" id="table_infoP" style="width:100%;">
                                         <thead>
                                             <tr>
-                                                <th>
-                                                </th>
                                                 <th class="lbl_NmAnexo">
                                                     A1
                                                 </th>
@@ -752,10 +750,13 @@
                                                     A5
                                                 </th>
                                                 <th class="lbl_pos">
-                                                    Pos
+                                                    Fila
                                                 </th>
-                                                <th id="lbl_matnr">
+                                                <th class="lbl_mat">
                                                     Material
+                                                </th>
+                                                <th id="lbl_Texto" style="text-align:center;">
+                                                    Texto
                                                 </th>
                                                 <th class="lbl_cargoAbono">
                                                     D/H
@@ -767,13 +768,13 @@
                                                     Tipo Concepto
                                                 </th>
                                                 <th id="lbl_grupo">
-                                                    Grupo
+                                                    Concepto
                                                 </th>
                                                 <th id="lbl_cuenta">
                                                     Cuenta
                                                 </th>
                                                 <th id="lbl_cuentaNom">
-                                                    Nombre de cuenta
+                                                    Nombre de Cuenta
                                                 </th>
                                                 <th id="lbl_tipoimp">
                                                     Tipo Imp.
@@ -781,69 +782,41 @@
                                                 <th id="lbl_imputacion">
                                                     Imputación
                                                 </th>
-                                                <th id="lbl_ccosto">
-                                                    Centro de Costo
-                                                </th>
-                                                <th id="lbl_texto">
-                                                    Texto
-                                                </th>
                                                 <th id="lbl_monto">
                                                     Monto
                                                 </th>
-                                                <th id="lbl_menge">
+                                                <th id="lbl_moneda">
+                                                    Moneda
+                                                </th>
+                                                <th id="lbl_cantidad">
                                                     Cantidad
                                                 </th>
-                                                <th id="lbl_montoF">
-                                                    Monto Faltante
-                                                </th>
-                                                <th id="lbl_mengeF">
-                                                    Cantidad Faltante
-                                                </th>
-                                                <th id="lbl_meins">
-                                                    UMedida
-                                                </th>
-                                                <th id="">
-                                                    Ant. Solicitado
-                                                </th>
-                                                <th id="">
-                                                    Ant. Pagado
-                                                </th>
-                                                <th id="">
-                                                    Ant. Amortizado
-                                                </th>
-                                                <th id="">
-                                                    Amortización<br />Estimación
+                                                <th id="lbl_unidad">
+                                                    Unidad
                                                 </th>
                                                 <th id="lbl_impuesto">
                                                     Impuesto
                                                 </th>
-                                                <th id="lbl_iva">
+                                                <th id="lbl_iva" class="tcent">
                                                     IVA
+                                                </th>
+                                                <th id="lbl_ccosto">
+                                                    Centro de Costo
+                                                </th>
+                                                <th id="lbl_pep">
+                                                    PEP
                                                 </th>
                                                 <th id="lbl_total">
                                                     Total
                                                 </th>
-                                                @*MGC 03-10-2018 solicitud con orden de compra*@
-                                                <th id="lbl_check">
-                                                    Check
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
-                                        @*<tfoot id="tfoot_info" style="overflow:auto;">
-                                                <tr>
-                                                    <th colspan="17" style="text-align:right"></th>
-                                                    <th id="total_infoP"></th>
-                                                </tr>
-                                            </tfoot>*@
                                     </table>
                                 </div>
                                 <table class="table display mdl-data-table striped" id="table_infoPh" style="width:100%; display:none">
                                     <thead>
                                         <tr>
-                                            <th class="lbl_pos">
-                                                Pos
-                                            </th>
                                             <th class="lbl_NmAnexo">
                                                 A1
                                             </th>
@@ -859,8 +832,17 @@
                                             <th class="lbl_NmAnexo">
                                                 A5
                                             </th>
+                                            <th class="lbl_pos">
+                                                Fila
+                                            </th>
+                                            <th class="lbl_mat">
+                                                Material
+                                            </th>
+                                            <th id="lbl_Texto" style="text-align:center;">
+                                                Texto
+                                            </th>
                                             <th class="lbl_cargoAbono">
-                                                Cargo/Abono
+                                                D/H
                                             </th>
                                             <th class="lbl_factura">
                                                 Factura
@@ -869,7 +851,7 @@
                                                 Tipo Concepto
                                             </th>
                                             <th id="lbl_grupo">
-                                                Grupo
+                                                Concepto
                                             </th>
                                             <th id="lbl_cuenta">
                                                 Cuenta
@@ -883,20 +865,29 @@
                                             <th id="lbl_imputacion">
                                                 Imputación
                                             </th>
-                                            <th id="lbl_ccosto">
-                                                Centro de Costo
-                                            </th>
                                             <th id="lbl_monto">
                                                 Monto
+                                            </th>
+                                            <th id="lbl_moneda">
+                                                Moneda
+                                            </th>
+                                            <th id="lbl_cantidad">
+                                                Cantidad
+                                            </th>
+                                            <th id="lbl_unidad">
+                                                Unidad
                                             </th>
                                             <th id="lbl_impuesto">
                                                 Impuesto
                                             </th>
-                                            <th id="lbl_iva">
+                                            <th id="lbl_iva" class="tcent">
                                                 IVA
                                             </th>
-                                            <th id="lbl_texto">
-                                                Texto
+                                            <th id="lbl_ccosto">
+                                                Centro de Costo
+                                            </th>
+                                            <th id="lbl_pep">
+                                                PEP
                                             </th>
                                             <th id="lbl_total">
                                                 Total
@@ -938,30 +929,32 @@
                                     <input class="file-path validate file_sopAnexar" type="text">
                                 </div>
                             </div>
-                            <table class="table display mdl-data-table striped" id="table_anexa" style="width:100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="">
-                                        </th>
-                                        <th class="">
-                                            No. de Anexo
-                                        </th>
-                                        <th class="">
-                                            Status
-                                        </th>
-                                        <th class="">
-                                            Nombre del Archivo
-                                        </th>
-                                        <th class="">
-                                            Tipo de Archivo
-                                        </th>
-                                        <th class="">
-                                            Descripción
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                            <div style="overflow:auto;">
+                                <table class="table display mdl-data-table striped" id="table_anexa" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="">
+                                            </th>
+                                            <th class="">
+                                                No. de Anexo
+                                            </th>
+                                            <th class="">
+                                                Status
+                                            </th>
+                                            <th class="">
+                                                Nombre del Archivo
+                                            </th>
+                                            <th class="">
+                                                Tipo de Archivo
+                                            </th>
+                                            <th class="">
+                                                Descripción
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -7655,7 +7655,16 @@ namespace WFARTHA.Controllers
             var _r = new{ ekko, res };
             JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
             return jc;
-        }       
+        }
+
+        [HttpPost]
+        public JsonResult getEKPOInfo(string ebeln)
+        {
+            //Traigo el usuario
+            var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();           
+            JsonResult jc = Json(ekpo, JsonRequestBehavior.AllowGet);
+            return jc;
+        }
         //LEJGG 11-12-2018 Llenar Tablas OC-------------------------------------------------<
 
         //MGC 18-10-2018 Firma del usuario ------------------------------------------------->
