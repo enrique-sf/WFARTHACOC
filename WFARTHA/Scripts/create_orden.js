@@ -11,51 +11,43 @@ $(document).ready(function () {
         "searching": false,
         "columns": [
             {
-                "className": 'select_row',
-                "data": null,
-                "defaultContent": '',
-                "orderable": false,
-                "width": 200
-            },
-            {
-                "name": 'NumAnexo',
+                "name": 'A1',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo2',
+                "name": 'A2',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo2',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo3',
+                "name": 'A3',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo3',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo4',
+                "name": 'A4',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo4',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo5',
+                "name": 'A5',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo5',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'POS',
+                "name": 'Fila',
                 "className": 'POS',
                 "orderable": false
-                //,"visible": false //MGC 04092018 Conceptos
             },
             {
-                "name": 'MATNR',
-                "className": 'MATNR',
+                "name": 'MATERIAL',
+                "className": 'MATERIAL',
+                "orderable": false
+            },
+            {
+                "name": 'TXTPOS',
+                "className": 'TXTPOS',
                 "orderable": false
             },
             {
@@ -67,20 +59,18 @@ $(document).ready(function () {
             {
                 "name": 'FACTURA',
                 "className": 'FACTURA',
-                "orderable": false,
-                "visible": false
+                "orderable": false
             },
             {
                 "name": 'TCONCEPTO',
                 "className": 'TCONCEPTO',
                 "orderable": false,
-                "visible": false
+                "visible": false//MGC 22-10-2018 Etiquetas
             },
             {
-                "name": 'GRUPO',
+                "name": 'CONCEPTO',
                 "className": 'GRUPO',
-                "orderable": false,
-                "visible": false
+                "orderable": false
             },
             {
                 "name": 'CUENTA',
@@ -98,7 +88,7 @@ $(document).ready(function () {
                 "name": 'TIPOIMP',
                 "className": 'TIPOIMP',
                 "orderable": false,
-                "visible": false
+                "visible": false//MGC 22-10-2018 Etiquetas
             },
             {
                 "name": 'IMPUTACION',
@@ -107,94 +97,49 @@ $(document).ready(function () {
                 "visible": false//lej 11.09.2018
             },
             {
-                "name": 'CCOSTO',
-                "className": 'CCOSTO',
-                "orderable": false,
-                "visible": false
+                "name": 'MONTO',
+                "className": 'MONTO',
+                "orderable": false
+            },
+            {
+                "name": 'MONEDA',
+                "className": 'MONEDA',
+                "orderable": false
 
             },
             {
-                "name": 'TXTPOS',
-                "className": 'TXTPOS',
-                "orderable": false,
-                "visible": false
-            },
+                "name": 'CANTIDAD',
+                "className": 'CANTIDAD',
+                "orderable": false
+            },   
             {
-                "name": 'MONTO',
-                "className": 'MONTO',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MENGE',
-                "className": 'MENGE',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MONTO_F',
-                "className": 'MONTO_F',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MENGE_F',
-                "className": 'MENGE_F',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MEINS',
-                "className": 'MEINS',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_SOL',
-                "className": 'ANT_SOL',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_PAG',
-                "className": 'ANT_PAG',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_AMO',
-                "className": 'ANT_AMO',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_EST',
-                "className": 'ANT_EST',
-                "orderable": false,
-                "visible": false
-            },
+                "name": 'UNIDAD',
+                "className": 'UNIDAD',
+                "orderable": false
+            },                       
             {
                 "name": 'IMPUESTO',
-                "className": 'IMPUESTOP',
-                "orderable": false,
-                "visible": false
+                "className": 'IMPUESTO',
+                "orderable": false
             },
             {
                 "name": 'IVA',
                 "className": 'IVA',
-                "orderable": false,
-                "visible": false
+                "orderable": false
             },
+            {
+                "name": 'CCOSTO',
+                "className": 'CCOSTO',
+                "orderable": false
+            }, 
+            {
+                "name": 'PEP',
+                "className": 'PEP',
+                "orderable": false
+            }, 
             {
                 "name": 'TOTAL',
                 "className": 'TOTAL',
-                "orderable": false,
-                "visible": false
-            },
-            //MGC ADD 03-10-2018 solicitud con orden de compra
-            {
-                "name": 'CHECK',
-                "className": 'CHECK',
                 "orderable": false
             }
         ]
@@ -427,8 +372,8 @@ $('body').on('keydown.autocomplete', '#norden_compra', function () {
     });
 });
 
+//LEJGG 11/12/2018------------------------------------------------I
 $('body').on('change', '#norden_compra', function (event, param1) {
-
     $.ajax({
         type: "POST",
         url: 'getEKKOInfo',
@@ -440,8 +385,23 @@ $('body').on('change', '#norden_compra', function (event, param1) {
             llenarTablaOc(ekko, cuentas);
         }
     });
-
+    $.ajax({
+        type: "POST",
+        url: 'getEKPOInfo',
+        dataType: "json",
+        data: { "ebeln": $(this).val() },
+        success: function (data) {
+            armarTabla(data);
+        }
+    });
 });
+
+function armarTabla(info) {
+    var t = $('#table_infoP').DataTable();
+    for (var i = 0; i < info.length; i++) {
+        addRowInfoP(t, (i + 1), "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    }
+}
 
 function llenarTablaOc(a, b) {
     var tabl = $('#tableOC').DataTable();
@@ -455,14 +415,15 @@ function llenarTablaOc(a, b) {
     tabl.row.add([
         a.RETPC,
         "<input class=\"amor_ant\" style=\"font-size:12px;\" type=\"text\" id=\"amor_ant\" name=\"\" value=\"\">",
-        "$" + c[0],
-        "$" + c[1],
+        toShow(c[0]),
+        toShow(c[1]),
         a.DPPCT,
-        a.DPAMT,
+        toShow(a.DPAMT),
         "S/N"
     ]).draw(false).node();
     alinearTOC();
 }
+//LEJGG 11/12/2018------------------------------------------------T
 
 function alinearTOC() {
     //--------
@@ -631,7 +592,7 @@ $('#tab_enc').on("click", function (e) {
 });
 
 function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo5, CA, FACTURA,
-    TIPO_CONCEPTO, GRUPO, CUENTA, CUENTANOM, TIPOIMP, IMPUTACION, CCOSTO, MONTO, IMPUESTO, IVA, TEXTO, TOTAL, disabled, check, PED) { //MGC 03 - 10 - 2018 solicitud con orden de compra
+    TIPO_CONCEPTO, GRUPO, CUENTA, CUENTANOM, TIPOIMP, IMPUTACION, CCOSTO, MONTO, MONEDA, IMPUESTO, IVA, TEXTO, TOTAL, disabled, check, PED) { //MGC 03 - 10 - 2018 solicitud con orden de compra
     var por = $("#por_ant").text();
     por = parseFloat(toNum(por));
     por = por * (PED.NETWR - PED.H_VAL_LOCCUR) / 100;
@@ -643,7 +604,6 @@ function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo
         "<input disabled  class='NumAnexo3' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo3 + "'>",
         "<input disabled  class='NumAnexo4' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo4 + "'>",
         "<input disabled  class='NumAnexo5' style='font-size:12px;' type='text' id='' name='' value='" + NumAnexo5 + "'>",
-        //"<input class='CA' style='font-size:12px;' type='text' id='' name='' value='" + CA + "'>",//MGC 04092018 Conceptos
         CA,//MGC 04092018 Conceptos
         "<input " + disabled + " class='FACTURA' style='font-size:12px;' type='text' id='' name='' value='" + FACTURA + "'>",
         TIPO_CONCEPTO,
@@ -655,14 +615,12 @@ function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo
         IMPUTACION,
         "<input disabled class='CCOSTO' style='font-size:12px;' type='text' id='' name='' value='" + CCOSTO + "'>",
         "<input " + disabled + " class='MONTO OPERP' style='font-size:12px;' type='text' id='' name='' value='" + MONTO + "'>",
-        //"<div class='input-field'></div>",
+        "",
         "",
         "<input disabled class='IVA' style='font-size:12px;' type='text' id='' name='' value='" + IVA + "'>",
         "<input " + disabled + " class='' style='font-size:12px;' type='text' id='' name='' value='" + TEXTO + "'>",//Lej 13.09.2018
         TOTAL,//"<input " + disabled + " class='TOTAL OPERP' style='font-size:12px;' type='text' id='' name='' value='" + TOTAL + "'>"
-        check //MGC 03-10-2018 solicitud con orden de compra
-        ,
-        //PED
+        check,
         PED.MATNR + "",//P.MATNR,//-------------------MATNR
         PED.TXZ0 + "",//P.TEXTO,//-------------------TEXTO
         "<input disabled class='' style='font-size:12px;' type='text' id='' name='' value='" + toShow(PED.NETWR) + "'>",//P.MENGE,//-------------------CANTIDAD
@@ -678,83 +636,37 @@ function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo
 
     return r;
 }
-function addRowlP(t, pos, nA, nA2, nA3, nA4, nA5, ca, factura, tipo_concepto, grupo, cuenta, cuentanom, tipoimp, imputacion, ccentro, monto, impuesto,
-    iva, texto, total, check, matnr, textoP, montoP, cant, montoF, cantF, meins, sol, pag, ant, PED, amo_est) {//MGC 03-10-2018 solicitud con orden de compra
-    //alert(extraCols);
-    //Lej 13.09.2018---
-    var colstoAdd = "";
-    for (i = 0; i < extraCols; i++) {
-        //if (i % 2 == 0) { 
-        var _res = porcentajeImpRet(tRet2[i]);
-        var _nnm = parseFloat((PED.NETWR - PED.H_VAL_LOCCUR))
-        colstoAdd += '<td class=\"BaseImp' + tRet2[i] + '\"><input class=\"extrasPC BaseImp' + i + '\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"' + toShow(PED.NETWR - PED.H_VAL_LOCCUR) + '\"></td>';
-        colstoAdd += '<td class=\"ImpRet' + tRet2[i] + '\"><input class=\"extrasPC2 ImpRet' + i + '\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"' + toShow((_nnm * _res) / 100) + '\"></td>';
-        //}
-        //else
-        //{
-        //}
-    }
-    colstoAdd += "<td><input disabled class='TOTAL OPERP' style='font-size:12px;' type='text' id='' name='' value='" + total + "'></td>"
-        //+ "<td><input class='CHECK' style='font-size:12px;' type='checkbox' id='' name='' value='" + check + "'></td>" //MGC 03 - 10 - 2018 solicitud con orden de compra
-        + "<td><p><label><input type='checkbox' checked='" + check + "' /><span></span></label></p></td>";//MGC 03 - 10 - 2018 solicitud con orden de compra
-    //var table_rows = '<tr><td></td><td>' + pos + '</td><td><input class=\"NumAnexo\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo2\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo3\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo4\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo5\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td>' +
-    var table_rows = '<tr><td></td><td><input class=\"NumAnexo\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo2\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo3\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo4\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo5\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td>' + pos + '</td><td>' +
-        ca + '</td><td>' + factura + '</td><td>' + tipo_concepto
-        + '</td><td>' + grupo + '</td><td>' + cuenta + '</td><td>' + cuentanom + '</td><td>' + tipoimp + '</td><td>' + imputacion
-        + '</td><td>' + ccentro + '</td><td>' + matnr + '</td><td>' + textoP + '</td> <td>' + montoP + '</td> <td>' + cant + '</td><td>' + montoF + '</td> <td>' + cantF + '</td> <td>' + meins + '</td> <td>' + sol + '</td> <td>' + pag + '</td> <td>' + ant + '</td><td>' + amo_est + '</td><td>' + impuesto + '</td> <td>' + iva + '</td>' + colstoAdd + '</tr > ';
-    //Lej 13.09.2018--------------------------------
-    if (extraCols === 0) {//Lej 13.09.2018
-        var r = t.row.add([
-            "",
-            //pos,
-            nA,
-            nA2,
-            nA3,
-            nA4,
-            nA5,
-            pos,
-            ca,
-            factura,
-            tipo_concepto,
-            grupo,
-            cuenta,
-            cuentanom,
-            tipoimp,
-            imputacion,
-            ccentro,
-            matnr,
-            textoP,
-            montoP,
-            cant, montoF, cantF, meins, sol, pag, ant, amo_est,
-            impuesto,
-            iva,
-            //texto,
-            "<input disabled class='TOTAL OPERP' style='font-size:12px;' type='text' id='' name='' value='" + total + "'>",
-            "<input class='CHECK' style='font-size:12px;' type='checkbox' id='' name='' value='" + check + "'>" //MGC 03 - 10 - 2018 solicitud con orden de compra
-        ]).draw(false).node();
-    } else {
-        var r = t.row.add(
-            //[
-            //"",
-            //pos,
-            //ca,
-            //factura,
-            //tipo_concepto,
-            //grupo,
-            //cuenta,
-            //cuentanom,
-            //tipoimp,
-            //imputacion,
-            //ccentro,
-            //monto,
-            //impuesto,
-            //iva,
-            //total,
-            //texto
-            // ]
-            $(table_rows)//Lej 13.09.2018
-        ).draw(false).node();
-    }
+
+function addRowlP(t, pos, nA, nA2, nA3, nA4, nA5, ca, factura, tipo_concepto, grupo, cuenta, cuentanom, tipoimp, imputacion, ccentro, monto, moneda, impuesto,
+    iva, texto, total, check, matnr, textoP, montoP, cant, montoF, cantF, meins, sol, pag, ant, PED, amo_est) {
+    //Lej 11.12.2018--------------------------------
+    var r = t.row.add([
+        nA,
+        nA2,
+        nA3,
+        nA4,
+        nA5,
+        pos,
+        "0",//Material
+        "1",//Texto
+        ca,
+        factura,//Factura
+        "4",
+        grupo,//Grupo
+        "6",
+        "7",
+        "8",
+        "9",
+        monto,//Monto
+        moneda,//Moneda
+        "12",//Cantidad
+        "13",//Unidad
+        impuesto,//Impuesto
+        iva,//Iva
+        ccentro,//CECO
+        "17",//PEP
+        total//TOTAL
+    ]).draw(false).node();
 
     return r;
 }
@@ -1194,56 +1106,48 @@ function obtenerRetencionesP(flag) {
 
         //Lej 12.09.18-------------------------------------------------------
         //Aqui se agregaran las columnas extras a la tabla de detalle
-        //$('#table_info').DataTable().clear().draw();//Reinicio la tabla
         $('#table_infoP').DataTable().destroy();
         $('#table_infoP').empty();
+        //LEJGG 11-12-2018-----------------------I
         var arrCols = [
             {
-                "className": 'select_row',
-                "data": null,
-                "defaultContent": '',
-                "orderable": false,
-                "width": 200
-            },
-            {
-                "name": 'NumAnexo',
+                "name": 'A1',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo2',
+                "name": 'A2',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo2',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo3',
+                "name": 'A3',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo3',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo4',
+                "name": 'A4',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo4',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'NumAnexo5',
+                "name": 'A5',//MGC 22-10-2018 Etiquetas
                 "className": 'NumAnexo5',
-                "orderable": false,
-                "visible": true
+                "orderable": false
             },
             {
-                "name": 'POS',
+                "name": 'Fila',
                 "className": 'POS',
                 "orderable": false
-                //,"visible": false //MGC 04092018 Conceptos
             },
             {
-                "name": 'MATNR',
-                "className": 'MATNR',
+                "name": 'MATERIAL',
+                "className": 'MATERIAL',
+                "orderable": false
+            },
+            {
+                "name": 'TXTPOS',
+                "className": 'TXTPOS',
                 "orderable": false
             },
             {
@@ -1255,20 +1159,18 @@ function obtenerRetencionesP(flag) {
             {
                 "name": 'FACTURA',
                 "className": 'FACTURA',
-                "orderable": false,
-                "visible": false
+                "orderable": false
             },
             {
                 "name": 'TCONCEPTO',
                 "className": 'TCONCEPTO',
                 "orderable": false,
-                "visible": false
+                "visible": false//MGC 22-10-2018 Etiquetas
             },
             {
-                "name": 'GRUPO',
+                "name": 'CONCEPTO',
                 "className": 'GRUPO',
-                "orderable": false,
-                "visible": false
+                "orderable": false
             },
             {
                 "name": 'CUENTA',
@@ -1286,7 +1188,7 @@ function obtenerRetencionesP(flag) {
                 "name": 'TIPOIMP',
                 "className": 'TIPOIMP',
                 "orderable": false,
-                "visible": false
+                "visible": false//MGC 22-10-2018 Etiquetas
             },
             {
                 "name": 'IMPUTACION',
@@ -1295,83 +1197,50 @@ function obtenerRetencionesP(flag) {
                 "visible": false//lej 11.09.2018
             },
             {
-                "name": 'CCOSTO',
-                "className": 'CCOSTO',
-                "orderable": false,
-                "visible": false
+                "name": 'MONTO',
+                "className": 'MONTO',
+                "orderable": false
+            },
+            {
+                "name": 'MONEDA',
+                "className": 'MONEDA',
+                "orderable": false
 
             },
             {
-                "name": 'TXTPOS',
-                "className": 'TXTPOS',
-                "orderable": false,
-                "visible": false
+                "name": 'CANTIDAD',
+                "className": 'CANTIDAD',
+                "orderable": false
             },
             {
-                "name": 'MONTO',
-                "className": 'MONTO',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MENGE',
-                "className": 'MENGE',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MONTO_F',
-                "className": 'MONTO_F',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MENGE_F',
-                "className": 'MENGE_F',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'MEINS',
-                "className": 'MEINS',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_SOL',
-                "className": 'ANT_SOL',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_PAG',
-                "className": 'ANT_PAG',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_AMO',
-                "className": 'ANT_AMO',
-                "orderable": false,
-                "visible": false
-            },
-            {
-                "name": 'ANT_EST',
-                "className": 'ANT_EST',
-                "orderable": false,
-                "visible": false
+                "name": 'UNIDAD',
+                "className": 'UNIDAD',
+                "orderable": false
             },
             {
                 "name": 'IMPUESTO',
-                "className": 'IMPUESTOP',
-                "orderable": false,
-                "visible": false
+                "className": 'IMPUESTO',
+                "orderable": false
             },
             {
                 "name": 'IVA',
                 "className": 'IVA',
-                "orderable": false,
-                "visible": false
+                "orderable": false
+            },
+            {
+                "name": 'CCOSTO',
+                "className": 'CCOSTO',
+                "orderable": false
+            },
+            {
+                "name": 'PEP',
+                "className": 'PEP',
+                "orderable": false
+            },
+            {
+                "name": 'TOTAL',
+                "className": 'TOTAL',
+                "orderable": false
             }
         ];
         //Se rearmara la tabla en HTML
@@ -1381,104 +1250,34 @@ function obtenerRetencionesP(flag) {
         taInf.append($("<tfoot />"));
         var thead = $("#table_infoP thead");
         thead.append($("<tr />"));
-        //Theads
-        $("#table_infoP>thead>tr").append("<th></th>");
+        //Theads        
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A1</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A2</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A3</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A4</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_NmAnexo\">A5</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_pos\">Pos</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Material</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_pos\">Fila</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_mat\">Material</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_Texto\">Texto</th>");//FRT08112018
         $("#table_infoP>thead>tr").append("<th class=\"lbl_cargoAbono\">D/H</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_factura\">Factura</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_tconcepto\">TIPO CONCEPTO</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_grupo\">Grupo</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_grupo\">Grupo</th>");//FRT08112018
         $("#table_infoP>thead>tr").append("<th class=\"lbl_cuenta\">Cuenta</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_cuentaNom\">Nombre de cuenta</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_tipoimp\">Tipo Imp.</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_imputacion\">Imputación</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_ccosto\">Centro de costo</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Texto</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Monto</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">Cantidad</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Monto faltante</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Cantidad faltante</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Umedida</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Ant. solicitado</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Ant. pagado</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Ant. amortizado</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Amortización<br>estimación</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_impuesto\">Impuesto</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_monto\">Monto</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_moneda\">Moneda</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lblcantidad\">Cantidad</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_Unidad\">Unidad</th>");
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_impuesto\">Impuesto  </th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">IVA</th>");
-        //$("#table_infoP>thead>tr").append("<th class=\"lbl_Texto\">TEXTO</th>");
-        var colspan = 20;
-        tRet2 = tRet;
-        for (i = 0; i < tRet.length; i++) {//Revisare las retenciones que tienes ligadas
-            $.ajax({
-                type: "POST",
-                url: 'getRetLigadas',
-                data: { 'id': tRet[i] },
-                dataType: "json",
-                success: function (data) {
-                    if (data !== null || data !== "") {
-                        if (data !== "Null") {
-                            tRet2 = jQuery.grep(tRet2, function (value) {
-                                return value !== data;
-                            });
-                        }
-                    }
-                },
-                error: function (xhr, httpStatusMessage, customErrorMessage) {
-                    M.toast({ html: httpStatusMessage });
-                },
-                async: false
-            });
-        }
-        for (i = 0; i < tRet2.length; i++) {//Agregare las columnas extras
-            $("#table_infoP>thead>tr").append("<th class=\"\">" + tRet2[i] + "B. I.</th>");
-            $("#table_infoP>thead>tr").append("<th class=\"\">" + tRet2[i] + "I. R.</th>");
-            colspan++;
-            colspan++;
-        }
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_total\">Total</th>");
-        $("#table_infoP>thead>tr").append("<th class=\"lbl_check\">Check</th>");
-        //Tfoot       
-        var tfoot = $("#table_info tfoot");
-        tfoot.append($("<tr />"));
-        $("#table_infoP>tfoot>tr").append("<th colspan=\"" + colspan + "\" style=\"text-align:right\">Total:</th>");
-        $("#table_infoP>tfoot>tr").append("<th id=\"total_infoP\"></th>");
-        //Se hara un push al arreglo de columnas original
-        for (i = 0; i < tRet2.length; i++) {
-            arrCols.push({
-                "name": tRet2[i] + " B.Imp.",
-                "orderable": false
-            }, {
-                    "name": tRet2[i] + " I. Ret.",
-                    "orderable": false
-                });
-        }
-        //Lej 17.09.18
-        //Para agregar columna texto al final
-        arrCols.push({
-            "name": 'TOTAL',
-            "className": 'TOTAL',
-            "orderable": false
-        });
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_ccosto\">Centro de Costo</th>");    
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_pep\">PEP</th>");    
+        $("#table_infoP>thead>tr").append("<th class=\"lbl_total\">Total</th>");    
 
-        //MGC ADD 03-10-2018 solicitud con orden de compra
-        arrCols.push({
-            "name": 'CHECK',
-            "className": 'CHECK',
-            "orderable": false,
-            "visible": false//MGC 22-10-2018 Etiquetas
-        });
-
-        //Lej 17.09.18
-        extraCols = tRet2.length;
         $('#table_infoP').DataTable({
-            scrollX: true,
-            scrollCollapse: true,
             language: {
                 "url": "../Scripts/lang/ES.json"
             },
@@ -1488,12 +1287,7 @@ function obtenerRetencionesP(flag) {
             "searching": false,
             "columns": arrCols
         });
-
-        //MGC 22-10-2018 Etiquetas------------------------------------------>
-        //Columna tipo de concepto y columna tipo imputación ocultarlas
-
-        //MGC 22-10-2018 Etiquetas------------------------------------------<
-        //Lej 12.09.18-------------------------------------------------------
+        //LEJGG 11-12-2018-----------------------T
     } else {
         //Enviar mensaje de error true
     }
