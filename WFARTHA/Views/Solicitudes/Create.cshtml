@@ -179,6 +179,20 @@
 @using (Html.BeginForm("Create", "Solicitudes", FormMethod.Post, new { enctype = "multipart/form-data", id = "formCreate" }))
 {
     @Html.AntiForgeryToken()
+    //LEJGG 12-12-2018
+    @*<input id="EBELN" name="EBELN" type="hidden" value="">*@
+    @Html.Hidden("EBELN", "")
+    @*<input id="AMOR_ANT" name="AMOR_ANT" type="hidden" value="">*@
+    @Html.Hidden("AMOR_ANT", "")
+    @*<input id="RETPC" name="RETPC" type="hidden" value="">*@
+    @Html.Hidden("RETPC", "")
+    @*<input id="DPPCT" name="DPPCT" type="hidden" value="">*@
+    @Html.Hidden("DPPCT", "")
+    @*<input id="TOAD" name="TOAD" type="hidden" value="">*@
+    @Html.Hidden("TOAD", "")
+    @*<input id="ANTR" name="ANTR" type="hidden" value="">*@
+    @Html.Hidden("ANTR", "")
+    //LEJGG 12-12-2018
     <input id="borr" name="borr" type="hidden" value="">
     <input id="Uuid" name="Uuid" type="hidden" value="">
     <div class="form-horizontal">
@@ -522,13 +536,6 @@
                         <div class="row" style="margin-bottom:0px;">
                             <div class="col s12 m12 l3">
                                 <div id="div_norden_compra" class="input-field col s12" style="display:none">
-                                    <!--ADD RSG 19.10.2018-->
-                                    @*@Html.LabelFor(model => model.FECHA_BASE, "Fecha Base Line NT", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.FECHA_BASE, new { htmlAttributes = new { @class = "form-control fechaVal", @disabled = "disabled" } })
-                                        </div>*@
-                                    @*<input type="text" id="norden_compra" value="" />*@<!--ADD RSG 19.10.2018-->
-                                    @*<select id="norden_compra" onchange="addPedido(this.value);"><option></option></select>*@<!--ADD RSG 19.10.2018-->
                                     <select id="norden_compra"></select><!--ADD RSG 19.10.2018-->
                                     <label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>
                                 </div>
@@ -730,93 +737,94 @@
                             </div>
                             @*BEGIN INSERT RSG 18.10.2018*@
                             <div id="div_conPedido" class="hide" style="overflow-x:auto;">
-                                <div>
-                                    <table class="table display mdl-data-table striped" id="table_infoP" style="width:100%;">
-                                        <thead>
-                                            <tr>
-                                                <th class="lbl_pos">
-                                                    Fila
-                                                </th>
-                                                <th class="lbl_NmAnexo">
-                                                    A1
-                                                </th>
-                                                <th class="lbl_NmAnexo">
-                                                    A2
-                                                </th>
-                                                <th class="lbl_NmAnexo">
-                                                    A3
-                                                </th>
-                                                <th class="lbl_NmAnexo">
-                                                    A4
-                                                </th>
-                                                <th class="lbl_NmAnexo">
-                                                    A5
-                                                </th>
-                                                <th class="lbl_mat">
-                                                    Material
-                                                </th>
-                                                <th id="lbl_Texto" style="text-align:center;">
-                                                    Texto
-                                                </th>
-                                                <th class="lbl_cargoAbono">
-                                                    D/H
-                                                </th>
-                                                <th class="lbl_factura">
-                                                    Factura
-                                                </th>
-                                                <th id="lbl_tconcepto">
-                                                    Tipo Concepto
-                                                </th>
-                                                <th id="lbl_grupo">
-                                                    Concepto
-                                                </th>
-                                                <th id="lbl_cuenta">
-                                                    Cuenta
-                                                </th>
-                                                <th id="lbl_ccosto">
-                                                    Centro de Costo
-                                                </th>
-                                                <th id="lbl_pep">
-                                                    PEP
-                                                </th>
-                                                <th id="lbl_cuentaNom">
-                                                    Nombre de Cuenta
-                                                </th>
-                                                <th id="lbl_tipoimp">
-                                                    Tipo Imp.
-                                                </th>
-                                                <th id="lbl_imputacion">
-                                                    Imputación
-                                                </th>
-                                                <th id="lbl_monto">
-                                                    Monto
-                                                </th>
-                                                <th id="lbl_moneda">
-                                                    Moneda
-                                                </th>
-                                                <th id="lbl_cantidad">
-                                                    Cantidad
-                                                </th>
-                                                <th id="lbl_unidad">
-                                                    Unidad
-                                                </th>
-                                                <th id="lbl_impuesto">
-                                                    Impuesto
-                                                </th>
-                                                <th id="lbl_iva" class="tcent">
-                                                    IVA
-                                                </th>
-                                                <th id="lbl_total">
-                                                    Total
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+                                <table class="table display mdl-data-table striped" id="table_infoP" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="lbl_pos">
+                                                Fila
+                                            </th>
+                                            <th class="lbl_NmAnexo">
+                                                A1
+                                            </th>
+                                            <th class="lbl_NmAnexo">
+                                                A2
+                                            </th>
+                                            <th class="lbl_NmAnexo">
+                                                A3
+                                            </th>
+                                            <th class="lbl_NmAnexo">
+                                                A4
+                                            </th>
+                                            <th class="lbl_NmAnexo">
+                                                A5
+                                            </th>
+                                            <th class="lbl_mat">
+                                                Material
+                                            </th>
+                                            <th id="lbl_Texto" style="text-align:center;">
+                                                Texto
+                                            </th>
+                                            <th class="lbl_cargoAbono">
+                                                D/H
+                                            </th>
+                                            <th class="lbl_factura">
+                                                Factura
+                                            </th>
+                                            <th id="lbl_tconcepto">
+                                                Tipo Concepto
+                                            </th>
+                                            <th id="lbl_grupo">
+                                                Concepto
+                                            </th>
+                                            <th id="lbl_ccosto">
+                                                Centro de Costo
+                                            </th>
+                                            <th id="lbl_pep">
+                                                PEP
+                                            </th>
+                                            <th id="lbl_cuenta">
+                                                Cuenta
+                                            </th>
+                                            <th id="lbl_cuentaNom">
+                                                Nombre de Cuenta
+                                            </th>
+                                            <th id="lbl_tipoimp">
+                                                Tipo Imp.
+                                            </th>
+                                            <th id="lbl_imputacion">
+                                                Imputación
+                                            </th>
+                                            <th id="lbl_monto">
+                                                Monto
+                                            </th>
+                                            <th id="lbl_moneda">
+                                                Moneda
+                                            </th>
+                                            <th id="lbl_cantidad">
+                                                Cantidad
+                                            </th>
+                                            <th id="lbl_unidad">
+                                                Unidad
+                                            </th>
+                                            <th id="lbl_impuesto">
+                                                Impuesto
+                                            </th>
+                                            <th id="lbl_iva" class="tcent">
+                                                IVA
+                                            </th>
+                                            <th id="lbl_total">
+                                                Total
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                                 <table class="table display mdl-data-table striped" id="table_infoPh" style="width:100%; display:none">
                                     <thead>
                                         <tr>
+                                            <th class="lbl_pos">
+                                                POS
+                                            </th>
                                             <th class="lbl_mat">
                                                 Material
                                             </th>

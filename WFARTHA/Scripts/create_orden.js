@@ -326,56 +326,56 @@ $(document).ready(function () {
 
 var pedidosSel = [];
 
-$('body').on('keydown.autocomplete', '#norden_compra', function () {
-    var tr = $(this).closest('tr'); //Obtener el row
-    var t = $('#table_infoP').DataTable();
+//$('body').on('keydown.autocomplete', '#norden_compra', function () {
+//    var tr = $(this).closest('tr'); //Obtener el row
+//    var t = $('#table_infoP').DataTable();
 
-    //Obtener el id de la sociedad
-    var prov = $("#PAYER_ID").val();
-    var pedidosNum = [];
-    //if (prov.trim() !== "") {
-    //    pedidosNum = ["4000000001", "4000000002", "4000000003", "4000000004", "4000000005"];
-    //}
-    auto(this).autocomplete({
-        source: function (request, response) {
-            auto.ajax({
-                type: "POST",
-                url: 'getPedidos',
-                dataType: "json",
-                data: { "Prefix": request.term, "lifnr": prov },
-                success: function (data) {
-                    response(auto.map(data, function (item) {
-                        //return { label: trimStart('0', item.LIFNR) + " - " + item.NAME1, value: trimStart('0', item.LIFNR) };
-                        return { label: trimStart('0', item.EBELN), value: trimStart('0', item.EBELN) };
-                    }))
-                }
-            })
-            //pedidosNum
-        }
-        ,
-        messages: {
-            noResults: '',
-            results: function (resultsCount) { }
-        },
-        change: function (e, ui) {
-            if (!(ui.item)) {
-                e.target.value = "";
-                t.rows().remove().draw(false);
-            }
-        },
-        select: function (event, ui) {
-            pedidosSel = [];
-            var label = ui.item.label;
-            var value = ui.item.value;
-            //for (var i = 0; i < pedidos.length; i++) {
-            //    if (pedidos[i].NUM_PED == value)
-            //        pedidosSel.push(pedidos[i]);
-            //}
-            ////alert(pedidosSel);
-            addPedido(value);
-        }
-    });
-});
+//    //Obtener el id de la sociedad
+//    var prov = $("#PAYER_ID").val();
+//    var pedidosNum = [];
+//    //if (prov.trim() !== "") {
+//    //    pedidosNum = ["4000000001", "4000000002", "4000000003", "4000000004", "4000000005"];
+//    //}
+//    auto(this).autocomplete({
+//        source: function (request, response) {
+//            auto.ajax({
+//                type: "POST",
+//                url: 'getPedidos',
+//                dataType: "json",
+//                data: { "Prefix": request.term, "lifnr": prov },
+//                success: function (data) {
+//                    response(auto.map(data, function (item) {
+//                        //return { label: trimStart('0', item.LIFNR) + " - " + item.NAME1, value: trimStart('0', item.LIFNR) };
+//                        return { label: trimStart('0', item.EBELN), value: trimStart('0', item.EBELN) };
+//                    }))
+//                }
+//            })
+//            //pedidosNum
+//        }
+//        ,
+//        messages: {
+//            noResults: '',
+//            results: function (resultsCount) { }
+//        },
+//        change: function (e, ui) {
+//            if (!(ui.item)) {
+//                e.target.value = "";
+//                t.rows().remove().draw(false);
+//            }
+//        },
+//        select: function (event, ui) {
+//            pedidosSel = [];
+//            var label = ui.item.label;
+//            var value = ui.item.value;
+//            //for (var i = 0; i < pedidos.length; i++) {
+//            //    if (pedidos[i].NUM_PED == value)
+//            //        pedidosSel.push(pedidos[i]);
+//            //}
+//            ////alert(pedidosSel);
+//            addPedido(value);
+//        }
+//    });
+//});
 
 //LEJGG 11/12/2018------------------------------------------------I
 $('body').on('change', '#norden_compra', function (event, param1) {
@@ -385,7 +385,7 @@ $('body').on('change', '#norden_compra', function (event, param1) {
         dataType: "json",
         data: { "ebeln": $(this).val() },
         success: function (data) {
-            var ekko = data.ekko;
+            var ekko = data.ekmo;
             var cuentas = data.res;
             var mtr = data.mtr;
             llenarTablaOc(ekko, cuentas, mtr);
@@ -411,21 +411,24 @@ function armarTabla(info) {
         var t = $(this);
         _t.row(t).remove().draw(false);
     });
+    var totl = 0;
     for (var i = 0; i < info.length; i++) {
         var m = 0;
         var c = 0;
         m = parseFloat(info[i].NETPR_BIL) - parseFloat(info[i].NETPR_DEL);
         c = parseFloat(info[i].MENGE_BIL) - parseFloat(info[i].MENGE_DEL);
-        var ari = addRowInfoP(_t, info[i].EBELP, "", "", "", "", "", info[i].MATNR, "D", "", "", info[i].MATKL, "", "", "", "", info[i].KOSTL, toShow(m), info[i].WAERS, c, info[i].MEINS, "", "", info[i].TXZ01, "", info[i].PS_PSP_PNR);
+        var ari = addRowInfoP(_t, info[i].EBELP, "", "", "", "", "", info[i].MATNR, "D", "", "", info[i].MATKL, info[i].SAKTO, "", info[i].KNTTP, "", info[i].KOSTL, toShow(m), info[i].WAERS, c, info[i].MEINS, "", "", info[i].TXZ01, "", info[i].PS_PSP_PNR);
         //Obtener el select de impuestos en la cabecera
         var idselect = "infoSel" + _numrow;
-
+        totl = totl + parseFloat(m);
         //Obtener el valor 
         var imp = info[i].MWSKZ;
 
         //Crear el nuevo select con los valores de impuestos
         addSelectImpuestoP(ari, imp, idselect, "", "X");
     }
+    $('#MONTO_DOC_MD').val(toShow(totl));
+    $('#mtTot').val($('#MONTO_DOC_MD').val());//Lej 12.12.2018
 }
 
 function addSelectImpuestoP(addedRowInfo, imp, idselect, disabled, clase) {
@@ -533,7 +536,7 @@ function llenaOrdenes(lifnr, bukrs) {
         success: function (data) {
             $("#norden_compra").empty();
             for (var i = 0; i < data.length; i++) {
-                var ebeln = data[i].EBELN;
+                var ebeln = data[i];
                 $("#norden_compra").append($("<option>").attr('value', ebeln).text(ebeln));
             }
 
@@ -663,9 +666,9 @@ function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo
         CUENTANOM,
         TIPOIMP,
         IMPUTACION,
-        "<input  class='MONTO' style='font-size:12px;width:90px;' type='text' id='' name='' value='" + MONTO + "'>",
+        "<input  class='MONTOP' style='font-size:12px;width:90px;' type='text' id='' name='' value='" + MONTO + "'>",
         MONEDA,
-        "<input  class='CANTIDAD' style='font-size:12px;width:90px;' type='text' id='' name='' value='" + CANTIDAD + "'>",
+        "<input  class='CANTIDADP' style='font-size:12px;width:90px;' type='text' id='' name='' value='" + CANTIDAD + "'>",
         UNIDAD,
         IMPUESTO,
         IVA,
@@ -709,38 +712,22 @@ function addRowlP(t, nA, nA2, nA3, nA4, nA5, pos, mtr, txt, ca, factura, tc, gru
 }
 
 function updateFooterP() {
-    resetFooterP();
-
     var t = $('#table_infoP').DataTable();
     var total = 0;
-
     $("#table_infoP > tbody > tr[role = 'row']").each(function (index) {
-        //var col11 = $(this).find("td.TOTAL input").val();
-        var col11 = $(this).find("td.TOTAL input").val();
-
+        var mt = $(this).find("td.MONTO input").val();
+        while (mt.indexOf(',') > -1) {
+            mt = mt.replace('$', '').replace(',', '');
+        }
         //Saber si el renglón se va a sumar
         var tr = $(this);
         var indexopc = t.row(tr).index();
-
-        //Obtener la accion
-        var ac = t.row(indexopc).data()[2];
-
-
-
-        col11 = col11.replace(/\s/g, '');
-        var val = toNum(col11);
-        val = convertI(val);
-        if ($.isNumeric(val)) {
-            if (ac != "H") {
-                total += val;
-            }
-        }
+        total = total + parseFloat(mt);
     });
 
     total = total.toFixed(2);
-
-    $('#total_infoP').text(toShow(total));
-    $('#MONTO_DOC_MD').val(toShow(total));//Lej 18.09.2018
+    $('#MONTO_DOC_MD').val(toShow(total));//Lej 12.12.2018
+    $('#mtTot').val($('#MONTO_DOC_MD').val());//Lej 12.12.2018
 }
 
 $('body').on('change', '.IMPUESTOP_SELECT', function (event, param1) {
@@ -803,6 +790,23 @@ function resetFooterP() {
 
 function copiarTableInfoPControl() {
 
+    //Tambien pasar los datos de la tabla "tableoc"
+    var ebeln = $("#norden_compra").val();
+    $("#tableOC tbody tr[role='row']").each(function () {
+        var _t = $(this);
+        var amor_ant = _t.find("td.AmortAnt input").val();
+        var retpc = _t.find("td.FondoGarantia").text();
+        var dppct = _t.find("td.MontoAntT").text();
+        var toad = _t.find("td.AntSol").text();
+        var antr = _t.find("td.AntTr").text();
+        //
+        $('#EBELN').val(ebeln.toString());
+        $('#AMOR_ANT').val(parseFloat(toNum(amor_ant)));
+        $('#RETPC').val(parseFloat(toNum(retpc)));
+        $('#DPPCT').val(parseFloat(toNum(dppct)));
+        $('#TOAD').val(parseFloat(toNum(toad)));
+        $('#ANTR').val(parseFloat(toNum(antr)));
+    });
     var lengthT = $("table#table_infoP tbody tr[role='row']").length;
     var docsenviar = {};
     var docsenviar2 = {};
@@ -830,42 +834,45 @@ function copiarTableInfoPControl() {
         $("#table_inforeth>thead>tr").append("<th>B.Imp.</th>");//Base imponible
         //Lej 14.09.18----------------
         $("#table_infoP > tbody  > tr[role='row']").each(function () {
-
             //Obtener el row para el plugin
             var tr = $(this);
             var indexopc = t.row(tr).index();
-
             var tconcepto = "";
-            //Obtener el concepto
-            var inpt = t.row(indexopc).data()[9];
-            //LEJ 03-10-2018
-            if (inpt !== "") {
-                tconcepto = "";
-            }
-            else {
-                tconcepto = "";
-            }
+           
             //LEJ 03-10-2018
             //MGC 11-10-2018 Obtener valor de columnas ocultas --------------------------->
             //Obtener la cuenta
-            var cuenta = t.row(indexopc).data()[15];
-
+            var cuenta = t.row(indexopc).data()[14];
+            if (cuenta == "") {
+                cuenta = "S/I";
+            }
             //Obtener la imputación
-            var imputacion = t.row(indexopc).data()[18];
+            var imputacion = t.row(indexopc).data()[17];
 
             //MGC 11-10-2018 Obtener valor de columnas ocultas <---------------------------
             //Lej 14.08.2018-------------------------------------------------------------I
             var colsAdded = tRet2.length;//Las retenciones que se agregaron a la tabla
             var retTot = tRet.length;//Todas las retenciones
             //Lej 14.08.2018-------------------------------------------------------------T
-            var pos = toNum($(this).find("td.POS").text());
-            var ca = t.row(indexopc).data()[9];//lejgg 09-10-2018 Conceptos
-            var factura = t.row(indexopc).data()[10];//lejgg 12-12-2018
+            var pos = parseInt($(this).find("td.POS").text());
+            var ca = t.row(indexopc).data()[8];//lejgg 09-10-2018 Conceptos
+            if (ca == "") {
+                ca = "D";
+            }
+            var factura = t.row(indexopc).data()[9];//lejgg 12-12-2018
             var grupo = $(this).find("td.GRUPO").text();
-            var cuentanom = t.row(indexopc).data()[16];
-            var tipoimp = t.row(indexopc).data()[17];
+            tconcepto = grupo;//13-12-2018
+            var cuentanom = t.row(indexopc).data()[15];
+            if (cuentanom == "") {
+                cuentanom = "S/I";
+            }
+            var tipoimp = t.row(indexopc).data()[16];
             var ccosto = $(this).find("td.CCOSTO").text(); //MGC 11-10-2018 Obtener valor de columnas oculta
-            var impuesto = t.row(indexopc).data()[23];
+            var impuesto = t.row(indexopc).data()[22];
+            var pep = $(this).find("td.PEP").text(); //lejgg 12-12-2018
+            var material = $(this).find("td.MATERIAL").text(); //lejgg 12-12-2018
+            var moneda = $(this).find("td.MONEDA").text(); //lejgg 12-12-2018
+            var unidad = $(this).find("td.UNIDAD").text(); //lejgg 12-12-2018
             var monto1 = $(this).find("td.MONTO input").val();
             while (monto1.indexOf(',') > -1) {
                 monto1 = monto1.replace('$', '').replace(',', '');
@@ -874,10 +881,12 @@ function copiarTableInfoPControl() {
             var monto = toNum(monto1);
             var iva1 = $(this).find("td.IVA select").val();
             iva1 = iva1.replace(/\s/g, '');
-            var total1 = 0;
+            var total1 = $('#MONTO_DOC_MD').val();
             var texto = $(this).find("td.TXTPOS").text();//LEJ 14.09.2018
-            total1 = 0;
-            var total = toNum(0);
+            while (total1.indexOf(',') > -1) {
+                total1 = total1.replace('$', '').replace(',', '');
+            }
+            var total = parseFloat(total1);
             //Para anexos
             //-----------------------
 
@@ -897,10 +906,11 @@ function copiarTableInfoPControl() {
 
             //LEJGG-12-12-2018-----------------------
             var item4 = {};
-            item4["MATNR"] = "";
-            item4["PS_PSP_PNR"] = "";
-            item4["WAERS"] = "MXN";
-            item4["MEINS"] = "";
+            item4["POS"] = pos;
+            item4["MATNR"] = material;
+            item4["PS_PSP_PNR"] = pep;
+            item4["WAERS"] = moneda;
+            item4["MEINS"] = unidad;
             jsonObjDocs4.push(item4);
             item4 = "";
             //LEJGG-12-12-2018-----------------------
@@ -923,19 +933,19 @@ function copiarTableInfoPControl() {
             item["NUM_DOC"] = 0;
             item["POS"] = "";
             item["ACCION"] = ca;
-            item["FACTURA"] = "";
-            item["TCONCEPTO"] = "";
-            item["GRUPO"] = "";
-            item["CUENTA"] = "0000000000";
-            item["NOMCUENTA"] = "";
-            item["TIPOIMP"] = "";
-            item["IMPUTACION"] = "";
+            item["FACTURA"] = factura;
+            item["TCONCEPTO"] = tconcepto;
+            item["GRUPO"] = grupo;
+            item["CUENTA"] = cuenta;
+            item["NOMCUENTA"] = cuentanom;
+            item["TIPOIMP"] = tipoimp;
+            item["IMPUTACION"] = pep;
             item["CCOSTO"] = ccosto;
             item["MONTO"] = monto;
-            item["MWSKZ"] = "";
-            item["IVA"] = "";
+            item["MWSKZ"] = iva1;
+            item["IVA"] = "";//porcentaje del iva
             item["TEXTO"] = texto;
-            item["TOTAL"] = "";
+            item["TOTAL"] = total;
 
             jsonObjDocs.push(item);
             i++;
@@ -1011,14 +1021,11 @@ function copiarTableInfoPControl() {
             type: "POST",
             url: 'getPartialCon5',
             contentType: "application/json; charset=UTF-8",
-            data: docsenviar3,
+            data: docsenviar4,
             success: function (data) {
-
                 if (data !== null || data !== "") {
-
                     $("table#table_infoPh tbody").append(data);
                 }
-
             },
             error: function (xhr, httpStatusMessage, customErrorMessage) {
                 M.toast({ html: httpStatusMessage });
@@ -1026,7 +1033,6 @@ function copiarTableInfoPControl() {
             async: false
         });
     }
-
 }
 
 function conOrden() {
@@ -1360,35 +1366,13 @@ $('body').on('focusout', '.extrasPC', function (e) {
         } else {
             _iva = parseFloat(_iva.replace(',', ''));
         }
-        var _ttal = (_mnt + _iva) - sumarColumnasExtras(tr);;
+        var _ttal = (_mnt + _iva) - sumarColumnasExtras(tr);
         //actualizar el total
         tr.find("td.TOTAL input").val(toShow(_ttal));
         //--------------------------------------LEJ18102018----------------------<
     }
     $(this).val("$" + _nnm.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    updateFooter();
-    /*$("#table_info > tbody > tr[role = 'row']").each(function (index) {
-        for (x = 0; x < tRet2.length; x++) {
-            var _var = "BaseImp" + x;
-            _v2 = "BaseImp" + (tRet2[x]);
-            if (_this.hasClass(_var)) {
-                centi = x;
-                break;
-            }
-        }
-        var colex = $(this).find("td." + _v2 + " input").val().replace("$", "").replace(',', '');
-        //de esta manera saco el renglon y la celad en especifico
-        var er = $('#table_ret tbody tr').eq(x).find('td').eq(3).text().replace('$', '');;
-        var txbi = $.trim(colex);
-        var sum = parseFloat(txbi);
-        // sum = parseFloat(sum + y).toFixed(2);
-        total += sum;
-
-    });
-    if (centi != 9999) {
-        $('#table_ret tbody tr').eq(centi).find('td').eq(3).text('$' + total.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        $('#table_ret tbody tr').eq(centi + 2).find('td').eq(3).text('$' + total.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    }*/
+    updateFooter();   
     llenarRetencionesBImpP();
     llenarRetencionesIRetP();
 });
@@ -1450,6 +1434,21 @@ $('body').on('focusout', '.amor_ant', function (e) {
     var famant = toShow(amorant);
     tr.find("td.AmortAnt input").val();
     tr.find("td.AmortAnt input").val(famant);
+});
+
+$('body').on('focusout', '.MONTOP', function (e) {
+    var t = $('#table_infoP').DataTable();
+    var tr = $(this).closest('tr'); //Obtener el row 
+
+    var monto = $(this).val().replace('$', '').replace(',', ''); //Obtener el row 
+    while (monto.indexOf(',') > -1) {
+        monto = monto.replace('$', '').replace(',', '');
+    }
+    monto = parseFloat(monto);
+    var _mt = toShow(monto);
+    tr.find("td.MONTO input").val();
+    tr.find("td.MONTO input").val(_mt);
+    updateFooterP();
 });
 //LEJGG 12-12-2018----------------------------------T
 function sumarizarTodoRowP(_this) {

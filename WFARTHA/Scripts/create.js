@@ -547,6 +547,7 @@ $(document).ready(function () {
 
         if (valTsol() == "SCO") {
             copiarTableInfoPControl();
+            $('#btn_guardar').trigger("click");
         }
         else {
             if (!statSend) {
