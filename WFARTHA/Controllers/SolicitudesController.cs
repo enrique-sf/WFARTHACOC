@@ -1095,7 +1095,8 @@ namespace WFARTHA.Controllers
             "MONTO_BASE_NS_PCT_ML2,PORC_ADICIONAL,IMPUESTO,ESTATUS_EXT,PAYER_ID,MONEDA_ID,MONEDAL_ID,MONEDAL2_ID," +
             "TIPO_CAMBIO,TIPO_CAMBIOL,TIPO_CAMBIOL2,NO_FACTURA,FECHAD_SOPORTE,METODO_PAGO,NO_PROVEEDOR,PASO_ACTUAL," +
             "AGENTE_ACTUAL,FECHA_PASO_ACTUAL,PUESTO_ID,GALL_ID,CONCEPTO_ID,DOCUMENTO_SAP,FECHACON,FECHA_BASE,REFERENCIA," +
-            "CONDICIONES,TEXTO_POS,ASIGNACION_POS,CLAVE_CTA, DOCUMENTOP,DOCUMENTOR,DOCUMENTORP,DOCUMENTOA_TAB,Anexo")] Models.DOCUMENTO_MOD doc, IEnumerable<HttpPostedFileBase> file_sopAnexar, string[] labels_desc,
+            "CONDICIONES,TEXTO_POS,ASIGNACION_POS,CLAVE_CTA, DOCUMENTOP,DOCUMENTOR,DOCUMENTORP,DOCUMENTOA_TAB,Anexo,"+
+            "DOCUMENTOCOC,EBELN,AMOR_ANT,RETPC,DPPCT,TOAD,ANTR")] Models.DOCUMENTO_MOD doc, IEnumerable<HttpPostedFileBase> file_sopAnexar, string[] labels_desc,
             //MGC 02-10-2018 Cadenas de autorización
             string DETTA_VERSION, string DETTA_USUARIOC_ID, string DETTA_ID_RUTA_AGENTE, string mtTot, string DETTA_USUARIOA_ID, string borr, string FECHADO, string Uuid)
         {
@@ -1214,11 +1215,19 @@ namespace WFARTHA.Controllers
 
                     //Estatus wf
                     //dOCUMENTO.ESTATUS_WF = "P";//MGC 30-10-2018 Si el wf es p es que no se ha creado, si es A, es que se creo el archivo, cambia al generar el preliminar
-
+                    //LEJGG 12-12-2018
+                    dOCUMENTO.EBELN = doc.EBELN;
+                    dOCUMENTO.AMOR_ANT = doc.AMOR_ANT;
+                    dOCUMENTO.RETPC = doc.RETPC;
+                    dOCUMENTO.DPPCT = doc.DPPCT;
+                    dOCUMENTO.TOAD = doc.TOAD;
+                    dOCUMENTO.ANTR = doc.ANTR;
+                    //LEJGG 12-12-2018
                     db.DOCUMENTOes.Add(dOCUMENTO);
-                    db.SaveChanges();//Codigolej
+                    db.SaveChanges();
 
                     doc.NUM_DOC = dOCUMENTO.NUM_DOC;
+                    var _ndoc = dOCUMENTO.NUM_DOC;
                     //return RedirectToAction("Index");
 
                     //Redireccionar al inicio
@@ -1237,15 +1246,10 @@ namespace WFARTHA.Controllers
                         int j = 1;
                         for (int i = 0; i < doc.DOCUMENTOP.Count; i++)
                         {
-
                             try
                             {
-
                                 decimal _error_imputacion = 0;
-
-
                                 DOCUMENTOP dp = new DOCUMENTOP();
-
                                 dp.NUM_DOC = doc.NUM_DOC;
                                 dp.POS = j;
                                 dp.ACCION = doc.DOCUMENTOP[i].ACCION;
@@ -1299,8 +1303,33 @@ namespace WFARTHA.Controllers
 
                     }
 
-                    //FRT25112018 cambio para guardar anexos
+                    //LEJGG 12-12-2018----------------------------------------I
+                    if (doc.TSOL_ID == "SCO")
+                    {
+                        for (int i = 0; i < doc.DOCUMENTOCOC.Count; i++)
+                        {
+                            try
+                            {
+                                DOCUMENTOCOC dcoc = new DOCUMENTOCOC();
+                                dcoc.NUM_DOC = _ndoc;
+                                dcoc.POSD = i + 1;
+                                dcoc.POS = doc.DOCUMENTOCOC[i].POS;
+                                dcoc.MATNR = doc.DOCUMENTOCOC[i].MATNR;
+                                dcoc.PS_PSP_PNR = doc.DOCUMENTOCOC[i].PS_PSP_PNR;
+                                dcoc.WAERS = doc.DOCUMENTOCOC[i].WAERS;
+                                dcoc.MEINS = doc.DOCUMENTOCOC[i].MEINS;
+                                db.DOCUMENTOCOCs.Add(dcoc);
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                                //
+                            }
+                        }
+                    }
+                    //LEJGG 12-12-2018----------------------------------------T
 
+                    //FRT25112018 cambio para guardar anexos
                     List<string> listaDirectorios = new List<string>();
                     List<string> listaNombreArchivos = new List<string>();
                     List<string> listaDescArchivos = new List<string>();
@@ -5791,7 +5820,7 @@ namespace WFARTHA.Controllers
             doc.Anexo = docs;
             return PartialView("~/Views/Solicitudes/_PartialConTr3.cshtml", doc);
         }
-              
+
         [HttpPost]
         public ActionResult getPartialCon4(List<DOCUMENTOA_TAB> docs, decimal nd)
         {
@@ -5828,7 +5857,7 @@ namespace WFARTHA.Controllers
             doc.DOCUMENTOR = docs;
             return PartialView("~/Views/Solicitudes/_PartialRetTr.cshtml", doc);
         }
-               
+
         [HttpPost]
         public JsonResult getRetenciones(List<DOCUMENTOR_MOD> items, string bukrs, string lifnr)
         {
@@ -7555,10 +7584,14 @@ namespace WFARTHA.Controllers
                         lifnr = _li;
                     }
                 }
+                List<string> lstebeln = new List<string>();
                 //LEJGG 10-12-2018
                 var c = db.EKKOes.Where(x => x.LIFNR == lifnr && x.BUKRS == bukrs).ToList();
-
-                JsonResult jc = Json(c, JsonRequestBehavior.AllowGet);
+                for (int i = 0; i < c.Count; i++)
+                {
+                    lstebeln.Add(c[i].EBELN);
+                }
+                JsonResult jc = Json(lstebeln, JsonRequestBehavior.AllowGet);
                 return jc;
             }
             catch (Exception e)
@@ -7645,6 +7678,12 @@ namespace WFARTHA.Controllers
         {
             //Traigo la info
             var ekko = db.EKKOes.Where(x => x.EBELN == ebeln).FirstOrDefault();
+
+            EKKO_MOD ekmo = new EKKO_MOD();
+            ekmo.RETPC = ekko.RETPC;
+            ekmo.DPPCT = ekko.DPPCT;
+            ekmo.DPAMT = ekko.DPAMT;
+
             //Traigo los montos
             var ekbe = db.EKBEs.Where(x => x.EBELN == ebeln).ToList();
             decimal? As = 0;
@@ -7660,6 +7699,7 @@ namespace WFARTHA.Controllers
                     Tres = Tres + ekbe[i].WRBTR;
                 }
             }
+
             //Traigo el monto en transito
             var docmt = db.DOCUMENTOes.Where(x => x.EBELN == ebeln && x.ESTATUS != "A" && x.ESTATUS_C != "C").ToList();
             decimal? mtr = 0;
@@ -7668,7 +7708,7 @@ namespace WFARTHA.Controllers
                 mtr = mtr + docmt[i].MONTO_DOC_MD;
             }
             string res = As + "-" + Tres;
-            var _r = new { ekko, res, mtr };
+            var _r = new { ekmo, res, mtr };
             JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
             return jc;
         }
