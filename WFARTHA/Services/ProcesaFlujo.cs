@@ -414,7 +414,10 @@ namespace WFARTHA.Services
                     //d.ESTATUS_WF = "P";//MGC 30-10-2018 Modificaión para validar creación del archivo
                     db.Entry(d).State = EntityState.Modified;
                     db.SaveChanges();
-                    if (ts == "SCO") { }
+                    if (ts == "SCO") {
+                        flujo fl = new flujo();
+                        fl.procesacoc(d.NUM_DOC);
+                    }
                 }
             }
             else if (f.ESTATUS.Equals("A"))   //---------------------EN PROCESO DE APROBACIÓN
