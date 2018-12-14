@@ -630,6 +630,9 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.EKBEEXCEL$' no tiene definida 
           <Property Name="KNTTP" Type="nchar" MaxLength="1" />
           <Property Name="PS_PSP_PNR" Type="nvarchar" MaxLength="30" />
           <Property Name="KOSTL" Type="nvarchar" MaxLength="10" />
+          <Property Name="ESTATUS" Type="nchar" MaxLength="2" />
+          <Property Name="EREKZ" Type="nchar" MaxLength="1" />
+          <Property Name="NETWR" Type="nvarchar" MaxLength="13" />
         </EntityType>
         <EntityType Name="EKPO_DUMMY">
           <Key>
@@ -701,6 +704,9 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.EKBEEXCEL$' no tiene definida 
           <Property Name="ID_RUTA_A" Type="nchar" MaxLength="10" />
           <Property Name="RUTA_VERSION" Type="int" />
           <Property Name="STEP_AUTO" Type="int" />
+          <Property Name="VERSIONC1" Type="int" Nullable="false" />
+          <Property Name="VERSIONC2" Type="int" Nullable="false" />
+          <Property Name="FECHACON" Type="datetime" />
         </EntityType>
         <EntityType Name="FORMATO">
           <Key>
@@ -3617,6 +3623,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="KNTTP" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="PS_PSP_PNR" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="KOSTL" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="EREKZ" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="NETWR" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EKPO_DUMMY">
           <Key>
@@ -3688,6 +3697,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="ID_RUTA_A" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="RUTA_VERSION" Type="Int32" />
           <Property Name="STEP_AUTO" Type="Int32" />
+          <Property Name="VERSIONC1" Type="Int32" Nullable="false" />
+          <Property Name="VERSIONC2" Type="Int32" Nullable="false" />
+          <Property Name="FECHACON" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DOCUMENTO" Relationship="Self.FK_FLUJO_DOCUMENTO" FromRole="FLUJO" ToRole="DOCUMENTO" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_FLUJO_USUARIO" FromRole="FLUJO" ToRole="USUARIO" />
           <NavigationProperty Name="USUARIO1" Relationship="Self.FK_FLUJO_USUARIO1" FromRole="FLUJO" ToRole="USUARIO" />
@@ -6445,6 +6457,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="KNTTP" ColumnName="KNTTP" />
                 <ScalarProperty Name="PS_PSP_PNR" ColumnName="PS_PSP_PNR" />
                 <ScalarProperty Name="KOSTL" ColumnName="KOSTL" />
+                <ScalarProperty Name="ESTATUS" ColumnName="ESTATUS" />
+                <ScalarProperty Name="EREKZ" ColumnName="EREKZ" />
+                <ScalarProperty Name="NETWR" ColumnName="NETWR" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6510,6 +6525,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="ID_RUTA_A" ColumnName="ID_RUTA_A" />
                 <ScalarProperty Name="RUTA_VERSION" ColumnName="RUTA_VERSION" />
                 <ScalarProperty Name="STEP_AUTO" ColumnName="STEP_AUTO" />
+                <ScalarProperty Name="VERSIONC1" ColumnName="VERSIONC1" />
+                <ScalarProperty Name="VERSIONC2" ColumnName="VERSIONC2" />
+                <ScalarProperty Name="FECHACON" ColumnName="FECHACON" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

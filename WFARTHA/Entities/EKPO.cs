@@ -36,5 +36,8 @@ namespace WFARTHA.Entities
         public string KNTTP { get; set; }
         public string PS_PSP_PNR { get; set; }
         public string KOSTL { get; set; }
+        public string ESTATUS { get; set; }
+        public string EREKZ { get; set; }
+        public string NETWR { get; set; }
     }
 }

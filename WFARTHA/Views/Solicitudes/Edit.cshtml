@@ -347,10 +347,10 @@
                                 </script>
                                 @*MGC 03-10-2018 solicitud con orden de compra -->*@
                                 @*<div class="form-group col s3">*@
-                                <div id="div_norden_compra" class="input-field col s3" style="display:none">
-                                    <input type="text" id="norden_compra" value="" />
-                                    <label for="norden_compra" id="lbl_norden_compra">Orden de Compra</label>
-                                </div>
+                                @*<div id="div_norden_compra" class="input-field col s3" style="display:none">
+                                        <input type="text" id="norden_compra" value="" />
+                                        <label for="norden_compra" id="lbl_norden_compra">Orden de Compra</label>
+                                    </div>*@
                                 @*MGC 03-10-2018 solicitud con orden de compra <--*@
                             </div>
 
@@ -593,6 +593,42 @@
         @*Información Contable*@
         <div id="Contable_cont" class="col s12" style="font-size:12px;">
             <div class="row">
+                <div class="col s12 hide" id="div_garantia">
+                    <div class="card-panel">
+                        @*MGC 29-10-2018 Agregar funcionalidad de proyecto ---------------------------------------------------->*@
+                        @{string proy = ViewBag.pid + "";}
+                        @Html.Hidden("PROY_SEL", proy)
+                        @*MGC 29-10-2018 Agregar funcionalidad de proyecto ----------------------------------------------------<*@
+                        <div class="row" style="margin-bottom:0px;">
+                            <div class="col s12 m12 l3">
+                                <div id="div_norden_compra" class="input-field col s12" style="display:none">
+                                    <select id="norden_compra"></select><!--ADD RSG 19.10.2018-->
+                                    <label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l9">
+                                <div class="row" style="margin-bottom:0px;">
+                                    <div class="col s12" style="overflow-x:auto;">
+                                        <table class="mdl-data-table striped" id="tableOC">
+                                            <thead>
+                                                <tr>
+                                                    <th>% Fondo de Garantía</th>
+                                                    <th>Amortización Anticipo</th>
+                                                    <th>Monto Anticipo Total</th>
+                                                    <th>Anticipo Amortizado</th>
+                                                    <th>% Anticipo</th>
+                                                    <th>Anticipo Solicitado</th>
+                                                    <th>Anticipo En Transito</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col s12">
                     <div class="card-panel">
                         <h5 id="head_cabecera">Detalle</h5>

@@ -10,6 +10,12 @@ $(document).ready(function () {
         "info": false,
         "ordering": false,
         "searching": false,
+        columnDefs: [
+            {
+                targets: [0, 6, 7, 11, 19, 21],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
         "columns": [
             {
                 "name": 'Fila',
@@ -149,6 +155,8 @@ $(document).ready(function () {
         ]
     });
 
+    formatoTcoc();//lejgg 12-12-2018
+
     $('#tableOC').DataTable({
         language: {
             "url": "../Scripts/lang/ES.json"
@@ -159,13 +167,24 @@ $(document).ready(function () {
         "searching": false,
         "columns": [
             {
+                "className": 'BRTWR',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
                 "className": 'FondoGarantia',
                 "defaultContent": '',
                 "orderable": false
             },
             {
-                "name": 'AmortAnt',
-                "className": 'AmortAnt',
+                "name": 'PorAnt',
+                "className": 'PorAnt',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'AntSol',
+                "className": 'AntSol',
                 "orderable": false,
                 "visible": true
             },
@@ -182,20 +201,14 @@ $(document).ready(function () {
                 "visible": true
             },
             {
-                "name": 'PorAnt',
-                "className": 'PorAnt',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "name": 'AntSol',
-                "className": 'AntSol',
-                "orderable": false,
-                "visible": true
-            },
-            {
                 "name": 'AntTr',
                 "className": 'AntTr',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'AmortAnt',
+                "className": 'AmortAnt',
                 "orderable": false,
                 "visible": true
             }
@@ -388,7 +401,8 @@ $('body').on('change', '#norden_compra', function (event, param1) {
             var ekko = data.ekmo;
             var cuentas = data.res;
             var mtr = data.mtr;
-            llenarTablaOc(ekko, cuentas, mtr);
+            var brtwr = data.brtwr;
+            llenarTablaOc(ekko, cuentas, mtr, brtwr);
         }
     });
     $.ajax({
@@ -428,6 +442,17 @@ function armarTabla(info) {
         addSelectImpuestoP(ari, imp, idselect, "", "X");
     }
     $('#MONTO_DOC_MD').val(toShow(totl));
+    //alinear a la izq
+    $("#table_infoP tbody tr[role='row']").each(function () {
+        //1
+        var R1 = $(this).find("td.GRUPO");
+        R1.css("text-align", "left");
+        //2
+        var R2 = $(this).find("td.MONEDA");
+        R2.css("text-align", "left");
+        var U = $(this).find("td.UNIDAD");
+        U.css("text-align", "left");
+    });
     $('#mtTot').val($('#MONTO_DOC_MD').val());//Lej 12.12.2018
 }
 
@@ -456,23 +481,24 @@ function addSelectImpuestoP(addedRowInfo, imp, idselect, disabled, clase) {
     $('.IMPUESTO_SELECT option[value="' + imp.trim() + '"]').attr("selected", true);
 }
 
-function llenarTablaOc(a, b, mtr) {
+function llenarTablaOc(a, b, mtr, brtwr) {
     var tabl = $('#tableOC').DataTable();
     //Limpio primero la tabla
     $("#tableOC tbody tr[role='row']").each(function () {
         var _t = $(this);
         tabl.row(_t).remove().draw(false);
     });
-    var c = b.split('-');
+    var c = b.split('?');
     //Añado los datos
     tabl.row.add([
-        a.RETPC,
-        "<input class=\"amor_ant\" style=\"font-size:12px;\" type=\"text\" id=\"amor_ant\" name=\"\" value=\"\">",
-        toShow(c[0]),
-        toShow(c[1]),
+        toShow(brtwr),
+        a.RETPC,               
         a.DPPCT,
-        toShow(a.DPAMT),
-        toShow(mtr)
+        toShow(c[0]),       
+        toShow(c[2]),
+        toShow(c[1]),
+        toShow(mtr),//ant en transito
+        "<input class=\"amor_ant\" style=\"font-size:12px;\" type=\"text\" id=\"amor_ant\" name=\"\" value=\"\">"
     ]).draw(false).node();
     alinearTOC();
 }
@@ -481,6 +507,8 @@ function llenarTablaOc(a, b, mtr) {
 function alinearTOC() {
     //--------
     //Para los titulos
+    var t0 = $("#tableOC>thead>tr").find('th.BRTWR ');
+    t0.css("text-align", "left");
     var t1 = $("#tableOC>thead>tr").find('th.FondoGarantia ');
     t1.css("text-align", "left");
     var t2 = $("#tableOC>thead>tr").find('th.AmortAnt');
@@ -497,6 +525,9 @@ function alinearTOC() {
     t7.css("text-align", "left");
     //--------
     $("#tableOC > tbody  > tr[role='row']").each(function () {
+        //0
+        var R0 = $(this).find("td.BRTWR");
+        R0.css("text-align", "left");
         //1
         var R1 = $(this).find("td.FondoGarantia");
         R1.css("text-align", "left");
@@ -838,7 +869,7 @@ function copiarTableInfoPControl() {
             var tr = $(this);
             var indexopc = t.row(tr).index();
             var tconcepto = "";
-           
+
             //LEJ 03-10-2018
             //MGC 11-10-2018 Obtener valor de columnas ocultas --------------------------->
             //Obtener la cuenta
@@ -1316,15 +1347,41 @@ function obtenerRetencionesP(flag) {
             "ordering": false,
             "info": false,
             "searching": false,
-            "columns": arrCols
+            "columns": arrCols,
+            columnDefs: [
+                {
+                    targets: [0, 6, 7, 11, 19, 21],
+                    className: 'mdl-data-table__cell--non-numeric'
+                }
+            ]
         });
         //LEJGG 11-12-2018-----------------------T
+        //darle formato a la tabla
+        formatoTcoc();
     } else {
         //Enviar mensaje de error true
     }
 }
 
-
+function formatoTcoc() {
+    //--------
+    //Para los titulos
+    var tpo = $("#table_infoP>thead>tr").find('th.POS');
+    tpo.css("text-align", "left");
+    var ts = $("#table_infoP>thead>tr").find('th.TXTPOS');
+    ts.css("text-align", "center");
+    var tn = $("#table_infoP>thead>tr").find('th.GRUPO');
+    tn.css("text-align", "left");
+    var mt = $("#table_infoP>thead>tr").find('th.MONTO');
+    mt.css("text-align", "left");
+    var ct = $("#table_infoP>thead>tr").find('th.CANTIDAD');
+    ct.css("text-align", "left");
+    var tt = $("#table_infoP>thead>tr").find('th.PEP');
+    tt.css("text-align", "center");
+    var tde = $("#table_infoP>thead>tr").find('th.IVA');
+    tde.css("text-align", "left");
+    //--------
+}
 $('body').on('focusout', '.extrasPC', function (e) {
     //var y = parseFloat(num);
     var total = 0;
@@ -1372,7 +1429,7 @@ $('body').on('focusout', '.extrasPC', function (e) {
         //--------------------------------------LEJ18102018----------------------<
     }
     $(this).val("$" + _nnm.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    updateFooter();   
+    updateFooter();
     llenarRetencionesBImpP();
     llenarRetencionesIRetP();
 });
