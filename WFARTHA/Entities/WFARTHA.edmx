@@ -203,6 +203,17 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.CONCEPTO$' no tiene definida u
           <Property Name="ID_USUARIO" Type="nvarchar" MaxLength="16" Nullable="false" />
           <Property Name="STEP_FASE" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="DET_APROB0">
+          <Key>
+            <PropertyRef Name="VERSION" />
+            <PropertyRef Name="ID_SOCIEDAD" />
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="VERSION" Type="int" Nullable="false" />
+          <Property Name="ID_SOCIEDAD" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="STEP_FASE" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DET_K">
           <Key>
             <PropertyRef Name="BUKRS" />
@@ -516,6 +527,7 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="WAERS" Type="nchar" MaxLength="3" />
           <Property Name="DMBTR" Type="decimal" Precision="13" Scale="2" />
           <Property Name="WRBTR" Type="decimal" Precision="13" Scale="2" />
+          <Property Name="SHKZG" Type="nchar" MaxLength="1" />
           <Property Name="BUDAT" Type="date" />
           <Property Name="XBLNR" Type="nchar" MaxLength="16" />
         </EntityType>
@@ -543,6 +555,24 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="BUDAT" Type="date" />
           <Property Name="XBLNR" Type="nchar" MaxLength="16" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'PAGOS301I.dbo.EKBEEXCEL$' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="EKBEEXCEL$">
+          <Property Name="EBEL" Type="nchar" MaxLength="10" />
+          <Property Name="EBELP" Type="nvarchar" MaxLength="5" />
+          <Property Name="ZEKKN" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="VGABE" Type="nchar" MaxLength="1" />
+          <Property Name="GJAHR" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="BELNR" Type="nchar" MaxLength="10" />
+          <Property Name="BUZEI" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="BEWTP" Type="nchar" MaxLength="1" />
+          <Property Name="WAERS" Type="nchar" MaxLength="3" />
+          <Property Name="DMBTR" Type="decimal" Precision="13" Scale="2" />
+          <Property Name="WRBTR" Type="decimal" Precision="13" Scale="2" />
+          <Property Name="SHKZG" Type="nchar" MaxLength="1" />
+          <Property Name="BUDAT" Type="date" />
+          <Property Name="XBLNR" Type="nchar" MaxLength="16" />
+        </EntityType>-->
         <EntityType Name="EKKO">
           <Key>
             <PropertyRef Name="EBELN" />
@@ -1198,6 +1228,24 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.CARPETAV' no tiene definida ni
           <Property Name="URL" Type="nvarchar" MaxLength="50" />
           <Property Name="TXT50" Type="nvarchar" MaxLength="50" />
           <Property Name="ICON" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'PAGOS301I.dbo.DET_APROB0V' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DET_APROB0V">
+          <Key>
+            <PropertyRef Name="VERSION" />
+            <PropertyRef Name="ID_SOCIEDAD" />
+            <PropertyRef Name="SOCIEDAD" />
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="USUARIO" />
+            <PropertyRef Name="STEP_FASE" />
+          </Key>
+          <Property Name="VERSION" Type="int" Nullable="false" />
+          <Property Name="ID_SOCIEDAD" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="SOCIEDAD" Type="nvarchar" MaxLength="107" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="USUARIO" Type="nvarchar" MaxLength="171" Nullable="false" />
+          <Property Name="STEP_FASE" Type="int" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'PAGOS301I.dbo.DET_APROBV' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -2396,6 +2444,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <EntitySet Name="DET_AGENTECA" EntityType="Self.DET_AGENTECA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DET_AGENTECC" EntityType="Self.DET_AGENTECC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DET_APROB" EntityType="Self.DET_APROB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DET_APROB0" EntityType="Self.DET_APROB0" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DET_K" EntityType="Self.DET_K" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DET_PEP" EntityType="Self.DET_PEP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DET_PROVEEDOR" EntityType="Self.DET_PROVEEDOR" Schema="dbo" store:Type="Tables" />
@@ -2483,6 +2532,16 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
     [CARPETAV].[TXT50] AS [TXT50], 
     [CARPETAV].[ICON] AS [ICON]
     FROM [dbo].[CARPETAV] AS [CARPETAV]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DET_APROB0V" EntityType="Self.DET_APROB0V" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DET_APROB0V].[VERSION] AS [VERSION], 
+    [DET_APROB0V].[ID_SOCIEDAD] AS [ID_SOCIEDAD], 
+    [DET_APROB0V].[SOCIEDAD] AS [SOCIEDAD], 
+    [DET_APROB0V].[ID_USUARIO] AS [ID_USUARIO], 
+    [DET_APROB0V].[USUARIO] AS [USUARIO], 
+    [DET_APROB0V].[STEP_FASE] AS [STEP_FASE]
+    FROM [dbo].[DET_APROB0V] AS [DET_APROB0V]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="DET_APROBV" EntityType="Self.DET_APROBV" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3127,6 +3186,17 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="ID_USUARIO" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="STEP_FASE" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="DET_APROB0">
+          <Key>
+            <PropertyRef Name="VERSION" />
+            <PropertyRef Name="ID_SOCIEDAD" />
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="VERSION" Type="Int32" Nullable="false" />
+          <Property Name="ID_SOCIEDAD" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="STEP_FASE" Type="Int32" Nullable="false" />
+        </EntityType>
         <EntityType Name="DET_K">
           <Key>
             <PropertyRef Name="BUKRS" />
@@ -3461,6 +3531,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="WAERS" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
           <Property Name="DMBTR" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="WRBTR" Type="Decimal" Precision="13" Scale="2" />
+          <Property Name="SHKZG" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="BUDAT" Type="DateTime" Precision="0" />
           <Property Name="XBLNR" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
         </EntityType>
@@ -4191,6 +4262,22 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TXT50" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ICON" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DET_APROB0V">
+          <Key>
+            <PropertyRef Name="VERSION" />
+            <PropertyRef Name="ID_SOCIEDAD" />
+            <PropertyRef Name="SOCIEDAD" />
+            <PropertyRef Name="ID_USUARIO" />
+            <PropertyRef Name="USUARIO" />
+            <PropertyRef Name="STEP_FASE" />
+          </Key>
+          <Property Name="VERSION" Type="Int32" Nullable="false" />
+          <Property Name="ID_SOCIEDAD" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="SOCIEDAD" Type="String" MaxLength="107" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="USUARIO" Type="String" MaxLength="171" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="STEP_FASE" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DET_APROBV">
           <Key>
@@ -5338,6 +5425,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <EntitySet Name="DET_AGENTECA" EntityType="Self.DET_AGENTECA" />
           <EntitySet Name="DET_AGENTECC" EntityType="Self.DET_AGENTECC" />
           <EntitySet Name="DET_APROB" EntityType="Self.DET_APROB" />
+          <EntitySet Name="DET_APROB0" EntityType="Self.DET_APROB0" />
           <EntitySet Name="DET_K" EntityType="Self.DET_K" />
           <EntitySet Name="DET_PEP" EntityType="Self.DET_PEP" />
           <EntitySet Name="DET_PROVEEDOR" EntityType="Self.DET_PROVEEDOR" />
@@ -5405,6 +5493,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <EntitySet Name="IIMPUESTOes" EntityType="Self.IIMPUESTO" />
           <EntitySet Name="ASIGN_PROY_SOC" EntityType="Self.ASIGN_PROY_SOC" />
           <EntitySet Name="CARPETAVs" EntityType="Self.CARPETAV" />
+          <EntitySet Name="DET_APROB0V" EntityType="Self.DET_APROB0V" />
           <EntitySet Name="DET_APROBV" EntityType="Self.DET_APROBV" />
           <EntitySet Name="DET_PROVEEDORV" EntityType="Self.DET_PROVEEDORV" />
           <EntitySet Name="DET_PROYECTO_DEC_V" EntityType="Self.DET_PROYECTO_DEC_V" />
@@ -5975,6 +6064,16 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DET_APROB0">
+            <EntityTypeMapping TypeName="WFARTHAModel.DET_APROB0">
+              <MappingFragment StoreEntitySet="DET_APROB0">
+                <ScalarProperty Name="VERSION" ColumnName="VERSION" />
+                <ScalarProperty Name="ID_SOCIEDAD" ColumnName="ID_SOCIEDAD" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="STEP_FASE" ColumnName="STEP_FASE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DET_K">
             <EntityTypeMapping TypeName="WFARTHAModel.DET_K">
               <MappingFragment StoreEntitySet="DET_K">
@@ -6264,6 +6363,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="WAERS" ColumnName="WAERS" />
                 <ScalarProperty Name="DMBTR" ColumnName="DMBTR" />
                 <ScalarProperty Name="WRBTR" ColumnName="WRBTR" />
+                <ScalarProperty Name="SHKZG" ColumnName="SHKZG" />
                 <ScalarProperty Name="BUDAT" ColumnName="BUDAT" />
                 <ScalarProperty Name="XBLNR" ColumnName="XBLNR" />
               </MappingFragment>
@@ -6883,6 +6983,18 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="TXT50" ColumnName="TXT50" />
                 <ScalarProperty Name="ICON" ColumnName="ICON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DET_APROB0V">
+            <EntityTypeMapping TypeName="WFARTHAModel.DET_APROB0V">
+              <MappingFragment StoreEntitySet="DET_APROB0V">
+                <ScalarProperty Name="VERSION" ColumnName="VERSION" />
+                <ScalarProperty Name="ID_SOCIEDAD" ColumnName="ID_SOCIEDAD" />
+                <ScalarProperty Name="SOCIEDAD" ColumnName="SOCIEDAD" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="STEP_FASE" ColumnName="STEP_FASE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

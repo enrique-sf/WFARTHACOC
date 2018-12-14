@@ -25,6 +25,7 @@ namespace WFARTHA.Entities
         public string WAERS { get; set; }
         public Nullable<decimal> DMBTR { get; set; }
         public Nullable<decimal> WRBTR { get; set; }
+        public string SHKZG { get; set; }
         public Nullable<System.DateTime> BUDAT { get; set; }
         public string XBLNR { get; set; }
     }

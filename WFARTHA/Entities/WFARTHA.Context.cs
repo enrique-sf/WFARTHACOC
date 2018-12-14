@@ -43,6 +43,7 @@ namespace WFARTHA.Entities
         public virtual DbSet<DET_AGENTECA> DET_AGENTECA { get; set; }
         public virtual DbSet<DET_AGENTECC> DET_AGENTECC { get; set; }
         public virtual DbSet<DET_APROB> DET_APROB { get; set; }
+        public virtual DbSet<DET_APROB0> DET_APROB0 { get; set; }
         public virtual DbSet<DET_K> DET_K { get; set; }
         public virtual DbSet<DET_PEP> DET_PEP { get; set; }
         public virtual DbSet<DET_PROVEEDOR> DET_PROVEEDOR { get; set; }
@@ -110,6 +111,7 @@ namespace WFARTHA.Entities
         public virtual DbSet<IIMPUESTO> IIMPUESTOes { get; set; }
         public virtual DbSet<ASIGN_PROY_SOC> ASIGN_PROY_SOC { get; set; }
         public virtual DbSet<CARPETAV> CARPETAVs { get; set; }
+        public virtual DbSet<DET_APROB0V> DET_APROB0V { get; set; }
         public virtual DbSet<DET_APROBV> DET_APROBV { get; set; }
         public virtual DbSet<DET_PROVEEDORV> DET_PROVEEDORV { get; set; }
         public virtual DbSet<DET_PROYECTO_DEC_V> DET_PROYECTO_DEC_V { get; set; }
