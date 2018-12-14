@@ -632,7 +632,7 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.EKBEEXCEL$' no tiene definida 
           <Property Name="KOSTL" Type="nvarchar" MaxLength="10" />
           <Property Name="ESTATUS" Type="nchar" MaxLength="2" />
           <Property Name="EREKZ" Type="nchar" MaxLength="1" />
-          <Property Name="NETWR" Type="nvarchar" MaxLength="13" />
+          <Property Name="NETWR" Type="decimal" Precision="13" Scale="2" />
         </EntityType>
         <EntityType Name="EKPO_DUMMY">
           <Key>
@@ -3625,7 +3625,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="KOSTL" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="EREKZ" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="NETWR" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="NETWR" Type="Decimal" Precision="13" Scale="2" />
         </EntityType>
         <EntityType Name="EKPO_DUMMY">
           <Key>

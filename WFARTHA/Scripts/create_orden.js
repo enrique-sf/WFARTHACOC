@@ -492,8 +492,8 @@ function llenarTablaOc(a, b, mtr, brtwr) {
     //Añado los datos
     tabl.row.add([
         toShow(brtwr),
-        a.RETPC,               
-        a.DPPCT,
+        a.RETPC,  //%ret             
+        a.DPPCT,//%deposito
         toShow(c[0]),       
         toShow(c[2]),
         toShow(c[1]),
@@ -1483,7 +1483,10 @@ $('body').on('focusout', '.amor_ant', function (e) {
 
     var t = $('#tableOC').DataTable();
     var tr = $(this).closest('tr'); //Obtener el row 
-    var amorant = $(this).val();
+    var amorant = $(this).val().replace('$', '');
+    while (amorant.indexOf(',') > -1) {
+        amorant = amorant.replace('$', '').replace(',', '');
+    }
     if (amorant == "") {
         amorant = 0;
     }

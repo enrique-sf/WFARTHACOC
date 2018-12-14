@@ -7737,7 +7737,7 @@ namespace WFARTHA.Controllers
             var dnetwr = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
             for (int i = 0; i < dnetwr.Count; i++)
             {
-                brtwr = brtwr + decimal.Parse(dnetwr[i].NETWR);
+                brtwr = brtwr + dnetwr[i].NETWR;
             }
 
             string res = As + "?" + Tres + "?" + unos;

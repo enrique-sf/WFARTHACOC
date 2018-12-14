@@ -38,6 +38,6 @@ namespace WFARTHA.Entities
         public string KOSTL { get; set; }
         public string ESTATUS { get; set; }
         public string EREKZ { get; set; }
-        public string NETWR { get; set; }
+        public Nullable<decimal> NETWR { get; set; }
     }
 }
