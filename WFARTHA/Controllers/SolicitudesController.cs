@@ -7688,15 +7688,41 @@ namespace WFARTHA.Controllers
             var ekbe = db.EKBEs.Where(x => x.EBELN == ebeln).ToList();
             decimal? As = 0;
             decimal? Tres = 0;
+            decimal? unos = 0;
             for (int i = 0; i < ekbe.Count; i++)
             {
                 if (ekbe[i].BEWTP == "A")
                 {
-                    As = As + ekbe[i].WRBTR;
+                    if (ekbe[i].SHKZG == "H")
+                    {
+                        As = As + (ekbe[i].WRBTR * (-1));
+                    }
+                    else
+                    {
+                        As = As + ekbe[i].WRBTR;
+                    }
                 }
                 if (ekbe[i].BEWTP == "3")
                 {
-                    Tres = Tres + ekbe[i].WRBTR;
+                    if (ekbe[i].SHKZG == "H")
+                    {
+                        Tres = Tres + (ekbe[i].WRBTR * (-1));
+                    }
+                    else
+                    {
+                        Tres = Tres + ekbe[i].WRBTR;
+                    }
+                }
+                if (ekbe[i].BEWTP == "1")
+                {
+                    if (ekbe[i].SHKZG == "H")
+                    {
+                        unos = unos + (ekbe[i].WRBTR * (-1));
+                    }
+                    else
+                    {
+                        unos = unos + ekbe[i].WRBTR;
+                    }
                 }
             }
 
@@ -7707,8 +7733,15 @@ namespace WFARTHA.Controllers
             {
                 mtr = mtr + docmt[i].MONTO_DOC_MD;
             }
-            string res = As + "-" + Tres;
-            var _r = new { ekmo, res, mtr };
+            decimal? brtwr = 0;
+            var dnetwr = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
+            for (int i = 0; i < dnetwr.Count; i++)
+            {
+                brtwr = brtwr + decimal.Parse(dnetwr[i].NETWR);
+            }
+
+            string res = As + "?" + Tres + "?" + unos;
+            var _r = new { ekmo, res, mtr, brtwr };
             JsonResult jc = Json(_r, JsonRequestBehavior.AllowGet);
             return jc;
         }

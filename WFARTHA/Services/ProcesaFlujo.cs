@@ -288,131 +288,133 @@ namespace WFARTHA.Services
 
                     //d.ESTATUS_WF = "P";//MGC 26-10-2018 Modificaión para validar creación del archivo
                     db.Entry(d).State = EntityState.Modified;
-
-                    //Crear el archivo para el preliminar //MGC Preliminar
-                    string corr = procesaPreliminar(d, edit, nuevo_acc);
-
-                    //Se genero el preliminar
-                    if (corr == "0")
+                    var ts = db.DOCUMENTOes.Where(x => x.NUM_DOC == d.NUM_DOC).FirstOrDefault().TSOL_ID;
+                    if (ts != "SCO")
                     {
-                        DOCUMENTOPRE dp = new DOCUMENTOPRE();
+                        //Crear el archivo para el preliminar //MGC Preliminar
+                        string corr = procesaPreliminar(d, edit, nuevo_acc);
 
-                        dp.NUM_DOC = d.NUM_DOC;
-                        dp.POS = 1;
-                        dp.MESSAGE = "Generando Preliminar";
-                        try
+                        //Se genero el preliminar
+                        if (corr == "0")
                         {
-                            db.DOCUMENTOPREs.Add(dp);
-                            db.SaveChanges();
+                            DOCUMENTOPRE dp = new DOCUMENTOPRE();
+
+                            dp.NUM_DOC = d.NUM_DOC;
+                            dp.POS = 1;
+                            dp.MESSAGE = "Generando Preliminar";
+                            try
+                            {
+                                db.DOCUMENTOPREs.Add(dp);
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+                                string r = "";
+                            }
+
+                            //MGC 30-10-2018 Agregar mensaje a log de modificación
+                            try
+                            {
+                                DOCUMENTOLOG dl = new DOCUMENTOLOG();
+
+                                dl.NUM_DOC = d.NUM_DOC;
+                                dl.TYPE_LINE = "M";
+                                dl.TYPE = "S";
+                                dl.MESSAGE = "Se generó el Archivo Preliminar";
+                                dl.FECHA = DateTime.Now;
+
+                                db.DOCUMENTOLOGs.Add(dl);
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
+                            //MGC 30-10-2018 Agregar mensaje a log de modificación
+
+                            //Actualizar wf del documento
+                            //d.ESTATUS_WF = "A";//MGC 30-10-2018 Modificaión para validar creación del archivo
+
+                            if (edit)
+                            {
+                                d.ESTATUS = "N"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
+                                d.ESTATUS_WF = "P"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
+                            }
+
+                            //MGC 30-10-2018 Actualizar el estatus de preliminar del doc
+                            d.ESTATUS_PRE = "G";//MGC 30-10-2018 Modificaión para validar creación del archivo
+                            db.Entry(d).State = EntityState.Modified;
                         }
-                        catch (Exception e)
-                        {
-                            string r = "";
-                        }
-
-                        //MGC 30-10-2018 Agregar mensaje a log de modificación
-                        try
-                        {
-                            DOCUMENTOLOG dl = new DOCUMENTOLOG();
-
-                            dl.NUM_DOC = d.NUM_DOC;
-                            dl.TYPE_LINE = "M";
-                            dl.TYPE = "S";
-                            dl.MESSAGE = "Se generó el Archivo Preliminar";
-                            dl.FECHA = DateTime.Now;
-
-                            db.DOCUMENTOLOGs.Add(dl);
-                            db.SaveChanges();
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-                        //MGC 30-10-2018 Agregar mensaje a log de modificación
-
-                        //Actualizar wf del documento
-                        //d.ESTATUS_WF = "A";//MGC 30-10-2018 Modificaión para validar creación del archivo
-
-                        if (edit)
-                        {
-                            d.ESTATUS = "N"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
-                            d.ESTATUS_WF = "P"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
-                        }
-
-                        //MGC 30-10-2018 Actualizar el estatus de preliminar del doc
-                        d.ESTATUS_PRE = "G";//MGC 30-10-2018 Modificaión para validar creación del archivo
-                        db.Entry(d).State = EntityState.Modified;
-                    }
-                    //No se genero el preliminar
-                    else
-                    {
-                        string m;
-                        if (corr.Length > 50)
-                        {
-                            m = corr.Substring(0, 50);
-                        }
+                        //No se genero el preliminar
                         else
                         {
-                            m = corr;
+                            string m;
+                            if (corr.Length > 50)
+                            {
+                                m = corr.Substring(0, 50);
+                            }
+                            else
+                            {
+                                m = corr;
+                            }
+                            DOCUMENTOPRE dp = new DOCUMENTOPRE();
+
+                            dp.NUM_DOC = d.NUM_DOC;
+                            dp.POS = 1;
+                            dp.MESSAGE = m;
+                            try
+                            {
+                                db.DOCUMENTOPREs.Add(dp);
+                                db.SaveChanges();
+                            }
+                            catch (Exception E)
+                            {
+                                string r = "";
+                            }
+
+                            //MGC 30-10-2018 Agregar mensaje a log de modificación
+                            try
+                            {
+                                DOCUMENTOLOG dl = new DOCUMENTOLOG();
+
+                                dl.NUM_DOC = d.NUM_DOC;
+                                dl.TYPE_LINE = "M";
+                                dl.TYPE = "E";
+                                dl.MESSAGE = m;
+                                dl.FECHA = DateTime.Now;
+
+                                db.DOCUMENTOLOGs.Add(dl);
+                                db.SaveChanges();
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
+                            //MGC 30-10-2018 Agregar mensaje a log de modificación
+
+                            //MGC 09-11-2018 Modificaión Estatus en la creación del archivo cuando la acción fue borrar-crear
+                            //Si es edit, cambiar a P el flujo
+                            //Y el estaus a N
+                            if (edit)
+                            {
+                                d.ESTATUS = "N"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
+                                d.ESTATUS_WF = "P"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
+                            }
+
+
+
+                            //MGC 30-10-2018 Actualizar el estatus de preliminar del doc
+                            d.ESTATUS_PRE = "E";//MGC 30-10-2018 Modificaión Estatus en la creación del archivo
+                            db.Entry(d).State = EntityState.Modified;
+
+                            //Pendiente en edit, regresar a estatus de P en la creación del flujo
+
                         }
-                        DOCUMENTOPRE dp = new DOCUMENTOPRE();
-
-                        dp.NUM_DOC = d.NUM_DOC;
-                        dp.POS = 1;
-                        dp.MESSAGE = m;
-                        try
-                        {
-                            db.DOCUMENTOPREs.Add(dp);
-                            db.SaveChanges();
-                        }
-                        catch (Exception E)
-                        {
-                            string r = "";
-                        }
-
-                        //MGC 30-10-2018 Agregar mensaje a log de modificación
-                        try
-                        {
-                            DOCUMENTOLOG dl = new DOCUMENTOLOG();
-
-                            dl.NUM_DOC = d.NUM_DOC;
-                            dl.TYPE_LINE = "M";
-                            dl.TYPE = "E";
-                            dl.MESSAGE = m;
-                            dl.FECHA = DateTime.Now;
-
-                            db.DOCUMENTOLOGs.Add(dl);
-                            db.SaveChanges();
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-                        //MGC 30-10-2018 Agregar mensaje a log de modificación
-
-                        //MGC 09-11-2018 Modificaión Estatus en la creación del archivo cuando la acción fue borrar-crear
-                        //Si es edit, cambiar a P el flujo
-                        //Y el estaus a N
-                        if (edit)
-                        {
-                            d.ESTATUS = "N"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
-                            d.ESTATUS_WF = "P"; //MGC 02-11-2018 Regresa a estatus de crear preliminar
-                        }
-
-
-
-                        //MGC 30-10-2018 Actualizar el estatus de preliminar del doc
-                        d.ESTATUS_PRE = "E";//MGC 30-10-2018 Modificaión Estatus en la creación del archivo
-                        db.Entry(d).State = EntityState.Modified;
-
-                        //Pendiente en edit, regresar a estatus de P en la creación del flujo
-
                     }
-
                     //d.ESTATUS_WF = "P";//MGC 30-10-2018 Modificaión para validar creación del archivo
                     db.Entry(d).State = EntityState.Modified;
-
                     db.SaveChanges();
+                    if (ts == "SCO") { }
                 }
             }
             else if (f.ESTATUS.Equals("A"))   //---------------------EN PROCESO DE APROBACIÓN
@@ -1073,7 +1075,7 @@ namespace WFARTHA.Services
                     nuevo.USUARIOA_ID = del.USUARIOD_ID;
                 else
                     //nuevo.USUARIOA_ID = nuevo.USUARIOD_ID;//MGC 03-12-2018 Loop para firmas y obtener el más actual
-                      nuevo.USUARIOA_ID = nuevo.USUARIOA_ID;//MGC 03-12-2018 Loop para firmas y obtener el más actual
+                    nuevo.USUARIOA_ID = nuevo.USUARIOA_ID;//MGC 03-12-2018 Loop para firmas y obtener el más actual
                 //nuevo.USUARIOD_ID
                 nuevo.ESTATUS = "P";
                 nuevo.FECHAC = DateTime.Now;
