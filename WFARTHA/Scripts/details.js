@@ -189,7 +189,7 @@ $(document).ready(function () {
 
     var val3 = $('#tsol').val();
     showHide(val3);
-
+      
 });
 
 $(window).on('load', function () {
@@ -201,7 +201,30 @@ $(window).on('load', function () {
     var _fd = $('#D_FECHAD').val().split(' ');
     $('#D_FECHAD').val(_fd[0]);
     //---
+    //lejgg 12-12-2018
+    var val3 = $('#TSOL_ID').val();
+    //var tsol = tsolVal(val3);
+    mostrarTabla(val3);
+    llenarCOC(val3);
+     //lejgg 12-12-2018
 });
+
+//LEJGG 12-12-2018
+function mostrarTabla(ban) {
+    if (ban === "SCO") {
+        $("#div_sinPedido").addClass("hide");
+        $("#div_conPedido").removeClass("hide");
+        $("#div_garantia").removeClass("hide");
+        $("#conOrden").val("X");
+    } else {
+        $("#div_conPedido").addClass("hide");
+        $("#div_sinPedido").removeClass("hide");
+        $("#div_garantia").addClass("hide");
+        $("#conOrden").val("");
+    }
+}
+//LEJGG 12-12-2018
+
 function alinearIzq() {
     $("#table_ret > tbody  > tr[role='row']").each(function () {
         //1
@@ -475,6 +498,19 @@ function showHide(tsol) {
         ocultarCampos(dataj.EDITDET, param1);
     });
 
+}
+
+function tsolVal(tsol) {
+    var val3 = tsol;
+    val3 = "[" + val3 + "]";
+    val3 = val3.replace("{", "{ \"");
+    val3 = val3.replace("}", "\" }");
+    val3 = val3.replace(/\,/g, "\" , \"");
+    val3 = val3.replace(/\=/g, "\" : \"");
+    val3 = val3.replace(/\ /g, "");
+    var jsval = $.parseJSON(val3);
+
+    return jsval;
 }
 
 function formatoMon() {

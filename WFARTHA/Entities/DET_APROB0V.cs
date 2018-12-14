@@ -12,13 +12,13 @@ namespace WFARTHA.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class MIEMBROS
+    public partial class DET_APROB0V
     {
-        public string USUARIO_ID { get; set; }
-        public int ROL_ID { get; set; }
-        public Nullable<bool> ACTIVO { get; set; }
-    
-        public virtual ROL ROL { get; set; }
-        public virtual USUARIO USUARIO { get; set; }
+        public int VERSION { get; set; }
+        public string ID_SOCIEDAD { get; set; }
+        public string SOCIEDAD { get; set; }
+        public string ID_USUARIO { get; set; }
+        public string USUARIO { get; set; }
+        public int STEP_FASE { get; set; }
     }
 }
