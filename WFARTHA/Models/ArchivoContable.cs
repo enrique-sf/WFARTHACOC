@@ -216,6 +216,21 @@ namespace WFARTHA.Models
 
                             //MGC 30-10-2018 Obtener las claves de contabilización ------------------------------------------------<
 
+                            //MGC COC 15-12-2018 numero de renglones -->
+
+                            string nump = "";
+                            if(doc.TSOL_ID == "SCO")
+                            {
+                                //para el tipo p
+                                nump = "6";
+                            }
+                            else
+                            {
+                                nump = "3";
+                            }
+
+                            //MGC COC 15-12-2018 numero de renglones --<
+
                             for (int i = 0; i < lh.Count; i++)
                             {
                                 string post = "";
@@ -264,7 +279,8 @@ namespace WFARTHA.Models
 
                                 sw.WriteLine(
                                     //det[i].POS_TYPE + "|" +
-                                    "3" + "|" +
+                                    //"3" + "|" + //MGC COC 15-12-2018 numero de renglones 
+                                    nump + "|" + //MGC COC 15-12-2018 numero de renglones 
                                     post + "|" +
                                     doc.SOCIEDAD_ID.Trim() + "|" + //det[i].COMP_CODE + "|" + //
                                                                    //det[i].BUS_AREA + "|" +
@@ -318,6 +334,21 @@ namespace WFARTHA.Models
                                     );
                             }
 
+                            //MGC COC 15-12-2018 numero de renglones -->
+
+                            string numg = "";
+                            if (doc.TSOL_ID == "SCO")
+                            {
+                                //para el tipo p
+                                numg = "7";
+                            }
+                            else
+                            {
+                                numg = "3";
+                            }
+
+                            //MGC COC 15-12-2018 numero de renglones --<
+
                             for (int i = 0; i < ld.Count; i++)
                             {
                                 string post = "";
@@ -366,7 +397,8 @@ namespace WFARTHA.Models
 
                                 sw.WriteLine(
                                     //det[i].POS_TYPE + "|" +
-                                    "3" + "|" +
+                                    //"3" + "|" + //MGC COC 15-12-2018 numero de renglones
+                                    numg + "|" + //MGC COC 15-12-2018 numero de renglones
                                     post + "|" +
                                     doc.SOCIEDAD_ID.Trim() + "|" + //det[i].COMP_CODE + "|" + //
                                                                    //det[i].BUS_AREA + "|" +
@@ -419,6 +451,15 @@ namespace WFARTHA.Models
                                     "|"
                                     );
                             }
+
+                            //MGC COC 15-12-2018 numero de renglones-->
+                            //Agregar amortizaciones renglón 8
+                            if(doc.TSOL_ID == "SCO")
+                            {
+
+                            }
+
+                            //MGC COC 15-12-2018 numero de renglones--<
 
                             //MGC 11-10-2018 Acciones para el encabezado RETENCIONES -->
                             for (int i = 0; i < doc.DOCUMENTORs.Count; i++)
