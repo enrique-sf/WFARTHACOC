@@ -1331,6 +1331,7 @@ namespace WFARTHA.Controllers
 
                             for (int i = 0; i < doc.AMORANT.Count; i++)
                             {
+                                var ej = doc.AMORANT[i].GJAHR.ToString().Split('.');
                                 //sacar una pos
                                 int n = db.AMOR_ANT.ToList().Count + 1;
                                 AMOR_ANT am = new AMOR_ANT();
@@ -1339,7 +1340,7 @@ namespace WFARTHA.Controllers
                                 am.EBELN = doc.EBELN;
                                 am.EBELP = doc.AMORANT[i].EBELP;//
                                 am.BELNR = doc.AMORANT[i].BELNR;//
-                                am.GJAHR = doc.AMORANT[i].GJAHR;//
+                                am.GJAHR = decimal.Parse(ej[0]);//
                                 am.BUZEI = doc.AMORANT[i].BUZEI;//
                                 am.ANTAMOR = doc.AMORANT[i].ANTAMOR;//
                                 am.TANT = doc.AMORANT[i].TANT;//
@@ -1350,7 +1351,7 @@ namespace WFARTHA.Controllers
                                 db.SaveChanges();
                             }
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             //
                         }
