@@ -118,12 +118,24 @@
 });
 
 $(window).on('load', function () {
-    var tsol= $('#tsol').val();
-    llenarCOC(tsol);
+    var e = $('#norden_compra').val();
+    $.ajax({
+        type: "POST",
+        url: 'getEKKOInfo',
+        dataType: "json",
+        data: { "ebeln": e },
+        success: function (data) {
+            var ekko = data.ekmo;
+            var cuentas = data.res;
+            var mtr = data.mtr;
+            var brtwr = data.brtwr;
+            llenarTablaOc(ekko, cuentas, mtr, brtwr);
+        }
+    });
 });
 
 function llenarCOC(tsol) {
-    
+
     //Recupero el valor de la sociedad
     var buk = $("#SOCIEDAD_ID").val();
     if (tsol === "SCO") {

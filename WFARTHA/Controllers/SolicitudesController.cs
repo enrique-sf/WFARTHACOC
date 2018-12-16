@@ -302,20 +302,7 @@ namespace WFARTHA.Controllers
                 }
             }
 
-            //for (int i = 0; i < la1.Count; i++)
-            //{
-            //    d_a = new DOCUMENTOA();
-            //    d_a.POS = i;
-            //    d_a.NUM_DOC = la1[i].NUM_DOC;
-            //    d_a.TIPO = la1[i].TIPO;
-            //    d_a.DESC = la1[i].DESC;
-            //    d_a.CLASE = la1[i].CLASE;
-            //    d_a.PATH = la1[i].PATH;
-            //    lst.Add(d_a);
-            //}
-
             lst = lst.OrderBy(a => a.POS).ToList();//FRT05122018 para ordenar corecto los anexos
-
 
             List<DOCUMENTOA> result1 = new List<DOCUMENTOA>();
 
@@ -339,12 +326,6 @@ namespace WFARTHA.Controllers
                 }
             }
 
-
-
-
-
-
-
             for (int x = 0; x < lst.Count; x++)
             {
                 var _xtr = lst[x].PATH.Split('\\');
@@ -360,7 +341,6 @@ namespace WFARTHA.Controllers
                 }
                 lst[x].PATH = _path;
             }
-
 
             ViewBag.docAn = result1; //frt06122018
             //ViewBag.docAn = lst;
@@ -393,6 +373,8 @@ namespace WFARTHA.Controllers
             doc.ESTATUS_EXT = doc.ESTATUS_EXT;
             doc.ESTATUS_SAP = doc.ESTATUS_SAP;
             doc.ESTATUS_WF = dOCUMENTO.ESTATUS_WF;
+            doc.EBELN = dOCUMENTO.EBELN;//lejgg 16-12-2018
+            ViewBag.ebeln = dOCUMENTO.EBELN;//lejgg 16-12-2018
 
             //FRT07112018 Se agrega el nombre del impueto en la cabecera
             var impcab = dOCUMENTO.IMPUESTO;
@@ -712,6 +694,44 @@ namespace WFARTHA.Controllers
             //ViewBag.DETAA = new SelectList(dta, "ID", "TEXT");
             ViewBag.DETAA = new SelectList(lstDta, "ID", "TEXT");//LEJGG 03-12-2018
 
+            //LEJGG 16-12-2018------------------------------------------------>
+            //traer los datos de documentococ
+            var dcoc = db.DOCUMENTOCOCs.Where(x => x.NUM_DOC == id).ToList();
+            List<DOCUMENTOCOC_MOD> lstdcoc = new List<DOCUMENTOCOC_MOD>();
+            for (int i = 0; i < dcoc.Count; i++)
+            {
+                DOCUMENTOCOC_MOD oc = new DOCUMENTOCOC_MOD();
+                oc.POSD = dcoc[i].POSD;
+                oc.POS = dcoc[i].POS;
+                oc.MATNR = dcoc[i].MATNR;
+                oc.PS_PSP_PNR = dcoc[i].PS_PSP_PNR;
+                oc.WAERS = dcoc[i].WAERS;
+                oc.MEINS = dcoc[i].MEINS;
+                lstdcoc.Add(oc);
+            }
+            doc.DOCUMENTOCOC = lstdcoc;
+
+
+            List<AMORANT_MOD> lstdamant = new List<AMORANT_MOD>();
+            var amorant = db.AMOR_ANT.Where(x => x.NUM_DOC == id).ToList();
+            for (int i = 0; i < dcoc.Count; i++)
+            {
+                AMORANT_MOD oc = new AMORANT_MOD();
+                oc.NUM_DOC = amorant[i].NUM_DOC;
+                oc.EBELN = amorant[i].EBELN;
+                oc.EBELP = amorant[i].EBELP;
+                oc.GJAHR = amorant[i].GJAHR;
+                oc.BUZEI = amorant[i].BUZEI;
+                oc.ANTAMOR = amorant[i].ANTAMOR;
+                oc.TANT = amorant[i].TANT;
+                oc.WAERS = amorant[i].WAERS;
+                oc.ANTTRANS = amorant[i].ANTTRANS;
+                oc.ANTXAMORT = amorant[i].ANTXAMORT;
+                lstdamant.Add(oc);
+            }
+            doc.AMORANT = lstdamant;
+            //LEJGG 16-12-2018------------------------------------------------<
+
             //Obtener los aprobadores
             JsonResult autorizadores = new JsonResult();
             autorizadores = getCadena(Convert.ToInt32(rutav), usuarioc, id_cadena, deta.USUARIOA_ID, Convert.ToDecimal(dOCUMENTO.MONTO_DOC_MD), dOCUMENTO.SOCIEDAD_ID);
@@ -791,7 +811,6 @@ namespace WFARTHA.Controllers
 
             ViewBag.contanext = contanext;
             ////MGC 12-11-2018 Saber si el siguiente aprobador es el contabilizador-------------------------------------------------------<
-
 
             return View(DF);
         }
