@@ -9,51 +9,118 @@
         "searching": false,
         "columns": [
             {
-                "className": 'FondoGarantia',
+                "className": 'BRTWR',
                 "defaultContent": '',
                 "orderable": false
             },
             {
-                "name": 'AmortAnt',
-                "className": 'AmortAnt',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "name": 'MontoAntT',
-                "className": 'MontoAntT',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "name": 'AntAmort',
-                "className": 'AntAmort',
-                "orderable": false,
-                "visible": true
+                "className": 'FondoGarantia',
+                "defaultContent": '',
+                "orderable": false
             },
             {
                 "name": 'PorAnt',
                 "className": 'PorAnt',
                 "orderable": false,
                 "visible": true
+            }//,
+            //{
+            //    "name": 'AntSol',
+            //    "className": 'AntSol',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'MontoAntT',
+            //    "className": 'MontoAntT',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntAmort',
+            //    "className": 'AntAmort',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntTr',
+            //    "className": 'AntTr',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AmortAnt',
+            //    "className": 'AmortAnt',
+            //    "orderable": false,
+            //    "visible": true
+            //}
+        ]
+    });
+
+    $('#tableOC2').DataTable({
+        language: {
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "ordering": false,
+        "searching": false,
+        "columns": [
+            {
+                "className": 'POSC',
+                "defaultContent": '',
+                "orderable": false
             },
             {
-                "name": 'AntSol',
-                "className": 'AntSol',
+                "className": 'POS',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'NDOC',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'EJERCICIO',
                 "orderable": false,
                 "visible": true
+            },
+            {
+                "className": 'ANTAMOR',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'TOANT',
+                "className": 'TOANT',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "className": 'MONEDA',
+                "defaultContent": '',
+                "orderable": false
             },
             {
                 "name": 'AntTr',
                 "className": 'AntTr',
                 "orderable": false,
                 "visible": true
+            },
+            {
+                "className": 'AntXAMOR',
+                "orderable": false,
+                "visible": true
             }
         ]
     });
-
 });
 
+$(window).on('load', function () {
+    var tsol= $('#tsol').val();
+    llenarCOC(tsol);
+});
 
 function llenarCOC(tsol) {
     

@@ -963,8 +963,8 @@ function copiarTableInfoPControl() {
         var retpc = _t.find("td.FondoGarantia").text();
         var porant = _t.find("td.PorAnt").text();
         //
-        /*$('#EBELN').val(ebeln.toString());
-        $('#AMOR_ANT').val(parseFloat(toNum(amor_ant)));
+        $('#EBELN').val(ebeln.toString());
+        /*$('#AMOR_ANT').val(parseFloat(toNum(amor_ant)));
         $('#RETPC').val(parseFloat(toNum(retpc)));*/
     });
     var lengthT = $("table#table_infoP tbody tr[role='row']").length;

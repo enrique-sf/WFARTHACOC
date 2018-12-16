@@ -495,8 +495,8 @@
                             </div>
                         </div>
                         @*<div id="div_norden_compra" class="input-field col s3" style="display:none">*@
-                            @*<input type="text" id="norden_compra" value="" />*@@*Lejgg-09-10-2018*@
-                            @*<label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>*@
+                        @*<input type="text" id="norden_compra" value="" />*@@*Lejgg-09-10-2018*@
+                        @*<label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>*@
                         @*</div>*@
                         @*<div class="form-group col s6">
                                 @Html.LabelFor(model => model.D.IMPUESTO, "Impuesto", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -723,14 +723,48 @@
                                     <table class="mdl-data-table striped" id="tableOC">
                                         <thead>
                                             <tr>
-
+                                                <th>Monto Contrato</th>
                                                 <th>% Fondo de Garantía</th>
-                                                <th>Amortización Anticipo</th>
-                                                <th>Monto Anticipo Total</th>
-                                                <th>Anticipo Amortizado</th>
                                                 <th>% Anticipo</th>
-                                                <th>Anticipo Solicitado</th>
-                                                <th>Anticipo En Transito</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m12 l12" style="margin-top:5px;">
+                            <div class="row" style="margin-bottom:0px;">
+                                <div class="col s12" style="overflow-x:auto;">
+                                    <table class="mdl-data-table striped" id="tableOC2" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Pos Compra</th>
+                                                <th>Pos</th>
+                                                <th>Ndoc</th>
+                                                <th>Ejercicio</th>
+                                                <th>Anticipo Amortizado</th>
+                                                <th>Total Anticipo</th>
+                                                <th>Moneda</th>
+                                                <th>Anticipo en Transito</th>
+                                                <th>Anticipo por Amortizar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    @*-----TABLA AMORANT HIDDEN----- 15-12-2018*@
+                                    <table class="mdl-data-table striped" id="tableOC2H" style="display:none">
+                                        <thead>
+                                            <tr>
+                                                <th>Pos Compra</th>
+                                                <th>Pos</th>
+                                                <th>Ndoc</th>
+                                                <th>Ejercicio</th>
+                                                <th>Anticipo Amortizado</th>
+                                                <th>Total Anticipo</th>
+                                                <th>Moneda</th>
+                                                <th>Anticipo en Transito</th>
+                                                <th>Anticipo por Amortizar</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
