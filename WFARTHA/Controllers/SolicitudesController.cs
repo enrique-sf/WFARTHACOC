@@ -1096,7 +1096,7 @@ namespace WFARTHA.Controllers
             "TIPO_CAMBIO,TIPO_CAMBIOL,TIPO_CAMBIOL2,NO_FACTURA,FECHAD_SOPORTE,METODO_PAGO,NO_PROVEEDOR,PASO_ACTUAL," +
             "AGENTE_ACTUAL,FECHA_PASO_ACTUAL,PUESTO_ID,GALL_ID,CONCEPTO_ID,DOCUMENTO_SAP,FECHACON,FECHA_BASE,REFERENCIA," +
             "CONDICIONES,TEXTO_POS,ASIGNACION_POS,CLAVE_CTA, DOCUMENTOP,DOCUMENTOR,DOCUMENTORP,DOCUMENTOA_TAB,Anexo,"+
-            "DOCUMENTOCOC,EBELN,AMOR_ANT,RETPC,DPPCT,TOAD,ANTR")] Models.DOCUMENTO_MOD doc, IEnumerable<HttpPostedFileBase> file_sopAnexar, string[] labels_desc,
+            "DOCUMENTOCOC,EBELN,AMOR_ANT,RETPC,DPPCT,TOAD,ANTR,AMORANT")] Models.DOCUMENTO_MOD doc, IEnumerable<HttpPostedFileBase> file_sopAnexar, string[] labels_desc,
             //MGC 02-10-2018 Cadenas de autorización
             string DETTA_VERSION, string DETTA_USUARIOC_ID, string DETTA_ID_RUTA_AGENTE, string mtTot, string DETTA_USUARIOA_ID, string borr, string FECHADO, string Uuid)
         {
@@ -1306,25 +1306,53 @@ namespace WFARTHA.Controllers
                     //LEJGG 12-12-2018----------------------------------------I
                     if (doc.TSOL_ID == "SCO")
                     {
-                        for (int i = 0; i < doc.DOCUMENTOCOC.Count; i++)
+                        try
                         {
-                            try
+                            for (int i = 0; i < doc.DOCUMENTOCOC.Count; i++)
                             {
-                                DOCUMENTOCOC dcoc = new DOCUMENTOCOC();
-                                dcoc.NUM_DOC = _ndoc;
-                                dcoc.POSD = i + 1;
-                                dcoc.POS = doc.DOCUMENTOCOC[i].POS;
-                                dcoc.MATNR = doc.DOCUMENTOCOC[i].MATNR;
-                                dcoc.PS_PSP_PNR = doc.DOCUMENTOCOC[i].PS_PSP_PNR;
-                                dcoc.WAERS = doc.DOCUMENTOCOC[i].WAERS;
-                                dcoc.MEINS = doc.DOCUMENTOCOC[i].MEINS;
-                                db.DOCUMENTOCOCs.Add(dcoc);
+                                try
+                                {
+                                    DOCUMENTOCOC dcoc = new DOCUMENTOCOC();
+                                    dcoc.NUM_DOC = _ndoc;
+                                    dcoc.POSD = i + 1;
+                                    dcoc.POS = doc.DOCUMENTOCOC[i].POS;
+                                    dcoc.MATNR = doc.DOCUMENTOCOC[i].MATNR;
+                                    dcoc.PS_PSP_PNR = doc.DOCUMENTOCOC[i].PS_PSP_PNR;
+                                    dcoc.WAERS = doc.DOCUMENTOCOC[i].WAERS;
+                                    dcoc.MEINS = doc.DOCUMENTOCOC[i].MEINS;
+                                    db.DOCUMENTOCOCs.Add(dcoc);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    //
+                                }
+                            }
+
+                            for (int i = 0; i < doc.AMORANT.Count; i++)
+                            {
+                                //sacar una pos
+                                int n = db.AMOR_ANT.ToList().Count + 1;
+                                AMOR_ANT am = new AMOR_ANT();
+                                am.POS = n;
+                                am.NUM_DOC = _ndoc;
+                                am.EBELN = doc.EBELN;
+                                am.EBELP = doc.AMORANT[i].EBELP;//
+                                am.BELNR = doc.AMORANT[i].BELNR;//
+                                am.GJAHR = doc.AMORANT[i].GJAHR;//
+                                am.BUZEI = doc.AMORANT[i].BUZEI;//
+                                am.ANTAMOR = doc.AMORANT[i].ANTAMOR;//
+                                am.TANT = doc.AMORANT[i].TANT;//
+                                am.WAERS = doc.AMORANT[i].WAERS;//
+                                am.ANTTRANS = doc.AMORANT[i].ANTTRANS;//
+                                am.ANTXAMORT = doc.AMORANT[i].ANTXAMORT;//
+                                db.AMOR_ANT.Add(am);
                                 db.SaveChanges();
                             }
-                            catch (Exception e)
-                            {
-                                //
-                            }
+                        }
+                        catch(Exception e)
+                        {
+                            //
                         }
                     }
                     //LEJGG 12-12-2018----------------------------------------T
@@ -5849,6 +5877,15 @@ namespace WFARTHA.Controllers
             return PartialView("~/Views/Solicitudes/_PartialConTr5.cshtml", doc);
         }
 
+        //Lejgg 15-12-2018
+        [HttpPost]
+        public ActionResult getPartialConOC(List<AMORANT_MOD> docs)
+        {
+            DOCUMENTO_MOD doc = new DOCUMENTO_MOD();
+            doc.AMORANT = docs;
+            return PartialView("~/Views/Solicitudes/_PartialConOC.cshtml", doc);
+        }
+
         [HttpPost]
         public ActionResult getPartialRet(List<DOCUMENTOR_MOD> docs)
         {
@@ -7747,11 +7784,61 @@ namespace WFARTHA.Controllers
         }
 
         [HttpPost]
+        public JsonResult getEKBEInfo(string ebeln)
+        {
+            var r = db.EKBEs.Where(x => x.EBELN == ebeln && x.BEWTP == "A").ToList();
+            JsonResult jc = Json(r, JsonRequestBehavior.AllowGet);
+            return jc;
+        }
+
+        [HttpPost]
         public JsonResult getEKPOInfo(string ebeln)
         {
             //Traigo el usuario
             var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
             JsonResult jc = Json(ekpo, JsonRequestBehavior.AllowGet);
+            return jc;
+        }
+
+        [HttpPost]
+        public JsonResult calculoAntAmor()
+        {
+            //Traigo el usuario
+            var ekbe = db.EKBEs.Where(x => x.BEWTP == "3").ToList();
+            decimal? sum = 0;
+            for (int i = 0; i < ekbe.Count; i++)
+            {
+                var rebzg = ekbe[i].REBZG;
+                var rebzj = decimal.Parse(ekbe[i].REBZJ);
+                var rebzz = ekbe[i].REBZZ;
+                var _match = db.EKBEs.Where(x => x.GJAHR == rebzj && x.BELNR == rebzg && x.BUZEI == rebzz).ToList();
+                for (int y = 0; y < _match.Count; y++)
+                {
+                    sum = sum + _match[y].WRBTR;
+                }
+            }
+            JsonResult jc = Json(sum, JsonRequestBehavior.AllowGet);
+            return jc;
+        }
+
+        [HttpPost]
+        public JsonResult calculoAntTr()
+        {
+            //Traigo el usuario
+            var amorant = db.AMOR_ANT.ToList();
+            decimal? sum = 0;
+            for (int i = 0; i < amorant.Count; i++)
+            {
+                var nd = amorant[i].NUM_DOC;
+                //traigo su estatus
+                var est = db.DOCUMENTOes.Where(e => e.NUM_DOC == nd && e.ESTATUS_C != "C" && e.ESTATUS != "A").FirstOrDefault();
+                //si es diferente a null, significa que trae datos
+                if (est != null)
+                {
+                    sum = sum + amorant[i].ANTXAMORT;
+                }
+            }
+            JsonResult jc = Json(sum, JsonRequestBehavior.AllowGet);
             return jc;
         }
         //LEJGG 11-12-2018 Llenar Tablas OC-------------------------------------------------<
