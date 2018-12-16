@@ -221,6 +221,9 @@
     <Compile Include="Entities\ACCION.cs">
       <DependentUpon>WFARTHA.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\AMOR_ANT.cs">
+      <DependentUpon>WFARTHA.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\APPSETTING.cs">
       <DependentUpon>WFARTHA.tt</DependentUpon>
     </Compile>
@@ -497,8 +500,8 @@
       <DependentUpon>WFARTHA.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\WFARTHA.cs">
-      <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>WFARTHA.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\WFARTHA.Designer.cs">
@@ -522,6 +525,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AMORANT_MOD.cs" />
     <Compile Include="Models\Appsetting.cs" />
     <Compile Include="Models\AppsettingNuevo.cs" />
     <Compile Include="Models\ArchivoContable.cs" />
@@ -823,6 +827,7 @@
     <Content Include="Views\SociedadesUsuario\Edit.cshtml" />
     <Content Include="Views\ProyectoSociedad\Create.cshtml" />
     <Content Include="Views\Solicitudes\_PartialConTr5.cshtml" />
+    <Content Include="Views\Solicitudes\_PartialConOC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

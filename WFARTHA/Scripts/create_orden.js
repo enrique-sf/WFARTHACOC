@@ -181,24 +181,84 @@ $(document).ready(function () {
                 "className": 'PorAnt',
                 "orderable": false,
                 "visible": true
+            }//,
+            //{
+            //    "name": 'AntSol',
+            //    "className": 'AntSol',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'MontoAntT',
+            //    "className": 'MontoAntT',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntAmort',
+            //    "className": 'AntAmort',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntTr',
+            //    "className": 'AntTr',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AmortAnt',
+            //    "className": 'AmortAnt',
+            //    "orderable": false,
+            //    "visible": true
+            //}
+        ]
+    });
+
+    $('#tableOC2').DataTable({
+        language: {
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "ordering": false,
+        "searching": false,
+        "columns": [
+            {
+                "className": 'POSC',
+                "defaultContent": '',
+                "orderable": false
             },
             {
-                "name": 'AntSol',
-                "className": 'AntSol',
+                "className": 'POS',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'NDOC',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'EJERCICIO',
                 "orderable": false,
                 "visible": true
             },
             {
-                "name": 'MontoAntT',
-                "className": 'MontoAntT',
+                "className": 'ANTAMOR',
                 "orderable": false,
                 "visible": true
             },
             {
-                "name": 'AntAmort',
-                "className": 'AntAmort',
+                "name": 'TOANT',
+                "className": 'TOANT',
                 "orderable": false,
                 "visible": true
+            },
+            {
+                "className": 'MONEDA',
+                "defaultContent": '',
+                "orderable": false
             },
             {
                 "name": 'AntTr',
@@ -207,8 +267,7 @@ $(document).ready(function () {
                 "visible": true
             },
             {
-                "name": 'AmortAnt',
-                "className": 'AmortAnt',
+                "className": 'AntXAMOR',
                 "orderable": false,
                 "visible": true
             }
@@ -405,6 +464,17 @@ $('body').on('change', '#norden_compra', function (event, param1) {
             llenarTablaOc(ekko, cuentas, mtr, brtwr);
         }
     });
+
+    $.ajax({
+        type: "POST",
+        url: 'getEKBEInfo',
+        dataType: "json",
+        data: { "ebeln": $(this).val() },
+        success: function (data) {
+            llenarTablaOc2(data);
+        }
+    });
+
     $.ajax({
         type: "POST",
         url: 'getEKPOInfo',
@@ -414,6 +484,75 @@ $('body').on('change', '#norden_compra', function (event, param1) {
             armarTabla(data);
         }
     });
+});
+
+function llenarTablaOc2(val) {
+    var data = val;
+    var tabl = $('#tableOC2').DataTable();
+    //Limpio primero la tabla
+    $("#tableOC2 tbody tr[role='row']").each(function () {
+        var _t = $(this);
+        tabl.row(_t).remove().draw(false);
+    });
+    for (var i = 0; i < data.length; i++) {
+        var mt = "";
+        var at = "";
+        //Ajax para llenar campos calculados
+        //calculo de anticipo amortizado
+        $.ajax({
+            type: "POST",
+            url: 'calculoAntAmor',
+            dataType: "json",
+            success: function (dataC) {
+                mt = dataC;
+            }
+        });
+        //calculo de anticipo en transito
+        $.ajax({
+            type: "POST",
+            url: 'calculoAntTr',
+            dataType: "json",
+            success: function (datax) {
+                at = datax;
+            }
+        });
+        tabl.row.add([
+            data[i].EBELP,//POSC
+            data[i].BUZEI,//POS
+            data[i].BELNR,//numdoc
+            data[i].GJAHR,//EJERCICIO
+            toShow(mt),//Anticipo amortizado
+            toShow(data[i].WRBTR),//total anticipo
+            data[i].WAERS,//MONEDA,
+            toShow(at),//anticipo en transito
+            "<input class=\"ANTXAMORT\" style=\"font-size:12px;\" type=\"text\" id=\"antxamor\" name=\"\" value=\"\">"
+        ]).draw(false).node();
+    }
+}
+
+
+$('body').on('keydown', '.ANTXAMORT', function (e) {
+    if (e.keyCode == 110 || e.keyCode == 190) {
+        if ($(this).val().indexOf('.') != -1) {
+            e.preventDefault();
+        }
+    }
+    else {  // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+
+            return;
+        }
+
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    }
 });
 
 function armarTabla(info) {
@@ -493,12 +632,7 @@ function llenarTablaOc(a, b, mtr, brtwr) {
     tabl.row.add([
         toShow(brtwr),
         a.RETPC,  //%ret             
-        a.DPPCT,//%deposito
-        toShow(c[0]),       
-        toShow(c[2]),
-        toShow(c[1]),
-        toShow(mtr),//ant en transito
-        "<input class=\"amor_ant\" style=\"font-size:12px;\" type=\"text\" id=\"amor_ant\" name=\"\" value=\"\">"
+        a.DPPCT//,//%deposito
     ]).draw(false).node();
     alinearTOC();
 }
@@ -825,24 +959,20 @@ function copiarTableInfoPControl() {
     var ebeln = $("#norden_compra").val();
     $("#tableOC tbody tr[role='row']").each(function () {
         var _t = $(this);
-        var amor_ant = _t.find("td.AmortAnt input").val();
+        var brtwr = _t.find("td.BRTWR").val();
         var retpc = _t.find("td.FondoGarantia").text();
-        var dppct = _t.find("td.MontoAntT").text();
-        var toad = _t.find("td.AntSol").text();
-        var antr = _t.find("td.AntTr").text();
+        var porant = _t.find("td.PorAnt").text();
         //
-        $('#EBELN').val(ebeln.toString());
+        /*$('#EBELN').val(ebeln.toString());
         $('#AMOR_ANT').val(parseFloat(toNum(amor_ant)));
-        $('#RETPC').val(parseFloat(toNum(retpc)));
-        $('#DPPCT').val(parseFloat(toNum(dppct)));
-        $('#TOAD').val(parseFloat(toNum(toad)));
-        $('#ANTR').val(parseFloat(toNum(antr)));
+        $('#RETPC').val(parseFloat(toNum(retpc)));*/
     });
     var lengthT = $("table#table_infoP tbody tr[role='row']").length;
     var docsenviar = {};
     var docsenviar2 = {};
     var docsenviar3 = {};//lej01.10.2018
     var docsenviar4 = {};//lejgg 12.12-2018
+    var docsenviar5 = {};//lejgg 15-12-2018
     if (lengthT > 0) {
         //Obtener los valores de la tabla para agregarlos a la tabla oculta y agregarlos al json
         //Se tiene que jugar con los index porque las columnas (ocultas) en vista son diferentes a las del plugin
@@ -850,6 +980,7 @@ function copiarTableInfoPControl() {
         jsonObjDocs2 = [];
         jsonObjDocs3 = [];//lej01.10.2018
         jsonObjDocs4 = [];//lejgg 12.12-2018
+        jsonObjDocs5 = [];//lejgg 15-12-2018
         var i = 1;
         var t = $('#table_infoP').DataTable();
         //Lej 14.09.18---------------------
@@ -984,8 +1115,51 @@ function copiarTableInfoPControl() {
 
         });
 
-        docsenviar = JSON.stringify({ 'docs': jsonObjDocs });
+        //LEJGG 15-12-2018
+        $("#tableOC2 > tbody  > tr[role='row']").each(function () {
+            //Obtener el row para el plugin
+            var tr = $(this);
+            var indexopc = t.row(tr).index();
 
+            var posc = $(this).find("td.POSC").text(); //MGC 11-10-2018 Obtener valor de columnas oculta
+            var pos = $(this).find("td.POS").text(); //lejgg 12-12-2018
+            var ndoc = $(this).find("td.NDOC").text(); //lejgg 12-12-2018
+            var ejercicio = $(this).find("td.EJERCICIO").text(); //lejgg 12-12-2018
+            var antamor = $(this).find("td.ANTAMOR").text().replace('$',''); //lejgg 12-12-2018
+            while (antamor.indexOf(',') > -1) {
+                antamor = antamor.replace('$', '').replace(',', '');
+            }
+            var toant = $(this).find("td.TOANT").text().replace('$', '');
+            while (toant.indexOf(',') > -1) {
+                toant = toant.replace('$', '').replace(',', '');
+            }
+            var moneda = $(this).find("td.MONEDA").text();
+            var anttr = $(this).find("td.AntTr").text().replace('$', '');
+            while (anttr.indexOf(',') > -1) {
+                anttr = anttr.replace('$', '').replace(',', '');
+            }
+            var antxamor = $(this).find("td.AntXAMOR input").val().replace('$', '');
+            while (antxamor.indexOf(',') > -1) {
+                antxamor = antxamor.replace('$', '').replace(',', '');
+            }
+            //-----------------------
+
+            var item5 = {};
+            item5["EBELN"] = $('#norden_compra').val();
+            item5["EBELP"] = posc;
+            item5["BUZEI"] = parseFloat(pos);
+            item5["BELNR"] = ndoc;
+            item5["GJAHR"] = parseFloat(ejercicio);           
+            item5["ANTAMOR"] = parseFloat(antamor);
+            item5["TANT"] = parseFloat(toant);
+            item5["WAERS"] = moneda;          
+            item5["ANTTRANS"] = parseFloat(anttr);
+            item5["ANTXAMORT"] = parseFloat(antxamor);
+            jsonObjDocs5.push(item5);
+            item5 = "";
+        });
+
+        docsenviar = JSON.stringify({ 'docs': jsonObjDocs });
         $.ajax({
             type: "POST",
             url: 'getPartialCon',
@@ -1006,7 +1180,6 @@ function copiarTableInfoPControl() {
         });
 
         docsenviar2 = JSON.stringify({ 'docs': jsonObjDocs2 });
-
         //Ajax para las retenciones en la tabla de info
         $.ajax({
             type: "POST",
@@ -1056,6 +1229,24 @@ function copiarTableInfoPControl() {
             success: function (data) {
                 if (data !== null || data !== "") {
                     $("table#table_infoPh tbody").append(data);
+                }
+            },
+            error: function (xhr, httpStatusMessage, customErrorMessage) {
+                M.toast({ html: httpStatusMessage });
+            },
+            async: false
+        });
+
+        //Tabla co2
+        docsenviar5 = JSON.stringify({ 'docs': jsonObjDocs5 });
+        $.ajax({
+            type: "POST",
+            url: 'getPartialConOC',
+            contentType: "application/json; charset=UTF-8",
+            data: docsenviar5,
+            success: function (data) {
+                if (data !== null || data !== "") {
+                    $("table#tableOC2H tbody").append(data);
                 }
             },
             error: function (xhr, httpStatusMessage, customErrorMessage) {
@@ -1463,7 +1654,7 @@ $('body').on('focusout', '.extrasPC2', function (e) {
         }
         var colex = $(this).find("td." + _v2 + " input").val().replace("$", "").replace(',', '');
         //de esta manera saco el renglon y la celad en especifico
-        var er = $('#table_ret tbody tr').eq(x).find('td').eq(3).text().replace('$', '');;
+        var er = $('#table_ret tbody tr').eq(x).find('td').eq(3).text().replace('$', '');
         var txbi = $.trim(colex);
         var sum = parseFloat(txbi);
         // sum = parseFloat(sum + y).toFixed(2);
@@ -1479,9 +1670,9 @@ $('body').on('focusout', '.extrasPC2', function (e) {
 });
 
 //LEJGG 12-12-2018----------------------------------I
-$('body').on('focusout', '.amor_ant', function (e) {
+$('body').on('focusout', '.ANTXAMORT', function (e) {
 
-    var t = $('#tableOC').DataTable();
+    var t = $('#tableOC2').DataTable();
     var tr = $(this).closest('tr'); //Obtener el row 
     var amorant = $(this).val().replace('$', '');
     while (amorant.indexOf(',') > -1) {
@@ -1492,8 +1683,8 @@ $('body').on('focusout', '.amor_ant', function (e) {
     }
     amorant = parseFloat(amorant);
     var famant = toShow(amorant);
-    tr.find("td.AmortAnt input").val();
-    tr.find("td.AmortAnt input").val(famant);
+    tr.find("td.AntXAMOR input").val();
+    tr.find("td.AntXAMOR input").val(famant);
 });
 
 $('body').on('focusout', '.MONTOP', function (e) {

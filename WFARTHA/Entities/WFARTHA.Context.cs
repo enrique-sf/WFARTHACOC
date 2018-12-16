@@ -28,6 +28,7 @@ namespace WFARTHA.Entities
         }
     
         public virtual DbSet<ACCION> ACCIONs { get; set; }
+        public virtual DbSet<AMOR_ANT> AMOR_ANT { get; set; }
         public virtual DbSet<APPSETTING> APPSETTINGs { get; set; }
         public virtual DbSet<BANCO> BANCOS { get; set; }
         public virtual DbSet<CAMPOS> CAMPOS { get; set; }

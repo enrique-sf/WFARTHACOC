@@ -13,6 +13,24 @@
           <Property Name="DESCCRIPCION" Type="nvarchar" MaxLength="50" />
           <Property Name="TIPO" Type="nchar" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="AMOR_ANT">
+          <Key>
+            <PropertyRef Name="POS" />
+            <PropertyRef Name="NUM_DOC" />
+          </Key>
+          <Property Name="POS" Type="int" Nullable="false" />
+          <Property Name="NUM_DOC" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="EBELN" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="EBELP" Type="nvarchar" MaxLength="5" />
+          <Property Name="BELNR" Type="nchar" MaxLength="10" />
+          <Property Name="GJAHR" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="BUZEI" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="ANTAMOR" Type="decimal" Precision="13" Scale="0" />
+          <Property Name="TANT" Type="decimal" Precision="13" Scale="0" />
+          <Property Name="WAERS" Type="nvarchar" MaxLength="5" />
+          <Property Name="ANTTRANS" Type="decimal" Precision="13" Scale="0" />
+          <Property Name="ANTXAMORT" Type="decimal" Precision="13" Scale="0" />
+        </EntityType>
         <EntityType Name="APPSETTING">
           <Key>
             <PropertyRef Name="ID" />
@@ -530,6 +548,9 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="SHKZG" Type="nchar" MaxLength="1" />
           <Property Name="BUDAT" Type="date" />
           <Property Name="XBLNR" Type="nchar" MaxLength="16" />
+          <Property Name="REBZG" Type="nchar" MaxLength="10" />
+          <Property Name="REBZJ" Type="nchar" MaxLength="4" />
+          <Property Name="REBZZ" Type="numeric" Precision="4" Scale="0" />
         </EntityType>
         <EntityType Name="EKBE_DUMMY">
           <Key>
@@ -1422,6 +1443,32 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="POSICION" Type="nvarchar" MaxLength="10" />
           <Property Name="ACTIVO" Type="bit" />
         </EntityType>
+        <Association Name="FK_AMOR_ANT_DOCUMENTO">
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="1" />
+          <End Role="AMOR_ANT" Type="Self.AMOR_ANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTO">
+              <PropertyRef Name="NUM_DOC" />
+            </Principal>
+            <Dependent Role="AMOR_ANT">
+              <PropertyRef Name="NUM_DOC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AMOR_ANT_EKPO">
+          <End Role="EKPO" Type="Self.EKPO" Multiplicity="0..1" />
+          <End Role="AMOR_ANT" Type="Self.AMOR_ANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EKPO">
+              <PropertyRef Name="EBELN" />
+              <PropertyRef Name="EBELP" />
+            </Principal>
+            <Dependent Role="AMOR_ANT">
+              <PropertyRef Name="EBELN" />
+              <PropertyRef Name="EBELP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CAMPOS_PAGINA">
           <End Role="PAGINA" Type="Self.PAGINA" Multiplicity="1" />
           <End Role="CAMPOS" Type="Self.CAMPOS" Multiplicity="*" />
@@ -2435,6 +2482,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
         </Function>
         <EntityContainer Name="WFARTHAModelStoreContainer">
           <EntitySet Name="ACCION" EntityType="Self.ACCION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AMOR_ANT" EntityType="Self.AMOR_ANT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="APPSETTING" EntityType="Self.APPSETTING" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BANCOS" EntityType="Self.BANCOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMPOS" EntityType="Self.CAMPOS" Schema="dbo" store:Type="Tables" />
@@ -2673,6 +2721,14 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
     [WARNINGV].[ACTIVO] AS [ACTIVO]
     FROM [dbo].[WARNINGV] AS [WARNINGV]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_AMOR_ANT_DOCUMENTO" Association="Self.FK_AMOR_ANT_DOCUMENTO">
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTO" />
+            <End Role="AMOR_ANT" EntitySet="AMOR_ANT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AMOR_ANT_EKPO" Association="Self.FK_AMOR_ANT_EKPO">
+            <End Role="EKPO" EntitySet="EKPO" />
+            <End Role="AMOR_ANT" EntitySet="AMOR_ANT" />
+          </AssociationSet>
           <AssociationSet Name="FK_CAMPOS_PAGINA" Association="Self.FK_CAMPOS_PAGINA">
             <End Role="PAGINA" EntitySet="PAGINA" />
             <End Role="CAMPOS" EntitySet="CAMPOS" />
@@ -3012,6 +3068,26 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="WORKFPs" Relationship="Self.FK_WORKFP_ACCION" FromRole="ACCION" ToRole="WORKFP" />
         </EntityType>
+        <EntityType Name="AMOR_ANT">
+          <Key>
+            <PropertyRef Name="POS" />
+            <PropertyRef Name="NUM_DOC" />
+          </Key>
+          <Property Name="POS" Type="Int32" Nullable="false" />
+          <Property Name="NUM_DOC" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="EBELN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="EBELP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="BELNR" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="GJAHR" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="BUZEI" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="ANTAMOR" Type="Decimal" Precision="13" Scale="0" />
+          <Property Name="TANT" Type="Decimal" Precision="13" Scale="0" />
+          <Property Name="WAERS" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ANTTRANS" Type="Decimal" Precision="13" Scale="0" />
+          <Property Name="ANTXAMORT" Type="Decimal" Precision="13" Scale="0" />
+          <NavigationProperty Name="DOCUMENTO" Relationship="Self.FK_AMOR_ANT_DOCUMENTO" FromRole="AMOR_ANT" ToRole="DOCUMENTO" />
+          <NavigationProperty Name="EKPO" Relationship="Self.FK_AMOR_ANT_EKPO" FromRole="AMOR_ANT" ToRole="EKPO" />
+        </EntityType>
         <EntityType Name="APPSETTING">
           <Key>
             <PropertyRef Name="ID" />
@@ -3341,6 +3417,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="DPPCT" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="TOAD" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="ANTR" Type="Decimal" Precision="13" Scale="2" />
+          <NavigationProperty Name="AMOR_ANT1" Relationship="Self.FK_AMOR_ANT_DOCUMENTO" FromRole="DOCUMENTO" ToRole="AMOR_ANT" />
           <NavigationProperty Name="EKKO" Relationship="Self.FK_DOCUMENTO_EKKO" FromRole="DOCUMENTO" ToRole="EKKO" />
           <NavigationProperty Name="SOCIEDAD" Relationship="Self.FK_DOCUMENTO_SOCIEDAD" FromRole="DOCUMENTO" ToRole="SOCIEDAD" />
           <NavigationProperty Name="TSOL" Relationship="Self.FK_DOCUMENTO_TSOL" FromRole="DOCUMENTO" ToRole="TSOL" />
@@ -3540,6 +3617,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="SHKZG" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="BUDAT" Type="DateTime" Precision="0" />
           <Property Name="XBLNR" Type="String" MaxLength="16" FixedLength="true" Unicode="true" />
+          <Property Name="REBZG" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="REBZJ" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="REBZZ" Type="Decimal" Precision="4" Scale="0" />
         </EntityType>
         <EntityType Name="EKBE_DUMMY">
           <Key>
@@ -3626,6 +3706,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="ESTATUS" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="EREKZ" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="NETWR" Type="Decimal" Precision="13" Scale="2" />
+          <NavigationProperty Name="AMOR_ANT" Relationship="Self.FK_AMOR_ANT_EKPO" FromRole="EKPO" ToRole="AMOR_ANT" />
         </EntityType>
         <EntityType Name="EKPO_DUMMY">
           <Key>
@@ -4453,6 +4534,32 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
             </Principal>
             <Dependent Role="WORKFP">
               <PropertyRef Name="ACCION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AMOR_ANT_DOCUMENTO">
+          <End Role="DOCUMENTO" Type="Self.DOCUMENTO" Multiplicity="1" />
+          <End Role="AMOR_ANT" Type="Self.AMOR_ANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOCUMENTO">
+              <PropertyRef Name="NUM_DOC" />
+            </Principal>
+            <Dependent Role="AMOR_ANT">
+              <PropertyRef Name="NUM_DOC" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AMOR_ANT_EKPO">
+          <End Role="EKPO" Type="Self.EKPO" Multiplicity="0..1" />
+          <End Role="AMOR_ANT" Type="Self.AMOR_ANT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EKPO">
+              <PropertyRef Name="EBELN" />
+              <PropertyRef Name="EBELP" />
+            </Principal>
+            <Dependent Role="AMOR_ANT">
+              <PropertyRef Name="EBELN" />
+              <PropertyRef Name="EBELP" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5422,6 +5529,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
         </Association>
         <EntityContainer Name="WFARTHAEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ACCIONs" EntityType="Self.ACCION" />
+          <EntitySet Name="AMOR_ANT" EntityType="Self.AMOR_ANT" />
           <EntitySet Name="APPSETTINGs" EntityType="Self.APPSETTING" />
           <EntitySet Name="BANCOS" EntityType="Self.BANCO" />
           <EntitySet Name="CAMPOS" EntityType="Self.CAMPOS" />
@@ -5517,6 +5625,14 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <AssociationSet Name="FK_WORKFP_ACCION" Association="Self.FK_WORKFP_ACCION">
             <End Role="ACCION" EntitySet="ACCIONs" />
             <End Role="WORKFP" EntitySet="WORKFPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AMOR_ANT_DOCUMENTO" Association="Self.FK_AMOR_ANT_DOCUMENTO">
+            <End Role="DOCUMENTO" EntitySet="DOCUMENTOes" />
+            <End Role="AMOR_ANT" EntitySet="AMOR_ANT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AMOR_ANT_EKPO" Association="Self.FK_AMOR_ANT_EKPO">
+            <End Role="EKPO" EntitySet="EKPOes" />
+            <End Role="AMOR_ANT" EntitySet="AMOR_ANT" />
           </AssociationSet>
           <AssociationSet Name="FK_CAMPOS_PAGINA" Association="Self.FK_CAMPOS_PAGINA">
             <End Role="PAGINA" EntitySet="PAGINAs" />
@@ -5908,6 +6024,24 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DESCCRIPCION" ColumnName="DESCCRIPCION" />
                 <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AMOR_ANT">
+            <EntityTypeMapping TypeName="WFARTHAModel.AMOR_ANT">
+              <MappingFragment StoreEntitySet="AMOR_ANT">
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="NUM_DOC" ColumnName="NUM_DOC" />
+                <ScalarProperty Name="EBELN" ColumnName="EBELN" />
+                <ScalarProperty Name="EBELP" ColumnName="EBELP" />
+                <ScalarProperty Name="BELNR" ColumnName="BELNR" />
+                <ScalarProperty Name="GJAHR" ColumnName="GJAHR" />
+                <ScalarProperty Name="BUZEI" ColumnName="BUZEI" />
+                <ScalarProperty Name="ANTAMOR" ColumnName="ANTAMOR" />
+                <ScalarProperty Name="TANT" ColumnName="TANT" />
+                <ScalarProperty Name="WAERS" ColumnName="WAERS" />
+                <ScalarProperty Name="ANTTRANS" ColumnName="ANTTRANS" />
+                <ScalarProperty Name="ANTXAMORT" ColumnName="ANTXAMORT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6378,6 +6512,9 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="SHKZG" ColumnName="SHKZG" />
                 <ScalarProperty Name="BUDAT" ColumnName="BUDAT" />
                 <ScalarProperty Name="XBLNR" ColumnName="XBLNR" />
+                <ScalarProperty Name="REBZG" ColumnName="REBZG" />
+                <ScalarProperty Name="REBZJ" ColumnName="REBZJ" />
+                <ScalarProperty Name="REBZZ" ColumnName="REBZZ" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
