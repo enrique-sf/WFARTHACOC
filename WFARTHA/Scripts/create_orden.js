@@ -232,7 +232,8 @@ $(document).ready(function () {
             {
                 "className": 'POS',
                 "defaultContent": '',
-                "orderable": false
+                "orderable": false,
+                "visible": false
             },
             {
                 "className": 'NDOC',
@@ -486,48 +487,51 @@ $('body').on('change', '#norden_compra', function (event, param1) {
     });
 });
 
+
 function llenarTablaOc2(val) {
-    var data = val;
+    var mt = "";
+    var at = "";
+
     var tabl = $('#tableOC2').DataTable();
     //Limpio primero la tabla
     $("#tableOC2 tbody tr[role='row']").each(function () {
         var _t = $(this);
         tabl.row(_t).remove().draw(false);
     });
-    for (var i = 0; i < data.length; i++) {
-        var mt = "";
-        var at = "";
-        //Ajax para llenar campos calculados
-        //calculo de anticipo amortizado
-        $.ajax({
-            type: "POST",
-            url: 'calculoAntAmor',
-            dataType: "json",
-            success: function (dataC) {
-                mt = dataC;
-            }
-        });
-        //calculo de anticipo en transito
-        $.ajax({
-            type: "POST",
-            url: 'calculoAntTr',
-            dataType: "json",
-            success: function (datax) {
-                at = datax;
-            }
-        });
-        tabl.row.add([
-            data[i].EBELP,//POSC
-            data[i].BUZEI,//POS
-            data[i].BELNR,//numdoc
-            data[i].GJAHR,//EJERCICIO
-            toShow(mt),//Anticipo amortizado
-            toShow(data[i].WRBTR),//total anticipo
-            data[i].WAERS,//MONEDA,
-            toShow(at),//anticipo en transito
-            "<input class=\"ANTXAMORT\" style=\"font-size:12px;\" type=\"text\" id=\"antxamor\" name=\"\" value=\"\">"
-        ]).draw(false).node();
-    }
+    //Ajax para llenar campos calculados
+    //calculo de anticipo amortizado
+    $.ajax({
+        type: "POST",
+        url: 'calculoAntAmor',
+        dataType: "json",
+        success: function (data) {
+            mt = data;
+            //
+            //calculo de anticipo en transito
+            $.ajax({
+                type: "POST",
+                url: 'calculoAntTr',
+                dataType: "json",
+                success: function (datax) {
+                    at = datax;
+                    //
+                    for (var i = 0; i < val.length; i++) {
+                        tabl.row.add([
+                            val[i].EBELP,//POSC
+                            val[i].BUZEI,//POS
+                            val[i].BELNR,//numdoc
+                            val[i].GJAHR,//EJERCICIO
+                            toShow(mt),//Anticipo amortizado
+                            toShow(val[i].WRBTR),//total anticipo
+                            val[i].WAERS,//MONEDA,
+                            toShow(at),//anticipo en transito
+                            "<input class=\"ANTXAMORT\" style=\"font-size:12px;\" type=\"text\" id=\"antxamor\" name=\"\" value=\"\">"
+                        ]).draw(false).node();
+                    }
+                }
+            });
+        }
+    });   
 }
 
 
@@ -983,6 +987,7 @@ function copiarTableInfoPControl() {
         jsonObjDocs5 = [];//lejgg 15-12-2018
         var i = 1;
         var t = $('#table_infoP').DataTable();
+        var toc = $('#tableOC2').DataTable();
         //Lej 14.09.18---------------------
         //Aqui armo la tabla oculta de acuerdo a los valores y columnas ingresados de retencion
         var taInf = $("#table_inforeth");
@@ -1119,13 +1124,14 @@ function copiarTableInfoPControl() {
         $("#tableOC2 > tbody  > tr[role='row']").each(function () {
             //Obtener el row para el plugin
             var tr = $(this);
-            var indexopc = t.row(tr).index();
+            var indexopc = toc.row(tr).index();
 
             var posc = $(this).find("td.POSC").text(); //MGC 11-10-2018 Obtener valor de columnas oculta
-            var pos = $(this).find("td.POS").text(); //lejgg 12-12-2018
+            //var pos = $(this).find("td.POS").text(); //lejgg 12-12-2018
+            var pos = toc.row(indexopc).data()[1]; //lejgg 12-12-2018
             var ndoc = $(this).find("td.NDOC").text(); //lejgg 12-12-2018
             var ejercicio = $(this).find("td.EJERCICIO").text(); //lejgg 12-12-2018
-            var antamor = $(this).find("td.ANTAMOR").text().replace('$',''); //lejgg 12-12-2018
+            var antamor = $(this).find("td.ANTAMOR").text().replace('$', ''); //lejgg 12-12-2018
             while (antamor.indexOf(',') > -1) {
                 antamor = antamor.replace('$', '').replace(',', '');
             }
@@ -1149,10 +1155,10 @@ function copiarTableInfoPControl() {
             item5["EBELP"] = posc;
             item5["BUZEI"] = parseFloat(pos);
             item5["BELNR"] = ndoc;
-            item5["GJAHR"] = parseFloat(ejercicio);           
+            item5["GJAHR"] = parseFloat(ejercicio);
             item5["ANTAMOR"] = parseFloat(antamor);
             item5["TANT"] = parseFloat(toant);
-            item5["WAERS"] = moneda;          
+            item5["WAERS"] = moneda;
             item5["ANTTRANS"] = parseFloat(anttr);
             item5["ANTXAMORT"] = parseFloat(antxamor);
             jsonObjDocs5.push(item5);

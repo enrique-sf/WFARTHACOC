@@ -714,7 +714,7 @@
                         <div class="col s12 m12 l3">
                             <div id="div_norden_compra" class="input-field col s12">
                                 @*<select id="norden_compra"></select>*@<!--ADD RSG 19.10.2018-->
-                                <input type="text" id="norden_compra" disabled value="@ViewBag.ebeln"/>
+                                <input type="text" id="norden_compra" disabled value="@ViewBag.ebeln" />
                                 <label for="norden_compra" id="lbl_norden_compra">Orden de compra</label>
                             </div>
                         </div>
@@ -740,9 +740,9 @@
                                     <table class="mdl-data-table striped" id="tableOC2" style="width:100%;">
                                         <thead>
                                             <tr>
-                                                <th>Pos Compra</th>
+                                                <th>Fila</th>
                                                 <th>Pos</th>
-                                                <th>Ndoc</th>
+                                                <th>No. Doc. SAP</th>
                                                 <th>Ejercicio</th>
                                                 <th>Anticipo Amortizado</th>
                                                 <th>Total Anticipo</th>
@@ -751,7 +751,22 @@
                                                 <th>Anticipo por Amortizar</th>
                                             </tr>
                                         </thead>
-                                        <tbody></tbody>
+                                        <tbody>
+                                            @for (int i = 0; i < @Model.D.AMORANT.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td>@Model.D.AMORANT[i].EBELP</td>
+                                                    <td>@Model.D.AMORANT[i].BUZEI</td>
+                                                    <td>@Model.D.AMORANT[i].BELNR</td>
+                                                    <td>@Model.D.AMORANT[i].GJAHR</td>
+                                                    <td>@formatoc.toShow(Model.D.AMORANT[i].ANTAMOR, ".")</td>
+                                                    <td>@formatoc.toShow(Model.D.AMORANT[i].TANT, ".")</td>
+                                                    <td>@Model.D.AMORANT[i].WAERS</td>
+                                                    <td>@formatoc.toShow(Model.D.AMORANT[i].ANTTRANS, ".")</td>
+                                                    <td>@formatoc.toShow(Model.D.AMORANT[i].ANTXAMORT, ".")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
                                     </table>
                                     @*-----TABLA AMORANT HIDDEN----- 15-12-2018*@
                                     <table class="mdl-data-table striped" id="tableOC2H" style="display:none">

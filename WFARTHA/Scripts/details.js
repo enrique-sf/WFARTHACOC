@@ -3,6 +3,281 @@ var firmaVal = "";
 
 $(document).ready(function () {
 
+    //--LEJGG 16-12-2018
+    $('#table_infoP').DataTable({
+
+        language: {
+            //"url": "../Scripts/lang/@Session["spras"].ToString()" + ".json"
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "ordering": false,
+        "searching": false,
+        columnDefs: [
+            {
+                targets: [0, 6, 7, 11, 19, 21],
+                className: 'mdl-data-table__cell--non-numeric'
+            }
+        ],
+        "columns": [
+            {
+                "name": 'Fila',
+                "className": 'POS',
+                "orderable": false
+            },
+            {
+                "name": 'A1',//MGC 22-10-2018 Etiquetas
+                "className": 'NumAnexo',
+                "orderable": false
+            },
+            {
+                "name": 'A2',//MGC 22-10-2018 Etiquetas
+                "className": 'NumAnexo2',
+                "orderable": false
+            },
+            {
+                "name": 'A3',//MGC 22-10-2018 Etiquetas
+                "className": 'NumAnexo3',
+                "orderable": false
+            },
+            {
+                "name": 'A4',//MGC 22-10-2018 Etiquetas
+                "className": 'NumAnexo4',
+                "orderable": false
+            },
+            {
+                "name": 'A5',//MGC 22-10-2018 Etiquetas
+                "className": 'NumAnexo5',
+                "orderable": false
+            },
+            {
+                "name": 'MATERIAL',
+                "className": 'MATERIAL',
+                "orderable": false
+            },
+            {
+                "name": 'TXTPOS',
+                "className": 'TXTPOS',
+                "orderable": false
+            },
+            {
+                "name": 'CA',
+                "className": 'CA',
+                "orderable": false,
+                "visible": false
+            },
+            {
+                "name": 'FACTURA',
+                "className": 'FACTURA',
+                "orderable": false,
+                "visible": false
+            },
+            {
+                "name": 'TCONCEPTO',
+                "className": 'TCONCEPTO',
+                "orderable": false,
+                "visible": false//MGC 22-10-2018 Etiquetas
+            },
+            {
+                "name": 'CONCEPTO',
+                "className": 'GRUPO',
+                "orderable": false
+            },
+            {
+                "name": 'CCOSTO',
+                "className": 'CCOSTO',
+                "orderable": false
+            },
+            {
+                "name": 'PEP',
+                "className": 'PEP',
+                "orderable": false
+            },
+            {
+                "name": 'CUENTA',
+                "className": 'CUENTA',
+                "orderable": false,
+                "visible": false//lej 11.09.2018
+            },
+            {
+                "name": 'CUENTANOM',
+                "className": 'CUENTANOM',
+                "orderable": false,
+                "visible": false//lej 11.09.2018
+            },
+            {
+                "name": 'TIPOIMP',
+                "className": 'TIPOIMP',
+                "orderable": false,
+                "visible": false//MGC 22-10-2018 Etiquetas
+            },
+            {
+                "name": 'IMPUTACION',
+                "className": 'IMPUTACION',
+                "orderable": false,
+                "visible": false//lej 11.09.2018
+            },
+            {
+                "name": 'MONTO',
+                "className": 'MONTO',
+                "orderable": false
+            },
+            {
+                "name": 'MONEDA',
+                "className": 'MONEDA',
+                "orderable": false
+
+            },
+            {
+                "name": 'CANTIDAD',
+                "className": 'CANTIDAD',
+                "orderable": false
+            },
+            {
+                "name": 'UNIDAD',
+                "className": 'UNIDAD',
+                "orderable": false
+            },
+            {
+                "name": 'IMPUESTOP',
+                "className": 'IMPUESTOP',
+                "orderable": false,
+                "visible": false
+            },
+            {
+                "name": 'IVA',
+                "className": 'IVA',
+                "orderable": false
+            },
+            {
+                "name": 'TOTAL',
+                "className": 'TOTAL',
+                "orderable": false,
+                "visible": false //
+            }
+        ]
+    });
+
+    $('#tableOC').DataTable({
+        language: {
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "ordering": false,
+        "searching": false,
+        "columns": [
+            {
+                "className": 'BRTWR',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'FondoGarantia',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "name": 'PorAnt',
+                "className": 'PorAnt',
+                "orderable": false,
+                "visible": true
+            }//,
+            //{
+            //    "name": 'AntSol',
+            //    "className": 'AntSol',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'MontoAntT',
+            //    "className": 'MontoAntT',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntAmort',
+            //    "className": 'AntAmort',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AntTr',
+            //    "className": 'AntTr',
+            //    "orderable": false,
+            //    "visible": true
+            //},
+            //{
+            //    "name": 'AmortAnt',
+            //    "className": 'AmortAnt',
+            //    "orderable": false,
+            //    "visible": true
+            //}
+        ]
+    });
+
+    $('#tableOC2').DataTable({
+        language: {
+            "url": "../Scripts/lang/ES.json"
+        },
+        "paging": false,
+        "info": false,
+        "ordering": false,
+        "searching": false,
+        "columns": [
+            {
+                "className": 'POSC',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'POS',
+                "defaultContent": '',
+                "orderable": false,
+                "visible": false
+            },
+            {
+                "className": 'NDOC',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "className": 'EJERCICIO',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "className": 'ANTAMOR',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "name": 'TOANT',
+                "className": 'TOANT',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "className": 'MONEDA',
+                "defaultContent": '',
+                "orderable": false
+            },
+            {
+                "name": 'AntTr',
+                "className": 'AntTr',
+                "orderable": false,
+                "visible": true
+            },
+            {
+                "className": 'AntXAMOR',
+                "orderable": false,
+                "visible": true
+            }
+        ]
+    });
+    //--
+
     //Inicializar las tabs
     $('#tabs').tabs();
 

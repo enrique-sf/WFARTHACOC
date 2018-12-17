@@ -169,7 +169,7 @@ namespace WFARTHA.Controllers
                     _total = _total + _t[i].TOTAL;
                 }
 
-                ViewBag.total = _total;
+                //ViewBag.total = _total;
 
                 //FRT08112018  Mostrar el Total en Details 
                 var _vtotal = Math.Round(_total, 2);
@@ -375,7 +375,7 @@ namespace WFARTHA.Controllers
             doc.ESTATUS_WF = dOCUMENTO.ESTATUS_WF;
             doc.EBELN = dOCUMENTO.EBELN;//lejgg 16-12-2018
             ViewBag.ebeln = dOCUMENTO.EBELN;//lejgg 16-12-2018
-
+            ViewBag.total = dOCUMENTO.MONTO_DOC_MD;
             //FRT07112018 Se agrega el nombre del impueto en la cabecera
             var impcab = dOCUMENTO.IMPUESTO;
             var impuestotcab = db.IMPUESTOTs.Where(a => a.MWSKZ.Equals(impcab)).FirstOrDefault().TXT50;//MGC 07-11-2018 Descripción corta
@@ -714,7 +714,7 @@ namespace WFARTHA.Controllers
 
             List<AMORANT_MOD> lstdamant = new List<AMORANT_MOD>();
             var amorant = db.AMOR_ANT.Where(x => x.NUM_DOC == id).ToList();
-            for (int i = 0; i < dcoc.Count; i++)
+            for (int i = 0; i < amorant.Count; i++)
             {
                 AMORANT_MOD oc = new AMORANT_MOD();
                 oc.NUM_DOC = amorant[i].NUM_DOC;
@@ -7794,7 +7794,12 @@ namespace WFARTHA.Controllers
             var dnetwr = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
             for (int i = 0; i < dnetwr.Count; i++)
             {
-                brtwr = brtwr + dnetwr[i].NETWR;
+                if (dnetwr[i].NETWR == null)
+                { }
+                else
+                {
+                    brtwr = brtwr + dnetwr[i].NETWR;
+                }
             }
 
             string res = As + "?" + Tres + "?" + unos;
@@ -7816,7 +7821,37 @@ namespace WFARTHA.Controllers
         {
             //Traigo el usuario
             var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
-            JsonResult jc = Json(ekpo, JsonRequestBehavior.AllowGet);
+            List<EKPO_MOD> lstekpo = new List<EKPO_MOD>();
+            for (int i = 0; i < ekpo.Count; i++)
+            {
+                EKPO_MOD ekp = new EKPO_MOD();
+                ekp.EBELN = ekpo[i].EBELN;
+                ekp.EBELP = ekpo[i].EBELP;
+                ekp.BEDAT = ekpo[i].BEDAT;
+                ekp.MATNR = ekpo[i].MATNR;
+                ekp.TXZ01 = ekpo[i].TXZ01;
+                ekp.MATKL = ekpo[i].MATKL;
+                ekp.WERKS = ekpo[i].WERKS;
+                ekp.LGORT = ekpo[i].LGORT;
+                ekp.MENGE = ekpo[i].MENGE;
+                ekp.MEINS = ekpo[i].MEINS;
+                ekp.NETPR = ekpo[i].NETPR;
+                ekp.WAERS = ekpo[i].WAERS;
+                ekp.PEINH = ekpo[i].PEINH;
+                ekp.MENGE_DEL = ekpo[i].MENGE_DEL;
+                ekp.NETPR_DEL = ekpo[i].NETPR_DEL;
+                ekp.MENGE_BIL = ekpo[i].MENGE_BIL;
+                ekp.NETPR_BIL = ekpo[i].NETPR_BIL;
+                ekp.MWSKZ = ekpo[i].MWSKZ;
+                ekp.SAKTO = ekpo[i].SAKTO;
+                ekp.KNTTP = ekpo[i].KNTTP;
+                ekp.PS_PSP_PNR = ekpo[i].PS_PSP_PNR;
+                ekp.KOSTL = ekpo[i].KOSTL;
+                ekp.EREKZ = ekpo[i].EREKZ;
+                ekp.NETWR = ekpo[i].NETWR;
+                lstekpo.Add(ekp);
+            }
+            JsonResult jc = Json(lstekpo, JsonRequestBehavior.AllowGet);
             return jc;
         }
 
@@ -7834,7 +7869,10 @@ namespace WFARTHA.Controllers
                 var _match = db.EKBEs.Where(x => x.GJAHR == rebzj && x.BELNR == rebzg && x.BUZEI == rebzz).ToList();
                 for (int y = 0; y < _match.Count; y++)
                 {
-                    sum = sum + _match[y].WRBTR;
+                    if (_match[y].WRBTR != null)
+                    {
+                        sum = sum + _match[y].WRBTR;
+                    }
                 }
             }
             JsonResult jc = Json(sum, JsonRequestBehavior.AllowGet);

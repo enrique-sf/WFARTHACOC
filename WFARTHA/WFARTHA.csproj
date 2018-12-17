@@ -546,6 +546,7 @@
     <Compile Include="Models\DOCUMENTOR_MOD.cs" />
     <Compile Include="Models\DOCUMENTO_MOD.cs" />
     <Compile Include="Models\DOCUMENTOP_MOD.cs" />
+    <Compile Include="Models\EKPO_MOD.cs" />
     <Compile Include="Models\flujo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

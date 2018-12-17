@@ -1,127 +1,12 @@
 ﻿$(document).ready(function () {
-    $('#tableOC').DataTable({
-        language: {
-            "url": "../Scripts/lang/ES.json"
-        },
-        "paging": false,
-        "info": false,
-        "ordering": false,
-        "searching": false,
-        "columns": [
-            {
-                "className": 'BRTWR',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "className": 'FondoGarantia',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "name": 'PorAnt',
-                "className": 'PorAnt',
-                "orderable": false,
-                "visible": true
-            }//,
-            //{
-            //    "name": 'AntSol',
-            //    "className": 'AntSol',
-            //    "orderable": false,
-            //    "visible": true
-            //},
-            //{
-            //    "name": 'MontoAntT',
-            //    "className": 'MontoAntT',
-            //    "orderable": false,
-            //    "visible": true
-            //},
-            //{
-            //    "name": 'AntAmort',
-            //    "className": 'AntAmort',
-            //    "orderable": false,
-            //    "visible": true
-            //},
-            //{
-            //    "name": 'AntTr',
-            //    "className": 'AntTr',
-            //    "orderable": false,
-            //    "visible": true
-            //},
-            //{
-            //    "name": 'AmortAnt',
-            //    "className": 'AmortAnt',
-            //    "orderable": false,
-            //    "visible": true
-            //}
-        ]
-    });
-
-    $('#tableOC2').DataTable({
-        language: {
-            "url": "../Scripts/lang/ES.json"
-        },
-        "paging": false,
-        "info": false,
-        "ordering": false,
-        "searching": false,
-        "columns": [
-            {
-                "className": 'POSC',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "className": 'POS',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "className": 'NDOC',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "className": 'EJERCICIO',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "className": 'ANTAMOR',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "name": 'TOANT',
-                "className": 'TOANT',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "className": 'MONEDA',
-                "defaultContent": '',
-                "orderable": false
-            },
-            {
-                "name": 'AntTr',
-                "className": 'AntTr',
-                "orderable": false,
-                "visible": true
-            },
-            {
-                "className": 'AntXAMOR',
-                "orderable": false,
-                "visible": true
-            }
-        ]
-    });
+   
 });
 
 $(window).on('load', function () {
     var e = $('#norden_compra').val();
     $.ajax({
         type: "POST",
-        url: 'getEKKOInfo',
+        url: '../getEKKOInfo',
         dataType: "json",
         data: { "ebeln": e },
         success: function (data) {
@@ -133,6 +18,71 @@ $(window).on('load', function () {
         }
     });
 });
+
+function llenarTablaOc(a, b, mtr, brtwr) {
+    var tabl = $('#tableOC').DataTable();
+    //Limpio primero la tabla
+    $("#tableOC tbody tr[role='row']").each(function () {
+        var _t = $(this);
+        tabl.row(_t).remove().draw(false);
+    });
+    var c = b.split('?');
+    //Añado los datos
+    tabl.row.add([
+        toShow(brtwr),
+        a.RETPC,  //%ret             
+        a.DPPCT//,//%deposito
+    ]).draw(false).node();
+    alinearTOC();
+}
+
+function alinearTOC() {
+    //--------
+    //Para los titulos
+    var t0 = $("#tableOC>thead>tr").find('th.BRTWR ');
+    t0.css("text-align", "left");
+    var t1 = $("#tableOC>thead>tr").find('th.FondoGarantia ');
+    t1.css("text-align", "left");
+    var t2 = $("#tableOC>thead>tr").find('th.AmortAnt');
+    t2.css("text-align", "left");
+    var t3 = $("#tableOC>thead>tr").find('th.MontoAntT');
+    t3.css("text-align", "left");
+    var t4 = $("#tableOC>thead>tr").find('th.AntAmort');
+    t4.css("text-align", "left");
+    var t5 = $("#tableOC>thead>tr").find('th.PorAnt');
+    t5.css("text-align", "left");
+    var t6 = $("#tableOC>thead>tr").find('th.AntSol');
+    t6.css("text-align", "left");
+    var t7 = $("#tableOC>thead>tr").find('th.AntTr');
+    t7.css("text-align", "left");
+    //--------
+    $("#tableOC > tbody  > tr[role='row']").each(function () {
+        //0
+        var R0 = $(this).find("td.BRTWR");
+        R0.css("text-align", "left");
+        //1
+        var R1 = $(this).find("td.FondoGarantia");
+        R1.css("text-align", "left");
+        //2
+        var R2 = $(this).find("td.AmortAnt");
+        R2.css("text-align", "left");
+        //3
+        var R3 = $(this).find("td.MontoAntT");
+        R3.css("text-align", "left");
+        //4
+        var R4 = $(this).find("td.AntAmort");
+        R4.css("text-align", "left");
+        //5
+        var R5 = $(this).find("td.PorAnt");
+        R5.css("text-align", "left");
+        //6
+        var R6 = $(this).find("td.AntSol");
+        R6.css("text-align", "left");
+        //7
+        var R7 = $(this).find("td.AntTr");
+        R7.css("text-align", "left");
+    });
+}
 
 function llenarCOC(tsol) {
 
