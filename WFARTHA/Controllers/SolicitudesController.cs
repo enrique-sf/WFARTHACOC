@@ -7791,7 +7791,7 @@ namespace WFARTHA.Controllers
                 mtr = mtr + docmt[i].MONTO_DOC_MD;
             }
             decimal? brtwr = 0;
-            var dnetwr = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
+            var dnetwr = db.EKPOes.Where(x => x.EBELN == ebeln && x.ESTATUS != "F").ToList();
             for (int i = 0; i < dnetwr.Count; i++)
             {
                 if (dnetwr[i].NETWR == null)
@@ -7820,7 +7820,7 @@ namespace WFARTHA.Controllers
         public JsonResult getEKPOInfo(string ebeln)
         {
             //Traigo el usuario
-            var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln).ToList();
+            var ekpo = db.EKPOes.Where(x => x.EBELN == ebeln && x.ESTATUS != "F").ToList();
             List<EKPO_MOD> lstekpo = new List<EKPO_MOD>();
             for (int i = 0; i < ekpo.Count; i++)
             {
