@@ -7856,22 +7856,36 @@ namespace WFARTHA.Controllers
         }
 
         [HttpPost]
-        public JsonResult calculoAntAmor()
+        public JsonResult calculoAntAmor(string ebeln)
         {
             //Traigo el usuario
-            var ekbe = db.EKBEs.Where(x => x.BEWTP == "3").ToList();
+            var ekbe = db.EKBEs.Where(x => x.BEWTP == "3" && x.EBELN == ebeln).ToList();
             decimal? sum = 0;
+            //for (int i = 0; i < ekbe.Count; i++)
+            //{
+            //    var rebzg = ekbe[i].REBZG;
+            //    var rebzj = decimal.Parse(ekbe[i].REBZJ);
+            //    var rebzz = ekbe[i].REBZZ;
+            //    var _match = db.EKBEs.Where(x => x.GJAHR == rebzj && x.BELNR == rebzg && x.BUZEI == rebzz).ToList();
+            //    for (int y = 0; y < _match.Count; y++)
+            //    {
+            //        if (_match[y].WRBTR != null)
+            //        {
+            //            sum = sum + _match[y].WRBTR;
+            //        }
+            //    }
+            //}
             for (int i = 0; i < ekbe.Count; i++)
             {
-                var rebzg = ekbe[i].REBZG;
-                var rebzj = decimal.Parse(ekbe[i].REBZJ);
-                var rebzz = ekbe[i].REBZZ;
-                var _match = db.EKBEs.Where(x => x.GJAHR == rebzj && x.BELNR == rebzg && x.BUZEI == rebzz).ToList();
-                for (int y = 0; y < _match.Count; y++)
+                if (ekbe[i].WRBTR != null)
                 {
-                    if (_match[y].WRBTR != null)
+                    if (ekbe[i].SHKZG == "H")
                     {
-                        sum = sum + _match[y].WRBTR;
+                        sum = sum + (ekbe[i].WRBTR * -1);
+                    }
+                    else
+                    {
+                        sum = sum + ekbe[i].WRBTR;
                     }
                 }
             }
@@ -7893,7 +7907,11 @@ namespace WFARTHA.Controllers
                 //si es diferente a null, significa que trae datos
                 if (est != null)
                 {
-                    sum = sum + amorant[i].ANTXAMORT;
+                    if (amorant[i].ANTXAMORT != null)
+                    {
+                        //shkzg si es h es negativo
+                        sum = sum + amorant[i].ANTXAMORT;
+                    }
                 }
             }
             JsonResult jc = Json(sum, JsonRequestBehavior.AllowGet);

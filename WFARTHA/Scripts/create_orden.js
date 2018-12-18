@@ -452,6 +452,7 @@ var pedidosSel = [];
 
 //LEJGG 11/12/2018------------------------------------------------I
 $('body').on('change', '#norden_compra', function (event, param1) {
+    var eb = $(this).val();
     $.ajax({
         type: "POST",
         url: 'getEKKOInfo',
@@ -472,7 +473,7 @@ $('body').on('change', '#norden_compra', function (event, param1) {
         dataType: "json",
         data: { "ebeln": $(this).val() },
         success: function (data) {
-            llenarTablaOc2(data);
+            llenarTablaOc2(data, eb);
         }
     });
 
@@ -488,7 +489,7 @@ $('body').on('change', '#norden_compra', function (event, param1) {
 });
 
 
-function llenarTablaOc2(val) {
+function llenarTablaOc2(val,eb) {
     var mt = "";
     var at = "";
 
@@ -504,6 +505,7 @@ function llenarTablaOc2(val) {
         type: "POST",
         url: 'calculoAntAmor',
         dataType: "json",
+        data: { "ebeln": eb },
         success: function (data) {
             mt = data;
             //
