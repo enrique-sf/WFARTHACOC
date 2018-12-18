@@ -7811,7 +7811,7 @@ namespace WFARTHA.Controllers
         [HttpPost]
         public JsonResult getEKBEInfo(string ebeln)
         {
-            var r = db.EKBEs.Where(x => x.EBELN == ebeln && x.BEWTP == "A").ToList();
+            var r = db.EKBEs.Where(x => x.EBELN == ebeln && x.BEWTP == "A" && x.XREVERSED != "X" && x.XREVERSEING != "X").ToList();
             JsonResult jc = Json(r, JsonRequestBehavior.AllowGet);
             return jc;
         }
@@ -7856,36 +7856,36 @@ namespace WFARTHA.Controllers
         }
 
         [HttpPost]
-        public JsonResult calculoAntAmor(string ebeln)
+        public JsonResult calculoAntAmor(string ebeln, string belnr)
         {
             //Traigo el usuario
-            var ekbe = db.EKBEs.Where(x => x.BEWTP == "3" && x.EBELN == ebeln).ToList();
-            decimal? sum = 0;
-            //for (int i = 0; i < ekbe.Count; i++)
-            //{
-            //    var rebzg = ekbe[i].REBZG;
-            //    var rebzj = decimal.Parse(ekbe[i].REBZJ);
-            //    var rebzz = ekbe[i].REBZZ;
-            //    var _match = db.EKBEs.Where(x => x.GJAHR == rebzj && x.BELNR == rebzg && x.BUZEI == rebzz).ToList();
-            //    for (int y = 0; y < _match.Count; y++)
-            //    {
-            //        if (_match[y].WRBTR != null)
-            //        {
-            //            sum = sum + _match[y].WRBTR;
-            //        }
-            //    }
-            //}
+            var ekbe = db.EKBEs.Where(x => x.BEWTP == "3" && x.EBELN == ebeln && x.REBZG == belnr).ToList();
+            List<EKBE> lstek = new List<EKBE>();
             for (int i = 0; i < ekbe.Count; i++)
             {
-                if (ekbe[i].WRBTR != null)
+                lstek.Add(ekbe[i]);
+                if (ekbe[i].AUGBL != null || ekbe[i].AUGBL != "")
                 {
-                    if (ekbe[i].SHKZG == "H")
+                    var d = ekbe[i].AUGBL;
+                    var augblD = db.EKBEs.Where(x => x.EBELN == ebeln && x.BELNR == d).FirstOrDefault();
+                    if (augblD != null)
                     {
-                        sum = sum + (ekbe[i].WRBTR * -1);
+                        lstek.Add(augblD);
+                    }
+                }
+            }
+            decimal? sum = 0;
+            for (int i = 0; i < lstek.Count; i++)
+            {
+                if (lstek[i].WRBTR != null)
+                {
+                    if (lstek[i].SHKZG == "H")
+                    {
+                        sum = sum + (lstek[i].WRBTR * -1);
                     }
                     else
                     {
-                        sum = sum + ekbe[i].WRBTR;
+                        sum = sum + lstek[i].WRBTR;
                     }
                 }
             }
