@@ -489,7 +489,7 @@ $('body').on('change', '#norden_compra', function (event, param1) {
 });
 
 
-function llenarTablaOc2(val,eb) {
+function llenarTablaOc2(val, eb) {
     var mt = "";
     var at = "";
 
@@ -500,40 +500,46 @@ function llenarTablaOc2(val,eb) {
         tabl.row(_t).remove().draw(false);
     });
     //Ajax para llenar campos calculados
-    //calculo de anticipo amortizado
-    $.ajax({
-        type: "POST",
-        url: 'calculoAntAmor',
-        dataType: "json",
-        data: { "ebeln": eb },
-        success: function (data) {
-            mt = data;
-            //
-            //calculo de anticipo en transito
-            $.ajax({
-                type: "POST",
-                url: 'calculoAntTr',
-                dataType: "json",
-                success: function (datax) {
-                    at = datax;
-                    //
-                    for (var i = 0; i < val.length; i++) {
+    for (var i = 0; i < val.length; i++) {
+        var ebelp = val[i].EBELP;
+        var buzei = val[i].BUZEI;
+        var belnr = val[i].BELNR;
+        var gjar = val[i].GJAHR;
+        var wt = val[i].WRBTR;
+        var mon = val[i].WAERS;
+        //calculo de anticipo amortizado
+        $.ajax({
+            type: "POST",
+            url: 'calculoAntAmor',
+            dataType: "json",
+            data: { "ebeln": eb, "belnr": belnr },
+            success: function (data) {
+                mt = data;
+                //
+                //calculo de anticipo en transito
+                $.ajax({
+                    type: "POST",
+                    url: 'calculoAntTr',
+                    dataType: "json",
+                    success: function (datax) {
+                        at = datax;
+                        //
                         tabl.row.add([
-                            val[i].EBELP,//POSC
-                            val[i].BUZEI,//POS
-                            val[i].BELNR,//numdoc
-                            val[i].GJAHR,//EJERCICIO
+                            ebelp,//POSC
+                            buzei,//POS
+                            belnr,//numdoc
+                            gjar,//EJERCICIO
                             toShow(mt),//Anticipo amortizado
-                            toShow(val[i].WRBTR),//total anticipo
-                            val[i].WAERS,//MONEDA,
+                            toShow(wt),//total anticipo
+                            mon,//MONEDA,
                             toShow(at),//anticipo en transito
                             "<input class=\"ANTXAMORT\" style=\"font-size:12px;\" type=\"text\" id=\"antxamor\" name=\"\" value=\"\">"
                         ]).draw(false).node();
                     }
-                }
-            });
-        }
-    });   
+                });
+            }
+        });
+    }
 }
 
 

@@ -551,6 +551,12 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="REBZG" Type="nchar" MaxLength="10" />
           <Property Name="REBZJ" Type="nchar" MaxLength="4" />
           <Property Name="REBZZ" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="XREVERSED" Type="nchar" MaxLength="1" />
+          <Property Name="XREVERSEING" Type="nchar" MaxLength="1" />
+          <Property Name="STJAAH" Type="nchar" MaxLength="4" />
+          <Property Name="STBLG" Type="nchar" MaxLength="10" />
+          <Property Name="AUDT" Type="date" />
+          <Property Name="AUGBL" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="EKBE_DUMMY">
           <Key>
@@ -3620,6 +3626,12 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="REBZG" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="REBZJ" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
           <Property Name="REBZZ" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="XREVERSED" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="XREVERSEING" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="STJAAH" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="STBLG" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AUDT" Type="DateTime" Precision="0" />
+          <Property Name="AUGBL" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="EKBE_DUMMY">
           <Key>
@@ -6515,6 +6527,12 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="REBZG" ColumnName="REBZG" />
                 <ScalarProperty Name="REBZJ" ColumnName="REBZJ" />
                 <ScalarProperty Name="REBZZ" ColumnName="REBZZ" />
+                <ScalarProperty Name="XREVERSED" ColumnName="XREVERSED" />
+                <ScalarProperty Name="XREVERSEING" ColumnName="XREVERSEING" />
+                <ScalarProperty Name="STJAAH" ColumnName="STJAAH" />
+                <ScalarProperty Name="STBLG" ColumnName="STBLG" />
+                <ScalarProperty Name="AUDT" ColumnName="AUDT" />
+                <ScalarProperty Name="AUGBL" ColumnName="AUGBL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
