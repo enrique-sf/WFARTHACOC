@@ -578,6 +578,17 @@ function armarTabla(info) {
     });
     var totl = 0;
     for (var i = 0; i < info.length; i++) {
+        var porc = 0;
+        $.ajax({
+            type: "POST",
+            url: 'getPorMult',
+            data: { "id": info[i].MWSKZ },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                porc = data;
+            }
+        });
         var m = 0;
         var c = 0;
         m = parseFloat(info[i].NETPR_BIL) - parseFloat(info[i].NETPR_DEL);
@@ -592,30 +603,21 @@ function armarTabla(info) {
         var meins = info[i].MEINS;
         var tx = info[i].TXZ01;
         var pep = info[i].PS_PSP_PNR;
-        var iva = info[i].MWSKZ;;
-        $.ajax({
-            type: "POST",
-            url: 'getPorMult',
-            data: { "id": info[i].MWSKZ },
-            dataType: "json",
-            success: function (data) {
-                var por = parseFloat(data);
-                var cal = (m * por) / 100;
-                var tot = m + cal;
-                //Ajax para calcular el iva
-                var ari = addRowInfoP(_t, ebelp, "", "", "", "", "", mat, "D", "", "", matkl, sakto, "", knt, "", kostl, toShow(m), waers, c, meins, "", "", tx, tot, pep);
-                //Obtener el select de impuestos en la cabecera
-                var idselect = "infoSel" + _numrow;
-                //totl = totl + parseFloat(m);
-                //Obtener el valor 
-                var imp = iva;
-
-                //Crear el nuevo select con los valores de impuestos
-                addSelectImpuestoP(ari, imp, idselect, "", "X");
-                updateFooterP();//lejgg-18-12-2018
-            }
-        });
-    }
+        var iva = info[i].MWSKZ;
+        var por = parseFloat(porc);
+        var cal = (m * por) / 100;
+        var tot = m + cal;
+        //Ajax para calcular el iva
+        var ari = addRowInfoP(_t, ebelp, "", "", "", "", "", mat, "D", "", "", matkl, sakto, "", knt, "", kostl, toShow(m), waers, c, meins, "", "", tx, tot, pep);
+        //Obtener el select de impuestos en la cabecera
+        var idselect = "infoSel" + _numrow;
+        //totl = totl + parseFloat(m);
+        //Obtener el valor 
+        var imp = iva;
+        //Crear el nuevo select con los valores de impuestos
+        addSelectImpuestoP(ari, imp, idselect, "", "X");
+    }   
+    updateFooterP();//lejgg-18-12-2018
     //$('#MONTO_DOC_MD').val(toShow(totl));
     //alinear a la izq
     $("#table_infoP tbody tr[role='row']").each(function () {
@@ -924,7 +926,7 @@ function updateFooterP() {
         var tr = $(this);
         var indexopc = t.row(tr).index();
         var mt = t.row(indexopc).data()[24];
-        mt = mt.replace('$', '');
+        mt = mt.toString().replace('$','');
         while (mt.indexOf(',') > -1) {
             mt = mt.replace('$', '').replace(',', '');
         }
@@ -1089,7 +1091,7 @@ function copiarTableInfoPControl() {
             var monto = toNum(monto1);
             var iva1 = $(this).find("td.IVA select").val();
             iva1 = iva1.replace(/\s/g, '');
-            var total1 = t.row(indexopc).data()[24].replace('$', '');
+            var total1 = t.row(indexopc).data()[24].toString().replace('$', '');
             var texto = $(this).find("td.TXTPOS").text();//LEJ 14.09.2018
             while (total1.indexOf(',') > -1) {
                 total1 = total1.replace('$', '').replace(',', '');
@@ -1120,6 +1122,7 @@ function copiarTableInfoPControl() {
             item4["WAERS"] = moneda;
             item4["MEINS"] = unidad;
             item4["MENGE_BIL"] = cantidad;
+            item4["TOTAL"] = total;
             jsonObjDocs4.push(item4);
             item4 = "";
             //LEJGG-12-12-2018-----------------------
