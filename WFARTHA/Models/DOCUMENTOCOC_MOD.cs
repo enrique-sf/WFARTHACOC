@@ -15,5 +15,6 @@ namespace WFARTHA.Models
         public string WAERS { get; set; }
         public Nullable<decimal> MENGE_BIL { get; set; }
         public string MEINS { get; set; }
+        public decimal TOTAL { get; set; }
     }
 }

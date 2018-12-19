@@ -140,7 +140,7 @@ namespace WFARTHA.Controllers
                         {
                             dm.MWSKZ = dps.ElementAt(i).MWSKZ;
                         }
-                        if (dOCUMENTO.TSOL_ID != "SCO")
+                            if (dOCUMENTO.TSOL_ID != "SCO")
                         {
                             dm.NOMCUENTA = db.CONCEPTOes.Where(x => x.ID_CONCEPTO == ct && x.TIPO_CONCEPTO == tct).FirstOrDefault().DESC_CONCEPTO.Trim();
                         }
@@ -2595,24 +2595,14 @@ namespace WFARTHA.Controllers
                     dm.CUENTA = dOCUMENTO.DOCUMENTOPs.ElementAt(i).CUENTA;
                     string ct = dOCUMENTO.DOCUMENTOPs.ElementAt(i).GRUPO;
                     var tct = dOCUMENTO.DOCUMENTOPs.ElementAt(i).TCONCEPTO;
-                    //LEJGG 18-12-2018------------------------
-                    //Validacion si es OC
-                    if (dOCUMENTO.TSOL_ID == "SCO")
+                    try
                     {
-                        dm.MWSKZ = dOCUMENTO.DOCUMENTOPs.ElementAt(i).MWSKZ;
+                        dm.NOMCUENTA = db.CONCEPTOes.Where(x => x.ID_CONCEPTO == ct && x.TIPO_CONCEPTO == tct).FirstOrDefault().DESC_CONCEPTO.Trim();
                     }
-                    if (dOCUMENTO.TSOL_ID != "SCO")
+                    catch (Exception e)
                     {
-                        try
-                        {
-                            dm.NOMCUENTA = db.CONCEPTOes.Where(x => x.ID_CONCEPTO == ct && x.TIPO_CONCEPTO == tct).FirstOrDefault().DESC_CONCEPTO.Trim();
-                        }
-                        catch (Exception e)
-                        {
-                            dm.NOMCUENTA = "Transporte";
-                        }
+                        dm.NOMCUENTA = "Transporte";
                     }
-                    //LEJGG 18-12-2018------------------------
                     dm.TIPOIMP = dOCUMENTO.DOCUMENTOPs.ElementAt(i).TIPOIMP;
                     dm.IMPUTACION = dOCUMENTO.DOCUMENTOPs.ElementAt(i).IMPUTACION;
                     dm.MONTO = fc.toShow(dOCUMENTO.DOCUMENTOPs.ElementAt(i).MONTO, formato.DECIMALES);
@@ -2624,13 +2614,13 @@ namespace WFARTHA.Controllers
                 }
 
 
-                //var _t = db.DOCUMENTOPs.Where(x => x.NUM_DOC == id && x.ACCION != "H").ToList();
-                //decimal _total = 0;
-                //for (int i = 0; i < _t.Count; i++)
-                //{
-                //    _total = _total + _t[i].TOTAL;
-                //}
-                //ViewBag.total = _total;
+                var _t = db.DOCUMENTOPs.Where(x => x.NUM_DOC == id && x.ACCION != "H").ToList();
+                decimal _total = 0;
+                for (int i = 0; i < _t.Count; i++)
+                {
+                    _total = _total + _t[i].TOTAL;
+                }
+                ViewBag.total = _total;
                 doc.DOCUMENTOPSTR = dml;
             }
             //lejgg 05 10 2018
@@ -2785,9 +2775,7 @@ namespace WFARTHA.Controllers
             doc.TEXTO_POS = dOCUMENTO.TEXTO_POS;
             doc.ASIGNACION_POS = dOCUMENTO.ASIGNACION_POS;
             doc.CLAVE_CTA = dOCUMENTO.CLAVE_CTA;
-            doc.EBELN = dOCUMENTO.EBELN;//lejgg 16-12-2018
-            ViewBag.ebeln = dOCUMENTO.EBELN;//lejgg 16-12-2018
-            ViewBag.total = dOCUMENTO.MONTO_DOC_MD;//lejgg 16-12-2018
+
 
             List<DOCUMENTOR> retl = new List<DOCUMENTOR>();
             List<DOCUMENTOR_MOD> retlt = new List<DOCUMENTOR_MOD>();
@@ -3078,47 +3066,7 @@ namespace WFARTHA.Controllers
             }
             //ViewBag.DETAA = new SelectList(dta, "ID", "TEXT");
             ViewBag.DETAA = new SelectList(lstDta, "ID", "TEXT");//LEJGG 03-12-2018
-                                                                 //LEJGG03-12-2018-----------------------------F
-
-            //LEJGG 18-12-2018------------------------------------------------>
-            //traer los datos de documentococ
-            var dcoc = db.DOCUMENTOCOCs.Where(x => x.NUM_DOC == id).ToList();
-            List<DOCUMENTOCOC_MOD> lstdcoc = new List<DOCUMENTOCOC_MOD>();
-            for (int i = 0; i < dcoc.Count; i++)
-            {
-                DOCUMENTOCOC_MOD oc = new DOCUMENTOCOC_MOD();
-                oc.POSD = dcoc[i].POSD;
-                oc.POS = dcoc[i].POS;
-                oc.MATNR = dcoc[i].MATNR;
-                oc.PS_PSP_PNR = dcoc[i].PS_PSP_PNR;
-                oc.WAERS = dcoc[i].WAERS;
-                oc.MEINS = dcoc[i].MEINS;
-                oc.MENGE_BIL = dcoc[i].MENGE_BIL;
-                lstdcoc.Add(oc);
-            }
-            doc.DOCUMENTOCOC = lstdcoc;
-
-
-            List<AMORANT_MOD> lstdamant = new List<AMORANT_MOD>();
-            var amorant = db.AMOR_ANT.Where(x => x.NUM_DOC == id).ToList();
-            for (int i = 0; i < amorant.Count; i++)
-            {
-                AMORANT_MOD oc = new AMORANT_MOD();
-                oc.NUM_DOC = amorant[i].NUM_DOC;
-                oc.BELNR = amorant[i].BELNR;
-                oc.EBELN = amorant[i].EBELN;
-                oc.EBELP = amorant[i].EBELP;
-                oc.GJAHR = amorant[i].GJAHR;
-                oc.BUZEI = amorant[i].BUZEI;
-                oc.ANTAMOR = amorant[i].ANTAMOR;
-                oc.TANT = amorant[i].TANT;
-                oc.WAERS = amorant[i].WAERS;
-                oc.ANTTRANS = amorant[i].ANTTRANS;
-                oc.ANTXAMORT = amorant[i].ANTXAMORT;
-                lstdamant.Add(oc);
-            }
-            doc.AMORANT = lstdamant;
-            //LEJGG 18-12-2018------------------------------------------------<
+            //LEJGG03-12-2018-----------------------------F
 
             ViewBag.DETAA2 = JsonConvert.SerializeObject(db.DET_AGENTECC.Where(dt => dt.USUARIOC_ID == user_id).ToList(), Newtonsoft.Json.Formatting.Indented);
 
