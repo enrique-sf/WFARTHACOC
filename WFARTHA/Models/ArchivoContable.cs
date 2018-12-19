@@ -103,10 +103,14 @@ namespace WFARTHA.Models
                     //url_prel += @"POSTING";//MGC 22-10-2018 Archivo local en servidor
                     url_prel = getDirPrel(carpeta);
                     dirFile = url_prel;
+                    dirFile = "";
+                    dirFile = "\\\\192.168.32.207\\test\\PORTAL_LOCAL\\in";
                 }
                 catch (Exception e)
                 {
                     dirFile = ConfigurationManager.AppSettings["URL_PREL"].ToString() + @"in";
+
+                    dirFile = "\\\\192.168.32.207\\test\\PORTAL_LOCAL\\in";
                 }
 
                 //MGC 22-10-2018 Archivo local en servidor
@@ -256,9 +260,9 @@ namespace WFARTHA.Models
                                         post + "|" +
                                         doc.SOCIEDAD_ID.Trim() + "|" +
                                         cuenta.Trim() + "|" +
-                                        lh[i].MONTO + "|" +
-                                        retcps.Trim() + "|" +
-                                        antamor.Trim()
+                                        lh[i].MONTO + "|" + "|"
+                                        //retcps.Trim() + "|" + //Cambios
+                                        //antamor.Trim()//Cambios
                                         );
                                 }
 
@@ -269,7 +273,17 @@ namespace WFARTHA.Models
                                     //Obtener el documento coc
                                     DOCUMENTOCOC dcoc = new DOCUMENTOCOC();
 
-                                    dcoc = db.DOCUMENTOCOCs.Where(dc => dc.NUM_DOC == ld[i].NUM_DOC && dc.POSD == ld[i].POS).FirstOrDefault();
+                                    decimal numdocl = ld[i].NUM_DOC;//Cambios
+                                    decimal posdl = ld[i].POS;//Cambios
+
+
+                                    try//Cambios
+                                    {
+                                        dcoc = db.DOCUMENTOCOCs.Where(dco => dco.NUM_DOC == numdocl && dco.POSD == posdl).FirstOrDefault();
+                                    }catch(Exception e)
+                                    {
+
+                                    }
 
                                     string ebelp = "";
                                     string post = "G";
@@ -291,7 +305,7 @@ namespace WFARTHA.Models
                                         "7" + "|" +
                                         post + "|" +
                                         doc.SOCIEDAD_ID.Trim() + "|" +
-                                        cuenta.Trim() + "|" +
+                                        //cuenta.Trim() + "|" +//Cambios
                                         doc.EBELN + "|" +
                                         ebelp + "|" +
                                         ld[i].MONTO + "|" +

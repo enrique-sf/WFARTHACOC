@@ -1612,6 +1612,22 @@ $(window).on('load', function () {
     $(window).resize();
 });
 
+$('body').on('click', '#btn_txt', function () {
+
+    $.ajax({
+        type: "POST",
+        url: 'generarContabilizacion',
+        dataType: "json",
+        success: function (data) {
+        },
+        error: function (xhr, httpStatusMessage, customErrorMessage) {
+            M.toast({ html: httpStatusMessage });
+        },
+        async: false
+    });
+
+});
+
 $('body').on('click', '#table_info tbody td.select_row', function () {
     var t = $('#table_info').DataTable();
     var tr = $(this).closest('tr');
