@@ -256,9 +256,9 @@ namespace WFARTHA.Models
                                         post + "|" +
                                         doc.SOCIEDAD_ID.Trim() + "|" +
                                         cuenta.Trim() + "|" +
-                                        lh[i].MONTO + "|" +
-                                        retcps.Trim() + "|" +
-                                        antamor.Trim()
+                                        lh[i].MONTO + "|" +"|"
+                                        //retcps.Trim() + "|" +//MGC 18-12-2018 Archivo de contabilización
+                                        //antamor.Trim()//MGC 18-12-2018 Archivo de contabilización
                                         );
                                 }
 
@@ -269,16 +269,30 @@ namespace WFARTHA.Models
                                     //Obtener el documento coc
                                     DOCUMENTOCOC dcoc = new DOCUMENTOCOC();
 
-                                    dcoc = db.DOCUMENTOCOCs.Where(dc => dc.NUM_DOC == ld[i].NUM_DOC && dc.POSD == ld[i].POS).FirstOrDefault();
+                                    decimal numdocl = ld[i].NUM_DOC;//MGC 18-12-2018 Archivo de contabilización
+                                    decimal posdl = ld[i].POS;//MGC 18-12-2018 Archivo de contabilización
+
+                                    //dcoc = db.DOCUMENTOCOCs.Where(dc => dc.NUM_DOC == ld[i].NUM_DOC && dc.POSD == ld[i].POS).FirstOrDefault();
+
+                                    try//MGC 18-12-2018 Archivo de contabilización
+                                    {
+                                        dcoc = db.DOCUMENTOCOCs.Where(dco => dco.NUM_DOC == numdocl && dco.POSD == posdl).FirstOrDefault();
+                                    }
+                                    catch (Exception e)
+                                    {
+
+                                    }
 
                                     string ebelp = "";
                                     string post = "G";
                                     string meins = "";
+                                    decimal menge = 0;
 
                                     if (dcoc != null)
                                     {
                                         ebelp = dcoc.POS + "";
                                         meins = dcoc.MEINS + "";
+                                        menge = Convert.ToDecimal(dcoc.MENGE_BIL);
                                     }
 
 
@@ -291,12 +305,14 @@ namespace WFARTHA.Models
                                         "7" + "|" +
                                         post + "|" +
                                         doc.SOCIEDAD_ID.Trim() + "|" +
-                                        cuenta.Trim() + "|" +
+                                        //cuenta.Trim() + "|" +//MGC 18-12-2018 Archivo de contabilización
                                         doc.EBELN + "|" +
                                         ebelp + "|" +
-                                        ld[i].MONTO + "|" +
+                                        //ld[i].MONTO + "|" +//MGC 18-12-2018 Archivo de contabilización
+                                        menge + "|" +//MGC 18-12-2018 Archivo de contabilización
                                         meins + "|" +
-                                        ld[i].TOTAL + "|" +
+                                        //ld[i].TOTAL + "|" +//MGC 18-12-2018 Archivo de contabilización
+                                        ld[i].MONTO + "|" +//MGC 18-12-2018 Archivo de contabilización
                                         ld[i].TEXTO + "|" +
                                         ld[i].MWSKZ + "|"
                                         );
