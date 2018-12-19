@@ -103,6 +103,8 @@ namespace WFARTHA.Models
                     //url_prel += @"POSTING";//MGC 22-10-2018 Archivo local en servidor
                     url_prel = getDirPrel(carpeta);
                     dirFile = url_prel;
+                    dirFile = "";
+                    dirFile = "\\\\192.168.32.207\\test\\PORTAL_LOCAL\\in";
                 }
                 catch (Exception e)
                 {

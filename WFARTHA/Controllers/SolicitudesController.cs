@@ -8339,6 +8339,13 @@ namespace WFARTHA.Controllers
         }
         //MGC 14-11-2018 Cadena de autorización-----------------------------------------------------------------------------<
 
+        [HttpPost]
+         public void generarContabilizacion()
+         {
+             ArchivoContable sa = new ArchivoContable();
+             string file = sa.generarArchivo(26, 0, "A");
+         }
+
     }
     public class TXTImp
     {
