@@ -1143,7 +1143,94 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    @if (@Model.D.DOCUMENTOPSTR != null)
+                                    {
+                                        if (@Model.D.DOCUMENTOPSTR.Count == @Model.D.DOCUMENTOCOC.Count)
+                                        {
+                                            for (int i = 0; i < @Model.D.DOCUMENTOPSTR.Count; i++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Model.D.DOCUMENTOCOC[i].POS
+                                                    </td>
+                                                    @* -Anexos- *@
+                                                    @if (@Model.D.Anexo != null)
+                                                    {
+                                                        if (@Model.D.Anexo[i].a1 == 0)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.D.Anexo[i].a1</td>
+                                                        }
+                                                        if (@Model.D.Anexo[i].a2 == 0)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.D.Anexo[i].a2</td>
+                                                        }
+                                                        if (@Model.D.Anexo[i].a3 == 0)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.D.Anexo[i].a3</td>
+                                                        }
+                                                        if (@Model.D.Anexo[i].a4 == 0)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.D.Anexo[i].a4</td>
+                                                        }
+                                                        if (@Model.D.Anexo[i].a5 == 0)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>@Model.D.Anexo[i].a5</td>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    }
+                                                    @* -Anexos- *@
+                                                    <td>@Model.D.DOCUMENTOCOC[i].MATNR</td> @*Material*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].TEXTO</td>@*Texto*@
+                                                    <td></td>@*Cargo Abono*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].FACTURA</td>@*Factura*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].TCONCEPTO</td>@*T Concpto*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].GRUPO</td>@*Grupo*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].CCOSTO</td>@*ccosto*@
+                                                    <td>@Model.D.DOCUMENTOCOC[i].PS_PSP_PNR</td>@*PEP*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].CUENTA</td>@*cuenta*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].NOMCUENTA</td>@*cuentanom*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].TIPOIMP</td>@*tipoimp*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].IMPUTACION</td>@*imputac*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].MONTO</td>@*Monto*@
+                                                    <td>@Model.D.DOCUMENTOCOC[i].WAERS</td>@*Moneda*@
+                                                    <td>@Model.D.DOCUMENTOCOC[i].MENGE_BIL</td>@*cantidad*@
+                                                    <td>@Model.D.DOCUMENTOCOC[i].MEINS</td>@*unidad*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].MWSKZ</td>@*impuesto*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].MWSKZ</td>@*iva*@
+                                                    <td>@Model.D.DOCUMENTOPSTR[i].TOTAL</td>@*total*@
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
                             </table>
                             <table class="table display mdl-data-table striped" id="table_infoPh" style="width:100%; display:none">
                                 <thead>

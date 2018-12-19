@@ -20,6 +20,7 @@ namespace WFARTHA.Entities
         public string MATNR { get; set; }
         public string PS_PSP_PNR { get; set; }
         public string WAERS { get; set; }
+        public Nullable<decimal> MENGE_BIL { get; set; }
         public string MEINS { get; set; }
     
         public virtual DOCUMENTOP DOCUMENTOP { get; set; }

@@ -420,6 +420,7 @@ advertencia 6013: La tabla o vista 'PAGOS301I.dbo.DET_PROVEEDOR$' no tiene defin
           <Property Name="MATNR" Type="nvarchar" MaxLength="40" />
           <Property Name="PS_PSP_PNR" Type="nvarchar" MaxLength="30" />
           <Property Name="WAERS" Type="nvarchar" MaxLength="5" />
+          <Property Name="MENGE_BIL" Type="decimal" Precision="13" Scale="2" />
           <Property Name="MEINS" Type="nvarchar" MaxLength="3" />
         </EntityType>
         <EntityType Name="DOCUMENTOLOG">
@@ -3483,6 +3484,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
           <Property Name="MATNR" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="PS_PSP_PNR" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="WAERS" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="MENGE_BIL" Type="Decimal" Precision="13" Scale="2" />
           <Property Name="MEINS" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DOCUMENTOP" Relationship="Self.FK_DOCUMENTOCOC_DOCUMENTOP" FromRole="DOCUMENTOCOC" ToRole="DOCUMENTOP" />
         </EntityType>
@@ -6403,6 +6405,7 @@ advertencia 6002: La tabla o vista 'PAGOS301I.dbo.WARNINGV' no tiene definida ni
                 <ScalarProperty Name="MATNR" ColumnName="MATNR" />
                 <ScalarProperty Name="PS_PSP_PNR" ColumnName="PS_PSP_PNR" />
                 <ScalarProperty Name="WAERS" ColumnName="WAERS" />
+                <ScalarProperty Name="MENGE_BIL" ColumnName="MENGE_BIL" />
                 <ScalarProperty Name="MEINS" ColumnName="MEINS" />
               </MappingFragment>
             </EntityTypeMapping>
