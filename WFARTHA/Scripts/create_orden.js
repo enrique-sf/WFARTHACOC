@@ -1,4 +1,5 @@
-﻿//Variables globales
+﻿var extraCols = 0;
+//Variables globales
 $(document).ready(function () {
     $('#table_infoP').DataTable({
 
@@ -488,7 +489,6 @@ $('body').on('change', '#norden_compra', function (event, param1) {
     });
 });
 
-
 function llenarTablaOc2(val, eb) {
     var mt = "";
     var at = "";
@@ -542,8 +542,31 @@ function llenarTablaOc2(val, eb) {
     }
 }
 
-
 $('body').on('keydown', '.ANTXAMORT', function (e) {
+    if (e.keyCode == 110 || e.keyCode == 190) {
+        if ($(this).val().indexOf('.') != -1) {
+            e.preventDefault();
+        }
+    }
+    else {  // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+
+            return;
+        }
+
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    }
+});
+
+$('body').on('keydown', '.MONTOP', function (e) {
     if (e.keyCode == 110 || e.keyCode == 190) {
         if ($(this).val().indexOf('.') != -1) {
             e.preventDefault();
@@ -616,7 +639,7 @@ function armarTabla(info) {
         var imp = iva;
         //Crear el nuevo select con los valores de impuestos
         addSelectImpuestoP(ari, imp, idselect, "", "X");
-    }   
+    }
     updateFooterP();//lejgg-18-12-2018
     //$('#MONTO_DOC_MD').val(toShow(totl));
     //alinear a la izq
@@ -882,35 +905,49 @@ function addRowInfoP(t, POS, NumAnexo, NumAnexo2, NumAnexo3, NumAnexo4, NumAnexo
 }
 
 function addRowlP(t, nA, nA2, nA3, nA4, nA5, pos, mtr, txt, ca, factura, tc, grupo, ccentro, pep, cuenta, cuentanombre, tipoimpt, imput, monto, moneda, cantidad, unidad, impuesto, iva, total) {
+    var colstoAdd = "";
+    for (i = 0; i < extraCols; i++) {
+        colstoAdd += '<td class=\"BaseImp' + tRet2[i] + '\"><input class=\"extrasCP BaseImp' + i + '\" style=\"font-size:12px;width:76px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td>';
+        colstoAdd += '<td class=\"ImpRet' + tRet2[i] + '\"><input class=\"extrasC2P ImpRet' + i + '\" style=\"font-size:12px;width:76px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td>';
+    }
+    var table_rows = '<tr><td>' + pos + '</td><td><input class=\"NumAnexo\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo2\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo3\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo4\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td><td><input class=\"NumAnexo5\" style=\"font-size:12px;\" type=\"text\" id=\"\" name=\"\" value=\"\"></td>' +
+        '<td> ' + mtr + '</td><td> ' + txt + '</td><td>' + ca + '</td><td>' + factura + '</td><td>' + tc + '</td><td>' + grupo + '</td><td>' + ccentro + '</td><td>' + pep + '</td><td>' + cuenta + '</td><td>' + cuentanombre
+        + '</td><td>' + tipoimpt + '</td><td>' + imput + '</td><td>' + monto + '</td><td>' + moneda + '</td><td>' + cantidad + '</td><td>' + unidad + '</td><td>' + impuesto + '</td><td></td><td>' + total + '</td>' + colstoAdd + '</tr>';
     //Lej 11.12.2018--------------------------------
-    var r = t.row.add([
-        pos,
-        nA,
-        nA2,
-        nA3,
-        nA4,
-        nA5,
-        mtr,//Material
-        txt,//Texto
-        ca,
-        factura,//Factura
-        tc,//
-        grupo,//Grupo
-        ccentro,//CECO
-        pep,//PEP
-        cuenta,
-        cuentanombre,
-        tipoimpt,
-        imput,
-        monto,//Monto
-        moneda,//Moneda
-        cantidad,//Cantidad
-        unidad,//Unidad
-        impuesto,//Impuesto
-        "",//Iva        
-        total//TOTAL
-    ]).draw(false).node();
-
+    if (colstoAdd == "") {
+        var r = t.row.add([
+            pos,
+            nA,
+            nA2,
+            nA3,
+            nA4,
+            nA5,
+            mtr,//Material
+            txt,//Texto
+            ca,
+            factura,//Factura
+            tc,//
+            grupo,//Grupo
+            ccentro,//CECO
+            pep,//PEP
+            cuenta,
+            cuentanombre,
+            tipoimpt,
+            imput,
+            monto,//Monto
+            moneda,//Moneda
+            cantidad,//Cantidad
+            unidad,//Unidad
+            impuesto,//Impuesto
+            "",//Iva        
+            total//TOTAL
+        ]).draw(false).node();
+    }
+    else {
+        var r = t.row.add(           
+            $(table_rows)//Lej 19.12.2018
+        ).draw(false).node();
+    }
     return r;
 }
 
@@ -926,7 +963,7 @@ function updateFooterP() {
         var tr = $(this);
         var indexopc = t.row(tr).index();
         var mt = t.row(indexopc).data()[24];
-        mt = mt.toString().replace('$','');
+        mt = mt.toString().replace('$', '');
         while (mt.indexOf(',') > -1) {
             mt = mt.replace('$', '').replace(',', '');
         }
@@ -1382,6 +1419,7 @@ function obtenerRetencionesP(flag) {
         docsenviar = JSON.stringify({ 'items': jsonObjDocs, "bukrs": sociedad_id, "lifnr": proveedor });
         t = $('#table_ret').DataTable();
         t.rows().remove().draw(false);
+        var agRowRet = [];//19-12-2018
         $.ajax({
             type: "POST",
             url: 'getRetenciones',
@@ -1393,7 +1431,7 @@ function obtenerRetencionesP(flag) {
                         var bimp = toShow(dataj.BIMPONIBLE);
                         var imp = toShow(dataj.IMPORTE_RET);
                         tRet.push(dataj.WITHT);//Lej 12.09.18
-                        var addedRowRet = addRowRet(t, dataj.BUKRS, dataj.LIFNR, dataj.WITHT, dataj.DESC, dataj.WT_WITHCD, bimp, imp);
+                        agRowRet.push({ t, dataj });
                     }); //Fin de for
                 }
 
@@ -1403,8 +1441,38 @@ function obtenerRetencionesP(flag) {
             },
             async: false
         });
-
-        //Lej 12.09.18-------------------------------------------------------
+        for (var i = 0; i < agRowRet.length; i++) {
+            $.ajax({
+                type: "POST",
+                url: 'getRetLigadas',
+                data: { 'id': agRowRet[i].dataj.WITHT },
+                dataType: "json",
+                success: function (data) {
+                    if (data !== null || data !== "") {
+                        if (data != "Null") {
+                            for (var a = 0; a < agRowRet.length; a++) {
+                                if (agRowRet[a].dataj.WITHT == data) {
+                                    agRowRet.splice($.inArray(agRowRet[a], agRowRet), 1);
+                                }
+                            }
+                        }
+                        else {
+                        }
+                    }
+                },
+                error: function (xhr, httpStatusMessage, customErrorMessage) {
+                    M.toast({ html: httpStatusMessage });
+                },
+                async: false
+            });
+        }//19-12-2018
+        //Para agregar los renglones de retenciones
+        for (var i = 0; i < agRowRet.length; i++) {//19-12-2018
+            var bimp = toShow(agRowRet[i].dataj.BIMPONIBLE);
+            var imp = toShow(agRowRet[i].dataj.IMPORTE_RET);
+            addRowRet(t, agRowRet[i].dataj.BUKRS, agRowRet[i].dataj.LIFNR, agRowRet[i].dataj.WITHT, agRowRet[i].dataj.DESC, agRowRet[i].dataj.WT_WITHCD, bimp, imp);
+        }
+        //Lej 19.12.18-------------------------------------------------------
         //Aqui se agregaran las columnas extras a la tabla de detalle
         $('#table_infoP').DataTable().destroy();
         $('#table_infoP').empty();
@@ -1579,7 +1647,48 @@ function obtenerRetencionesP(flag) {
         $("#table_infoP>thead>tr").append("<th class=\"lbl_impuesto\">Impuesto  </th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_iva\">IVA</th>");
         $("#table_infoP>thead>tr").append("<th class=\"lbl_total\">Total</th>");
-
+        //LEJGG 19-12-2018-------------------------------------------------------------------->
+        tRet2 = tRet;
+        for (i = 0; i < tRet.length; i++) {//Revisare las retenciones que tienes ligadas
+            $.ajax({
+                type: "POST",
+                url: 'getRetLigadas',
+                data: { 'id': tRet[i] },
+                dataType: "json",
+                success: function (data) {
+                    if (data !== null || data !== "") {
+                        if (data != "Null") {
+                            tRet2 = jQuery.grep(tRet2, function (value) {
+                                return value != data;
+                            });
+                        }
+                        else {
+                        }
+                    }
+                },
+                error: function (xhr, httpStatusMessage, customErrorMessage) {
+                    M.toast({ html: httpStatusMessage });
+                },
+                async: false
+            });
+        }
+        for (i = 0; i < tRet2.length; i++) {//Agregare las columnas extras
+            $("#table_infoP>thead>tr").append("<th class=\"bi" + tRet2[i] + "\">" + tRet2[i] + "B. I.</th>");
+            $("#table_infoP>thead>tr").append("<th class=\"ir" + tRet2[i] + "\">" + tRet2[i] + "I. R.</th>");
+        }
+        for (i = 0; i < tRet2.length; i++) {
+            arrCols.push(
+                {
+                    "name": tRet2[i] + " B.Imp.",
+                    "orderable": false
+                },
+                {
+                    "name": tRet2[i] + " I. Ret.",
+                    "orderable": false
+                });
+        }
+        //LEJGG 19-12-2018--------------------------------------------------------------------<
+        extraCols = tRet2.length;//lejgg 18-12-2018
         $('#table_infoP').DataTable({
             language: {
                 "url": "../Scripts/lang/ES.json"
@@ -1741,12 +1850,41 @@ $('body').on('focusout', '.ANTXAMORT', function (e) {
 $('body').on('focusout', '.MONTOP', function (e) {
     var t = $('#table_infoP').DataTable();
     var tr = $(this).closest('tr'); //Obtener el row 
+    var indexopc = t.row(tr).index();
 
+    //recupero el iva para buscar su porcentaje y hacer la operacion
+    var porc = "";
+    var iva1 = tr.find("td.IVA select").val();
+    iva1 = iva1.replace(/\s/g, '');
+    $.ajax({
+        type: "POST",
+        url: 'getPorMult',
+        data: { "id": iva1 },
+        async: false,
+        dataType: "json",
+        success: function (data) {
+            porc = data;
+        }
+    });
+
+
+    //
     var monto = $(this).val().replace('$', '').replace(',', ''); //Obtener el row 
-    while (monto.indexOf(',') > -1) {
-        monto = monto.replace('$', '').replace(',', '');
+    if (monto != "") {
+        while (monto.indexOf(',') > -1) {
+            monto = monto.replace('$', '').replace(',', '');
+        }
+    }
+    else {
+        monto = 0;
     }
     monto = parseFloat(monto);
+    //Agrego el nuevo total escondido
+    var op = (monto * porc) / 100;
+    var _tot = monto + op;
+    t.cell(indexopc, 24).data("").draw();//Limpiar las celdas
+    t.cell(indexopc, 24).data(_tot).draw();//clavar el nuevo valor del total
+
     var _mt = toShow(monto);
     tr.find("td.MONTO input").val();
     tr.find("td.MONTO input").val(_mt);
