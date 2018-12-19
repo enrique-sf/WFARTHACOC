@@ -892,7 +892,7 @@ function updateFooterP() {
     var t = $('#table_infoP').DataTable();
     var total = 0;
     $("#table_infoP > tbody > tr[role = 'row']").each(function (index) {
-        var mt = $(this).find("td.MONTO input").val();
+        var mt = $(this).find("td.MONTO input").val().replace('$', '');
         while (mt.indexOf(',') > -1) {
             mt = mt.replace('$', '').replace(',', '');
         }
@@ -1048,6 +1048,10 @@ function copiarTableInfoPControl() {
             var material = $(this).find("td.MATERIAL").text(); //lejgg 12-12-2018
             var moneda = $(this).find("td.MONEDA").text(); //lejgg 12-12-2018
             var unidad = $(this).find("td.UNIDAD").text(); //lejgg 12-12-2018
+            var cantidad = $(this).find("td.CANTIDAD input").val();
+            while (cantidad.indexOf(',') > -1) {
+                cantidad = cantidad.replace('$', '').replace(',', '');
+            }
             var monto1 = $(this).find("td.MONTO input").val();
             while (monto1.indexOf(',') > -1) {
                 monto1 = monto1.replace('$', '').replace(',', '');
@@ -1086,6 +1090,7 @@ function copiarTableInfoPControl() {
             item4["PS_PSP_PNR"] = pep;
             item4["WAERS"] = moneda;
             item4["MEINS"] = unidad;
+            item4["MENGE_BIL"] = cantidad;
             jsonObjDocs4.push(item4);
             item4 = "";
             //LEJGG-12-12-2018-----------------------

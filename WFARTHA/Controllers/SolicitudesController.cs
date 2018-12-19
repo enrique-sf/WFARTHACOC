@@ -134,7 +134,17 @@ namespace WFARTHA.Controllers
                         dm.CUENTA = dps.ElementAt(i).CUENTA;
                         string ct = dps.ElementAt(i).GRUPO;
                         var tct = dps.ElementAt(i).TCONCEPTO;
-                        dm.NOMCUENTA = db.CONCEPTOes.Where(x => x.ID_CONCEPTO == ct && x.TIPO_CONCEPTO == tct).FirstOrDefault().DESC_CONCEPTO.Trim();
+                        //LEJGG 18-12-2018------------------------
+                        //Validacion si es OC
+                        if (dOCUMENTO.TSOL_ID == "SCO")
+                        {
+                            dm.MWSKZ = dps.ElementAt(i).MWSKZ;
+                        }
+                            if (dOCUMENTO.TSOL_ID != "SCO")
+                        {
+                            dm.NOMCUENTA = db.CONCEPTOes.Where(x => x.ID_CONCEPTO == ct && x.TIPO_CONCEPTO == tct).FirstOrDefault().DESC_CONCEPTO.Trim();
+                        }
+                        //LEJGG 18-12-2018------------------------
                         dm.TIPOIMP = dps.ElementAt(i).TIPOIMP;
                         dm.IMPUTACION = dps.ElementAt(i).IMPUTACION;
                         dm.MONTO = fc.toShow(dps.ElementAt(i).MONTO, formato.DECIMALES);
@@ -707,6 +717,7 @@ namespace WFARTHA.Controllers
                 oc.PS_PSP_PNR = dcoc[i].PS_PSP_PNR;
                 oc.WAERS = dcoc[i].WAERS;
                 oc.MEINS = dcoc[i].MEINS;
+                oc.MENGE_BIL = dcoc[i].MENGE_BIL;
                 lstdcoc.Add(oc);
             }
             doc.DOCUMENTOCOC = lstdcoc;
@@ -718,6 +729,7 @@ namespace WFARTHA.Controllers
             {
                 AMORANT_MOD oc = new AMORANT_MOD();
                 oc.NUM_DOC = amorant[i].NUM_DOC;
+                oc.BELNR = amorant[i].BELNR;
                 oc.EBELN = amorant[i].EBELN;
                 oc.EBELP = amorant[i].EBELP;
                 oc.GJAHR = amorant[i].GJAHR;
@@ -1339,6 +1351,7 @@ namespace WFARTHA.Controllers
                                     dcoc.PS_PSP_PNR = doc.DOCUMENTOCOC[i].PS_PSP_PNR;
                                     dcoc.WAERS = doc.DOCUMENTOCOC[i].WAERS;
                                     dcoc.MEINS = doc.DOCUMENTOCOC[i].MEINS;
+                                    dcoc.MENGE_BIL = doc.DOCUMENTOCOC[i].MENGE_BIL;
                                     db.DOCUMENTOCOCs.Add(dcoc);
                                     db.SaveChanges();
                                 }
